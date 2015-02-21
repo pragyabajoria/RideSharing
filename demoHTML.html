@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ride Share - Log In</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+	<meta charset="UTF-8">
+    <!--<link rel="shortcut icon" type="image/png" src="icons/extremelySmallCar.png" />-->
+	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+		<!--<script type="text/javascript">
+            
+            /**
+            * This function walks through the markersArray to search for the given (user input) name.
+            *
+            * @return this function returns if it finds the searched name -or- if the name is not found within the array.
+            **/
+            function searchRides(){
+              var search = document.getElementById("search").value;
+              search = search.toLowerCase();
+              var tmp;
+              var found = false;
+
+              // This for loop walks through database to search for the ride destination.
+              for(var i=0; i<markersArray.length; i++){
+                tmp = markersArray[i][0];
+                tmp = tmp.toLowerCase();
+                
+                // if the user input and the name in the array match, then go to that marker on the map & return.
+                if(search == tmp){
+                  //move to that marker on the map.
+                  map.panTo(googleMarkers[i].getPosition());
+                  map.setZoom(15);
+                  google.maps.event.trigger(googleMarkers[i], 'click');
+                  found = true;
+                  return;
+                }else if((i == (markersArray.length-1)) && found == false){
+                  alert("The name entered was not found on our map.");
+                }
+              }
+            }
+          </script>-->
+</head>
+<body>
+	<!-- Top Bar -->
+	<div id="topbar">
+		<!-- RideShare Logo -->
+      	<div id="logo">
+        	<a href= "http://meroarte.com/?gclid=CIn53PL94L8CFSsV7AodZgQANw" target="_blank"> 
+          	<img class="logo" src ="icons/rideShareLogo.png"/><img class="logo" src= "icons/blackCar.png"/>
+        	</a>
+      	</div>
+
+      	<!-- Common Destinations -->
+      	<div id="commonDestinations">
+      		<ul>
+          	<li><!-- Boston -->
+            	<a href= "https://www.facebook.com/MeroArte" target="_blank"> 
+              		<img class="destination_icon" src= "icons/boston.png"/>
+            	</a>
+          	</li>
+          	<li><!-- Bradley -->
+            	<a href= "https://twitter.com/Mero_Arte" target="_blank"> 
+              		<img class="destination_icon" src= "icons/bradley.png"/>
+            	</a>
+          	</li>
+          	<li><!-- Holyoke Mall -->
+            	<a href= "https://plus.google.com/+Meroarte" target="_blank"> 
+              		<img class="destination_icon" src= "icons/holyokeMall.png"/>
+            	</a>
+          	</li>
+          	<li><!-- New York City -->
+            	<a href= "http://www.pinterest.com/meroarte/" target="_blank"> 
+              		<img class="destination_icon" src= "icons/newYorkCity.png"/>
+            	</a>
+          	</li>
+          	<li><!-- Springfield Bus -->
+            	<a href= "http://blog.meroarte.com/" target="_blank"> 
+              		<img class="destination_icon" src= "icons/springfield.png"/>
+            	</a>
+          	</li>
+        	</ul>
+      	</div>
+		<!-- Search Box -->
+      	<div id="searchBox">
+          	<input type="search" name="search" class="search" placeholder="Search Rides Here..." />
+          	<button  class="searchButton"> Search </button>
+          	<!-- call searchRides() function here -->
+      	</div>
+
+      	<!-- Sign up/ Login Section -->
+      	<div id="login">
+      		<table>
+      			<tr><td>
+      				<!-- Sign up -->
+ 					<a href= "http://blog.meroarte.com/" target="_blank"> 
+              			Sign Up
+            		</a>
+            	</td></tr>
+            	<tr><td>
+ 					-or-
+            	</td></tr>
+            	<tr><td>
+            		<!-- Login -->
+            		<a href= "http://blog.meroarte.com/" target="_blank"> 
+              			Login
+            		</a>
+            	</td></tr>
+      		</table>
+      		
+      	</div>
+
+	</div>
+
+	<!--  -->
+</body>
+</html>
