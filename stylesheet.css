@@ -1,0 +1,87 @@
+html { height: 100%; }
+
+body { height: 100%; margin: 0; padding: 0; }
+
+/* Top Bar Contents Class */
+#topbar{
+	height: 120px;
+	width: 100%;
+	position: fixed;    
+    top: 0px;
+    left: 0px;
+    right: 0px;  
+   	background-color: #ffffff; 
+}
+
+/* RideShare Logo Id */
+#logo{
+	height: 120px;
+	width: 25%;
+	float: left;
+	margin-left: 0px;
+	margin-top: 0px;
+} 
+
+/* RideShare Logo Class */
+.logo{
+	margin-top: 30px;
+}
+
+
+#commonDestinations{
+	height: 120px;
+	width: 50%;
+	float: left;
+	margin-left: 0px;
+	margin-top: 0px;
+	background-color: #000000;
+}
+
+
+#commonDestinations ul{
+	margin-top: 34px;
+	list-style: none;
+}
+
+#commonDestinations li{
+	float: left;
+	margin: 0px 0px 0px 1px;
+}
+
+.destinationIcon{
+	margin-top: 30px;
+
+}
+
+/* Search Box Div Id */
+#searchBox{
+	height: 120px;
+	width: 12%;
+	/*margin-left: 200px;*/
+	margin-top: 0px;
+	float: left;
+	/*background-color: #ffff55;*/ 
+}
+
+/* Search Box Class */
+.search{
+	height: 40px;
+	margin-top: 60px;
+}
+
+/* Login Div Id */
+#login{
+	height: 120px;
+	width: 13%;
+	/*margin-left: 200px;*/
+	margin-top: 0px;
+	float: right;
+	background-color: #000000;
+}
+
+/* Login Table Id */
+#login table td{
+
+}
+
+
