@@ -1,0 +1,7 @@
+{
+  "clientId" : "398983337498-4aeok6070njf36gp6rkhfqhoijfisr6t.apps.googleusercontent.com",
+  "serviceAccountEmail" : "398983337498-f45qcvaes8h88a4s1s80gdejag0h3k0v@developer.gserviceaccount.com",
+  "serviceAccountPrivateKeyFile" : "/Users/pragyabajoria/Desktop/Node/googleapi/APIProject-66de953cf6b7.p12",
+  "widgetUrl" : "http://localhost:8000/gitkit",
+  "cookieName" : "gtoken"
+}
