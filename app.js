@@ -13,7 +13,7 @@ var express = require('express')
 // API Access link for creating client ID and secret:
 // https://code.google.com/apis/console/
 var GOOGLE_CLIENT_ID = "398983337498-4aeok6070njf36gp6rkhfqhoijfisr6t.apps.googleusercontent.com";
-var GOOGLE_CLIENT_SECRET = "ov_ca6nLObBW8Aky5eivXG5h";
+var GOOGLE_CLIENT_SECRET = "oeuagjMWcUCBvnap-fG_Ni9A";
 
 
 // Passport session setup.
@@ -39,7 +39,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/google/callback"
+    callbackURL: "http://127.0.0.1:4000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
