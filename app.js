@@ -57,8 +57,8 @@ passport.use(new GoogleStrategy({
 var app = express();
 
 // configure Express
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+//app.set('views', __dirname + '/views');
+//app.set('view engine', 'ejs');
 app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -76,7 +76,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', function(req, res){
-  res.render('index', { user: req.user });
+  res.redirect('/index.html');
 });
 
 app.get('/account', ensureAuthenticated, function(req, res){
@@ -109,7 +109,7 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
-  });
+});
 
 app.get('/logout', function(req, res){
   req.logout();
@@ -118,7 +118,7 @@ app.get('/logout', function(req, res){
 
 app.use(express.static(__dirname + '/public'));
 
-http.createServer(app).listen(3000);
+http.createServer(app).listen(4000);
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
