@@ -2,6 +2,7 @@ var express = require('express')
   , passport = require('passport')
   , util = require('util')
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+  , FacebookStrategy = require('passport-facebook').Strategy
   , http = require('http')
   , morgan = require('morgan')
   , cookieParser = require('cookie-Parser')
@@ -10,18 +11,21 @@ var express = require('express')
   , session = require('express-session')
   , methodOverride = require('method-override');
 
-// API Access link for creating client ID and secret:
+// Google API Access link for creating client ID and secret:
 // https://code.google.com/apis/console/
 var GOOGLE_CLIENT_ID = "398983337498-4aeok6070njf36gp6rkhfqhoijfisr6t.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "oeuagjMWcUCBvnap-fG_Ni9A";
 
+// 
+var FACEBOOK_APP_ID = "428397073986914"
+var FACEBOOK_APP_SECRET = "f97c85a02714df3e124d56aa9fb56950";
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
 //   this will be as simple as storing the user ID when serializing, and finding
 //   the user by ID when deserializing.  However, since this example does not
-//   have a database of user records, the complete Google profile is
+//   have a database of user records, the complete Google profile/Facebook profile is
 //   serialized and deserialized.
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -54,6 +58,27 @@ passport.use(new GoogleStrategy({
   }
 ));
 
+passport.use(new FacebookStrategy({
+    clientID: FACEBOOK_APP_ID,
+    clientSecret: FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:4000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      
+      // To keep the example simple, the user's Facebook profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the Facebook account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
+    });
+  }
+));
+
+
+
+
 var app = express();
 
 // configure Express
@@ -74,6 +99,7 @@ app.use(session({ secret: 'keyboard cat',
   // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
   res.redirect('/index.html');
@@ -109,7 +135,15 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
-});
+  }
+);
+
+app.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
 
 app.get('/logout', function(req, res){
   req.logout();
