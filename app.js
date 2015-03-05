@@ -20,13 +20,11 @@ var GOOGLE_CLIENT_SECRET = "oeuagjMWcUCBvnap-fG_Ni9A";
 var FACEBOOK_APP_ID = "428397073986914"
 var FACEBOOK_APP_SECRET = "f97c85a02714df3e124d56aa9fb56950";
 
-// Passport session setup.
-//   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session.  Typically,
-//   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.  However, since this example does not
-//   have a database of user records, the complete Google profile/Facebook profile is
-//   serialized and deserialized.
+// Passport session setup. To support persistent login sessions, Passport needs to serialize 
+// users into and deserialize users out of the session.  Typically, this will be as simple
+// as storing the user ID when serializing, and finding the user by ID when deserializing.
+// However, since this example does not have a database of user records, the complete Google
+// profile/Facebook profile is serialized and deserialized.
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -36,10 +34,10 @@ passport.deserializeUser(function(obj, done) {
 });
 
 
-// Use the GoogleStrategy within Passport.
-//   Strategies in Passport require a `verify` function, which accept
-//   credentials (in this case, an accessToken, refreshToken, and Google
-//   profile), and invoke a callback with a user object.
+// Use GoogleStrategy within Passport.
+// Strategies in Passport require a `verify` function, which accept
+// credentials (in this case, an accessToken, refreshToken, and Google
+//  profile), and invoke a callback with a user object.
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
@@ -75,9 +73,6 @@ passport.use(new FacebookStrategy({
     });
   }
 ));
-
-
-
 
 var app = express();
 
@@ -138,6 +133,25 @@ app.get('/auth/google/callback',
   }
 );
 
+// GET /auth/facebook
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Facebook authentication will involve
+//   redirecting the user to facebook.com.  After authorization, Facebook will
+//   redirect the user back to this application at /auth/facebook/callback
+app.get('/auth/facebook',
+  passport.authenticate('facebook'),
+  function(req, res){
+    // The request will be redirected to Facebook for authentication, so this
+    // function will not be called.
+  }
+);
+
+
+// GET /auth/facebook/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
