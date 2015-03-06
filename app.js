@@ -145,7 +145,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/dashboard.html');
   }
 );
 
@@ -171,7 +171,7 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/dashboard.html');
   }
 );
 
