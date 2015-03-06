@@ -189,7 +189,7 @@ app.use(
     connection(mysql,{
         host     : 'localhost',
         user     : 'root',
-        password : 'root',
+        password : '',
 		port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
