@@ -1,4 +1,6 @@
 var express = require('express')
+  , path = require('path')
+  , expressValidator = require('express-validator')
   , passport = require('passport')
   , util = require('util')
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
@@ -11,6 +13,7 @@ var express = require('express')
   , session = require('express-session')
   , methodOverride = require('method-override');
 
+  
 // Google API Access link for creating client ID and secret:
 // https://code.google.com/apis/console/
 var GOOGLE_CLIENT_ID = "398983337498-4aeok6070njf36gp6rkhfqhoijfisr6t.apps.googleusercontent.com";
@@ -79,12 +82,14 @@ var app = express();
 // configure Express
 //app.set('views', __dirname + '/views');
 //app.set('view engine', 'ejs');
+
 app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(multer());
 app.use(methodOverride());
+app.use(expressValidator());
 app.use(session({ secret: 'keyboard cat',
                   resave: false,
                   saveUninitialized: true,
@@ -95,6 +100,13 @@ app.use(session({ secret: 'keyboard cat',
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(expressValidator());
+app.set('views','./views');
+  app.set('view engine','ejs');
 
 app.get('/', function(req, res){
   res.redirect('/index.html');
@@ -106,6 +118,10 @@ app.get('/account', ensureAuthenticated, function(req, res){
 
 app.get('/login', function(req, res){
   res.render('login', { user: req.user });
+});
+
+app.get('/members', function(req, res){
+  res.render('members', { user: req.user });
 });
 
 // GET /auth/google
@@ -163,6 +179,152 @@ app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+
+
+//mysql connection
+var connection  = require('express-myconnection'),
+    mysql = require('mysql');
+
+app.use(
+    connection(mysql,{
+        host     : 'localhost',
+        user     : 'root',
+        password : 'root',
+		port	 : 3306,
+        database : 'mhcrideshare',
+        debug    : false
+    },'request')
+);
+
+var router = express.Router();
+
+router.use(function(req, res, next) {
+    console.log(req.method, req.url);
+    next();
+});
+
+var cu1 = router.route('/members');
+
+cu1.get(function(req,res){
+    req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+        var query = conn.query('SELECT * FROM members',function(err,rows){
+            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            res.render('members',{title:"Members Table Example",data:rows});
+         });
+    });
+});
+
+//save new member
+cu1.post(function(req,res){
+
+    req.assert('firstname','Please Enter First Name').notEmpty();
+	req.assert('lastname','Please Enter Last Name').notEmpty();
+    req.assert('email','Please Enter a Valid Email').isEmail();
+	req.assert('phone','Please Enter Phone').notEmpty();
+	req.assert('status','Please Enter Status').notEmpty();
+    var errors = req.validationErrors();
+    if(errors){
+        res.status(422).json(errors);
+        return;
+    }
+
+    var data = {
+        firstname:req.body.firstname,
+		lastname:req.body.lastname,
+        email:req.body.email,
+		phone:req.body.phone,
+		status:req.body.status,
+     };
+    req.getConnection(function (err, conn){
+        if (err) return next("connection error");
+        var query = conn.query("INSERT INTO members set ? ",data, function(err, rows){
+           if(err){
+                console.log(err);
+                return next("mysql error");
+           }
+          res.sendStatus(200);
+        });
+     });
+});
+
+var cu2 = router.route('/members/:id');
+cu2.all(function(req,res,next){
+    console.log(req.params);
+    next();
+});
+
+cu2.get(function(req,res,next){
+    var id = req.params.id;
+    req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+        var query = conn.query("SELECT * FROM members WHERE id = ? ",[id],function(err,rows){            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            if(rows.length < 1)
+                return res.send("Member Not found");
+            res.render('membersform',{title:"Edit Member",data:rows});
+        });
+
+    });
+
+});
+
+cu2.put(function(req,res){
+    var id = req.params.id;
+
+	req.assert('firstname','Please Enter First Name').notEmpty();
+	req.assert('lastname','Please Enter Last Name').notEmpty();
+    req.assert('email','Please Enter a Valid Email').isEmail();
+
+    var errors = req.validationErrors();
+    if(errors){
+        res.status(422).json(errors);
+        return;
+    }
+
+    var data = {
+        firstname:req.body.firstname,
+		lastname:req.body.lastname,
+        email:req.body.email,
+        phone:req.body.phone,
+		status:req.body.status
+     };
+
+    req.getConnection(function (err, conn){
+        if (err) return next("connection error");
+        var query = conn.query("UPDATE members set ? WHERE id = ? ",[data,id], function(err, rows){
+           if(err){
+                console.log(err);
+                return next("mysql error");
+           }
+          res.sendStatus(200);
+        });
+     });
+
+});
+
+cu2.delete(function(req,res){
+    var id = req.params.id;
+     req.getConnection(function (err, conn) {
+        if (err) return next("connection error");
+        var query = conn.query("DELETE FROM members  WHERE id = ? ",[id], function(err, rows){
+             if(err){
+                console.log(err);
+                return next("mysql error");
+             }
+             res.sendStatus(200);
+        });
+     });
+});
+
+app.use('/database', router);
+
+//end of mysql
 
 app.use(express.static(__dirname + '/public'));
 
