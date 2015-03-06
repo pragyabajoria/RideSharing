@@ -9,43 +9,40 @@
 	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-		<!--<script type="text/javascript">
+	<!--<script type="text/javascript">
+        
+        /**
+        * This function walks through the markersArray to search for the given (user input) name.
+        *
+        * @return this function returns if it finds the searched name -or- if the name is not found within the array.
+        **/
+        function searchRides(){
+          var search = document.getElementById("search").value;
+          search = search.toLowerCase();
+          var tmp;
+          var found = false;
+
+          // This for loop walks through database to search for the ride destination.
+          for(var i=0; i<markersArray.length; i++){
+            tmp = markersArray[i][0];
+            tmp = tmp.toLowerCase();
             
-            /**
-            * This function walks through the markersArray to search for the given (user input) name.
-            *
-            * @return this function returns if it finds the searched name -or- if the name is not found within the array.
-            **/
-            function searchRides(){
-              var search = document.getElementById("search").value;
-              search = search.toLowerCase();
-              var tmp;
-              var found = false;
-
-              // This for loop walks through database to search for the ride destination.
-              for(var i=0; i<markersArray.length; i++){
-                tmp = markersArray[i][0];
-                tmp = tmp.toLowerCase();
-                
-                // if the user input and the name in the array match, then go to that marker on the map & return.
-                if(search == tmp){
-                  //move to that marker on the map.
-                  map.panTo(googleMarkers[i].getPosition());
-                  map.setZoom(15);
-                  google.maps.event.trigger(googleMarkers[i], 'click');
-                  found = true;
-                  return;
-                }else if((i == (markersArray.length-1)) && found == false){
-                  alert("The name entered was not found on our map.");
-                }
-              }
+            // if the user input and the name in the array match, then go to that marker on the map & return.
+            if(search == tmp){
+              //move to that marker on the map.
+              map.panTo(googleMarkers[i].getPosition());
+              map.setZoom(15);
+              google.maps.event.trigger(googleMarkers[i], 'click');
+              found = true;
+              return;
+            }else if((i == (markersArray.length-1)) && found == false){
+              alert("The name entered was not found on our map.");
             }
-          </script>-->
+          }
+        }
+    </script>-->
 
-          <!-- Begin custom code copied from Developer Console -->
-    <!-- Note: this is just an example. The html you download from Developer Console will be tailored for your site -->
-    <script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
-    <link type="text/css" rel="stylesheet" href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
+    <!-- Begin custom code copied from Developer Console -->
     <script type=text/javascript>
       window.google.identitytoolkit.signInButton(
         '#navbar', // accepts any CSS selector
@@ -69,65 +66,59 @@
     <!-- End custom code copied from Developer Console -->
 </head>
 <body>
-	
-	<header class="navbar navbar-inverse navbar-fixed-top" role="banner">
-		<div class="container">
-			<nav>
-			  <div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-				  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="navHeaderCollapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				  </button>
-				  <a class="navbar-brand" href="http://meroarte.com/?gclid=CIn53PL94L8CFSsV7AodZgQANw"  target="_blank">Ride Share</a>
-				</div>
+	<div>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="#">Ride Share</a>
+		    </div>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse navHeaderCollapse" id="navHeaderCollapse">
-				  <ul class="nav navbar-nav">
-					<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-					<li><a href="#">Link2</a></li>
-					<!-- DropDown Menu for popular destinations -->
-					<li class="dropdown">
-					  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Popular Destinations <span class="caret"></span></a>
-					  <ul class="dropdown-menu" role="menu">
-						<li><a href="#">Boston</a></li>
-						<li><a href="#">Bradley Int'l Airport</a></li>
-						<li class="divider"></li>
-						<li><a href="#">New York City</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Springfield Bus Terminal</a></li>
-					  </ul>
-					</li>
-				  </ul>
-				  <form class="navbar-form navbar-left" role="search">
+
+
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      	<!-- Search Box -->
+				<form class="navbar-form navbar-left" role="search">
 					<div class="form-group">
-					  <input type="text" class="form-control" placeholder="Search">
+						<input type="text" class="form-control" placeholder="Search Rides">
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
-				  </form>
-				  <ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Link</a></li>
+				</form>
+
+				<ul class="nav navbar-nav">
+					<li><a href="#">Link <span class="sr-only">(current)</span></a></li>
+
+					<!-- Dropdown Menu -->
 					<li class="dropdown">
-					  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-					  <ul class="dropdown-menu" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-					  </ul>
+			  			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Popular Destinations <span class="caret"></span></a>
+			  			<ul class="dropdown-menu" role="menu">
+			    			<li><a href="#">Boston</a></li>
+			    			<li><a href="#">Bradley Int'l Airport</a></li>
+						    <li><a href="#">Holyoke Mall</a></li>
+						  	<li><a href="#">New York City</a></li>
+						  	<li><a href="#">Springfield Bus Terminal</a></li>
+			  			</ul>
 					</li>
-				  </ul>
-				</div><!-- /.navbar-collapse -->
-			  </div><!-- /.container-fluid -->
-			</nav>
-		</div>
-	</header>
+				</ul>
+
+				<!-- Login in Options -->
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/auth/facebook"><img src="icons/signin-with-facebook.png" width="154" height="28"></a></li>
+					<li><a href="/auth/google"><img src="icons/signin-with-google.png" width="154" height="28"></a></li>
+				</ul>
+		    </div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-->
+		</nav>
+	</div>
+	<script src="js/bootstrap.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<!--  -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </body>
 </html>

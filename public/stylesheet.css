@@ -84,4 +84,9 @@ body { height: 100%; margin: 0; padding: 0; }
 
 }
 
+.icon-facebook {
+    background-image: url("/icons/signin-with-google.png");
+    background-position: center center;
+}
+
 
