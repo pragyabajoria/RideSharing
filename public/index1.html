@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Ride Share - Log In</title>
+	<title>Welcome to RideShare</title>
 	<meta name="viewport" content="eidth=device-width, initial-scale=1.0, user-scalable=no"/>
 	<meta charset="UTF-8">
 	
     <!--<link rel="shortcut icon" type="image/png" src="icons/extremelySmallCar.png" />-->
-	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+	<link type="text/css" rel="stylesheet" href="carousel.css"/>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<!--<script type="text/javascript">
         
         /**
@@ -66,12 +67,14 @@
     <!-- End custom code copied from Developer Console -->
 </head>
 <body>
-	<div>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-		  <div class="container">
-		    <!-- Brand and toggle get grouped for better mobile display -->
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+
+	<!-- Navbar
+    ================================================== -->
+	<div class="navbar-wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 		        <span class="sr-only">Toggle navigation</span>
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
@@ -79,8 +82,6 @@
 		      </button>
 		      <a class="navbar-brand" href="#">Ride Share</a>
 		    </div>
-
-
 
 		    <!-- Collect the nav links, forms, and other content for toggling -->
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -108,17 +109,78 @@
 					</li>
 				</ul>
 
-				<!-- Login in Options -->
+				<!-- Log Out -->
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/auth/facebook"><img src="icons/signin-with-facebook.png" width="154" height="28"></a></li>
-					<li><a href="/auth/google"><img src="icons/signin-with-google.png" width="154" height="28"></a></li>
+					<!--<li><a href="/auth/facebook"><img src="icons/signin-with-facebook.png" width="154" height="28"></a></li>
+					<li><a href="/auth/google"><img src="icons/signin-with-google.png" width="154" height="28"></a></li>-->
+					<li><a href="#"> Log Out </a></li>
 				</ul>
 		    </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-->
-		</nav>
+		</nav> 
+	</div><!-- /.navbar-wrapper-->
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+        	<!-- http://www.wallmoy.com/wp-content/uploads/2015/02/new_york_city_wallpaper_good.jpg -->
+          <img src="icons/nyc_carousel.jpg" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>New York City</h1>
+              <p>Looking for a weekend away in the big city? Whether you want to offer a ride or find one, RideShare is here for you!</p>
+              <p><a class="btn btn-lg btn-info" href="#" role="button">Rides to NYC!</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <!-- http://www.mrwallpaper.com/wallpapers/airplane-flight-sunset-1920x1080.jpg -->	
+          <img src="icons/airplane_carousel.jpg" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Bradley Int'l Airport</h1>
+              <p>Planning a trip involving air travel soon?  Check out if you can join or post a car pool to save money and the planet!</p>
+              <p><a class="btn btn-lg btn-info" href="#" role="button">Rides to Bradley!</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+        	<!-- http://cdn.phillymag.com/wp-content/uploads/2014/04/Woman-With-Shopping-Bags.jpg -->
+          <img src="icons/shop_carousel.jpg" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Holyoke Mall</h1>
+              <p>Need to go shopping? Whether you want to offer a ride or find one, RideShare is here for you. Happy Shopping! </p>
+              <p><a class="btn btn-lg btn-info" href="#" role="button">Rides to the mall!</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div><!-- /.carousel -->
+
+	<div class="container">
+		<form class="request-ride">
+			<h2 class="form-signin-heading">Request / Offer a ride</h2>
+		</form>
 	</div>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	
 </body>
 </html>
