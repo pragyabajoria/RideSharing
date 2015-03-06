@@ -1,135 +1,80 @@
-<DOCTYPE html>
-<html>
-<head>
-	<title>Ride Share - Log In</title>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-	<meta charset="UTF-8">
-    <!--<link rel="shortcut icon" type="image/png" src="icons/extremelySmallCar.png" />-->
-	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
-		<!--<script type="text/javascript">
-            
-            /**
-            * This function walks through the markersArray to search for the given (user input) name.
-            *
-            * @return this function returns if it finds the searched name -or- if the name is not found within the array.
-            **/
-            function searchRides(){
-              var search = document.getElementById("search").value;
-              search = search.toLowerCase();
-              var tmp;
-              var found = false;
-              // This for loop walks through database to search for the ride destination.
-              for(var i=0; i<markersArray.length; i++){
-                tmp = markersArray[i][0];
-                tmp = tmp.toLowerCase();
-                
-                // if the user input and the name in the array match, then go to that marker on the map & return.
-                if(search == tmp){
-                  //move to that marker on the map.
-                  map.panTo(googleMarkers[i].getPosition());
-                  map.setZoom(15);
-                  google.maps.event.trigger(googleMarkers[i], 'click');
-                  found = true;
-                  return;
-                }else if((i == (markersArray.length-1)) && found == false){
-                  alert("The name entered was not found on our map.");
-                }
-              }
-            }
-          </script>-->
+<!DOCTYPE html>
+<html class = "full" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
 
-          <!-- Begin custom code copied from Developer Console -->
-    <!-- Note: this is just an example. The html you download from Developer Console will be tailored for your site -->
-    <script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
-    <link type=text/css rel=stylesheet href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
-    <script type=text/javascript>
-      window.google.identitytoolkit.signInButton(
-        '#navbar', // accepts any CSS selector
-        {
-          widgetUrl: "https://localhost:8000/callback",
-          signOutUrl: "/",
-          // Optional - Begin the sign-in flow in a popup window
-          //popupMode: true,
-          // Optional - Begin the sign-in flow immediately on page load.
-          //            Note that if this is true, popupMode param is ignored
-          //loginFirst: true,
-          // Optional - Cookie name (default: gtoken)
-          //            NOTE: Also needs to be added to config of ‘widget
-          //                  page’. See below
-          //cookieName: ‘example_cookie’,
-        }
-      );
-    </script>
-    <!-- End custom code copied from Developer Console -->
-</head>
-<body>
-	<!-- Top Bar -->
-	<div id="topbar">
-		<!-- RideShare Logo -->
-      	<div id="logo">
-        	<a href= "http://meroarte.com/?gclid=CIn53PL94L8CFSsV7AodZgQANw" target="_blank"> 
-          	<img class="logo" src ="icons/rideShareLogo.png"/><img class="logo" src= "icons/blackCar.png"/>
-        	</a>
-      	</div>
+    <title>RideShare | Login</title>
 
-      	<!-- Common Destinations -->
-      	<div id="commonDestinations">
-      		<ul>
-          	<li><!-- Boston -->
-            	<a href= "https://www.facebook.com/MeroArte" target="_blank"> 
-              		<img class="destination_icon" src= "icons/boston.png"/>
-            	</a>
-          	</li>
-          	<li><!-- Bradley -->
-            	<a href= "https://twitter.com/Mero_Arte" target="_blank"> 
-              		<img class="destination_icon" src= "icons/bradley.png"/>
-            	</a>
-          	</li>
-          	<li><!-- Holyoke Mall -->
-            	<a href= "https://plus.google.com/+Meroarte" target="_blank"> 
-              		<img class="destination_icon" src= "icons/holyokeMall.png"/>
-            	</a>
-          	</li>
-          	<li><!-- New York City -->
-            	<a href= "http://www.pinterest.com/meroarte/" target="_blank"> 
-              		<img class="destination_icon" src= "icons/newYorkCity.png"/>
-            	</a>
-          	</li>
-          	<li><!-- Springfield Bus -->
-            	<a href= "http://blog.meroarte.com/" target="_blank"> 
-              		<img class="destination_icon" src= "icons/springfield.png"/>
-            	</a>
-          	</li>
-        	</ul>
-      	</div>
-		<!-- Search Box -->
-      	<div id="searchBox">
-          	<input type="search" name="search" class="search" placeholder="Search Rides Here..." />
-          	<button  class="searchButton"> Search </button>
-          	<!-- call searchRides() function here -->
-      	</div>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
-      	<!-- Sign up/ Login Section -->
-      	<div id="login">
-      		<table>
-      			<tr><td>
-      				<!-- Login with Google -->
-              <a href= "/auth/google"><img src="/icons/signin-with-google.png" width="154" height="28"></a>
-            </td></tr>
-            <tr><td>
- 					-or-
-            	</td></tr>
-            	<tr><td>
-            		<!-- Login with Facebook-->
-            		<a href="/auth/facebook"><img src="/icons/signin-with-facebook.png" width="154" height="28"></a>
-            	</td></tr>
-      		</table>
-      	</div>
-        <div id=”navbar”></div>
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">RideShare</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="#">Home</a></li>
+                  <li><a href="#">Features</a></li>
+                  <li><a href="#">Contact</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
 
-	</div>
+          <div class="inner cover">
+            <h1 class="cover-heading">Need a ride?</h1>
+            <p class="lead">RideShare is here for <b>YOU</b> to find or post a ride to all sorts of destinations! Don't have an account? Don't stress! Use our quick & easy sign-up with Google or Facebook below and get started using RideShare in no time. Find your next adventure today!</p>
+            <!--<p class="lead">
+              <a href="#" class="btn btn-lg btn-default">Learn more</a>
+            </p>-->
 
-	<!--  -->
-</body>
+            <form class="form-signin">
+              <h2 class="form-signin-heading">Please sign in</h2>
+              <!--<label for="inputEmail" class="sr-only">Email address</label>
+              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>-->
+              <!-- Sign in section -->
+              <!--<div class="checkbox">
+                <label>
+                  <input type="checkbox" value="remember-me"> Remember me
+                </label>
+              </div>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
+            </form>
+          </div>
+
+          <div>
+            <button class="icon"><a href="/auth/facebook"><img src="icons/signin-with-facebook.png" width="200" height="44"></a></button>
+            <p><small> -OR- </small></p>
+            <button class="icon"><a href="/auth/google"><img src="icons/signin-with-google.png" width="200" height="44"></a></button>
+          </div>
+          <div class="mastfoot">
+            <div class="inner">
+              <!--<p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>
-
