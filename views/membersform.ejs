@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%=title%></title>
+        <script type="text/javascript" src="/../jquery-1.10.2.min.js"></script>
+        <link rel="stylesheet" href="/../stylesheet.css">
+    </head>
+<body>
+<form method="post" action="" id="membersform">
+    <table cellpadding="12">
+    <tr>
+        <td class="label">First Name</td><td><input type="text" name="firstname" value="<%=data[0].firstname%>"></td>
+     </tr>
+	 <tr>
+        <td class="label">Last Name</td><td><input type="text" name="lastname" value="<%=data[0].lastname%>"></td>
+     </tr>
+    <tr>
+        <td class="label">Email</td><td><input type="text" name="email" value="<%=data[0].email%>"></td>
+     </tr>
+      <tr>
+        <td class="label">Phone</td><td><input type="text" name="phone" value="<%=data[0].phone%>"></td>
+     </tr>
+	   <tr>
+        <td class="label">Status</td><td><input type="text" name="status" value="<%=data[0].status%>"></td>
+     </tr>
+     <tr>
+        <td class="label"></td>
+        <td>
+            <input type="button" value="Save" onClick="saveMember()">
+        </td>
+     </tr>
+    </table>
+</form>
+	<script>
+    
+        function saveMember(){           
+           $.ajax({            
+            url:"/database/members/"+<%=data[0].id%>,
+            type:"put",
+            data:$("#membersform").serialize(),
+            success:function(res){                
+                window.location.href = '/database/members/';
+                return false;
+            },
+            error:function(xhr, status, error){                
+                console.log(xhr.responseText);
+                var err = '';
+                $.each(JSON.parse(xhr.responseText) , function(i, item) {                   
+                     err +='<li>'+item.msg+'</li>';
+                });
+                $(".err-area").html(err);    
+                return false;
+            }            
+           });
+        }
+    
+    </script>
+</body>
+</html>

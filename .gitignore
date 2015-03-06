@@ -1,4 +1,4 @@
-# Can ignore specific files
+ Can ignore specific files
 .DS_STORE
 
 # Use wildcards as well
