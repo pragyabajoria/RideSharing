@@ -3,40 +3,37 @@
     <head>
         <title><%=title%></title>
         <script type="text/javascript" src="/../jquery-1.10.2.min.js"></script>
-        <link rel="stylesheet" href="/../style.css">
     </head>
 <body>
-<div class="data-table">
+<div>
     <table border="0" cellpadding="6" cellspacing="6">
         <tr>
             <th width="65px">ID</th>
-            <th>First Name</th>
-			<th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Status</th>
-			<th>Operation</th>
+            <th>Name</th>
+			<th>City</th>
+            <th>State</th>
+            <th>zipcode</th>
+			<th></th>
         </tr>
                        
         <% if(data.length){                         
          for(var i = 0;i < data.length;i++) { %>         
         <tr>
 			<td><%=data[i].id%></td>
-            <td><%=data[i].firstname%></td>
-			<td><%=data[i].lastname%></td>
-            <td><%=data[i].email%></td>
-            <td><%=data[i].phone%></td>
-			<td><%=data[i].status%></td>
+            <td><%=data[i].name%></td>
+			<td><%=data[i].city%></td>
+            <td><%=data[i].state%></td>
+            <td><%=data[i].zipcode%></td>
             <td>
-                <a href="/database/members/<%=data[i].id%>">Edit</a>               
-                <a href="javascript:void(0)" onClick="deleteMember(<%=data[i].id%>)">Delete</a>               
+                <a href="/database/locations/<%=data[i].id%>">Edit Location</a>               
+                <a href="javascript:void(0)" onClick="deleteLocation(<%=data[i].id%>)">Delete Location</a>               
             </td>
         </tr>
     <% }
     
      }else{ %>
          <tr>
-            <td colspan="5">No Data</td>
+            <td colspan="5">No Locations</td>
          </tr>
     <% } %>
                                       
@@ -44,33 +41,30 @@
 </div>
 <div class="page-data">
     
-    <form method="post" action="" id="membersform">
+    <form method="post" action="" id="locationform">
         <table cellpadding="12">
 		<tr>
-			<h3> Add a new member</h3>
+			<h3> Add a new location</h3>
 		</tr>
 		<!--<tr>			
             <td class="label">ID</td><td><input type="text" name="id"></td>
          </tr>-->
         <tr>
-            <td class="label">First Name</td><td><input type="text" name="firstname"></td>
+            <td class="label">Name</td><td><input type="text" name="name"></td>
          </tr>
 		 <tr>
-            <td class="label">Last Name</td><td><input type="text" name="lastname"></td>
+            <td class="label">City</td><td><input type="text" name="city"></td>
          </tr>
         <tr>
-            <td class="label">Email</td><td><input type="text" name="email"></td>
+            <td class="label">State</td><td><input type="text" name="state"></td>
          </tr>
           <tr>
-            <td class="label">Phone</td><td><input type="text" name="phone"></td>
-         </tr>
-		   <tr>
-            <td class="label">Status</td><td><input type="text" name="status"></td>
+            <td class="label">zipcode</td><td><input type="text" name="zipcode"></td>
          </tr>
          <tr>
-            <td class="label"></td>
+            <td></td>
             <td>
-                <input type="button" value="Add member" onClick="saveMember()">
+                <input type="button" value="Add location" onClick="saveLocation()">
             </td>
          </tr>
         </table>
@@ -81,11 +75,11 @@
 </div>
 
 <script>
-    function saveMember(){       
+    function saveLocation(){       
        $.ajax({        
-        url:"/database/members/",
+        url:"/database/locations/",
         type:"post",
-        data:$("#membersform").serialize(),
+        data:$("#locationform").serialize(),
         success:function(res){            
             window.location.reload();
             return false;
@@ -94,7 +88,7 @@
             console.log(xhr.responseText);
             var err = '';
             $.each(JSON.parse(xhr.responseText) , function(i, item) {               
-                 err +='<li>'+item.msg+'</li>';
+                 err += '<li>' + item.msg + '</li>';
             });
             $(".err-area").html(err);    
             return false;
@@ -103,9 +97,9 @@
        });
     }
     
-    function deleteMember(id){    
+    function deleteLocation(id){    
         $.ajax({
-            url:"/database/members/"+id,
+            url:"/database/locations/"+id,
             type: 'DELETE',
             success: function(res) {                
                 window.location.reload();

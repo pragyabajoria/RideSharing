@@ -3,40 +3,40 @@
     <head>
         <title><%=title%></title>
         <script type="text/javascript" src="/../jquery-1.10.2.min.js"></script>
-        <link rel="stylesheet" href="/../style.css">
     </head>
 <body>
-<div class="data-table">
+<div>
     <table border="0" cellpadding="6" cellspacing="6">
         <tr>
             <th width="65px">ID</th>
-            <th>First Name</th>
-			<th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Status</th>
-			<th>Operation</th>
+            <th>Driver</th>
+			<th>Origin</th>
+            <th>Destination</th>
+            <th>Seats</th>
+			<th>Date and Time</th>
+			<th>Flexibility (hours)</th>
         </tr>
                        
         <% if(data.length){                         
          for(var i = 0;i < data.length;i++) { %>         
         <tr>
 			<td><%=data[i].id%></td>
-            <td><%=data[i].firstname%></td>
-			<td><%=data[i].lastname%></td>
-            <td><%=data[i].email%></td>
-            <td><%=data[i].phone%></td>
-			<td><%=data[i].status%></td>
+            <td><%=data[i].driver%></td>
+			<td><%=data[i].origin%></td>
+            <td><%=data[i].destination%></td>
+            <td><%=data[i].seats%></td>
+			<td><%=data[i].datetime%></td>
+			<td><%=data[i].flexibility%></td>
             <td>
-                <a href="/database/members/<%=data[i].id%>">Edit</a>               
-                <a href="javascript:void(0)" onClick="deleteMember(<%=data[i].id%>)">Delete</a>               
+                <a href="/database/rides/<%=data[i].id%>">Edit Ride</a>               
+                <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>               
             </td>
         </tr>
     <% }
     
      }else{ %>
          <tr>
-            <td colspan="5">No Data</td>
+            <td colspan="5">No Rides</td>
          </tr>
     <% } %>
                                       
@@ -44,33 +44,44 @@
 </div>
 <div class="page-data">
     
-    <form method="post" action="" id="membersform">
+    <form method="post" action="" id="ridesform">
         <table cellpadding="12">
 		<tr>
-			<h3> Add a new member</h3>
+			<h3> Add a new Ride</h3>
 		</tr>
 		<!--<tr>			
             <td class="label">ID</td><td><input type="text" name="id"></td>
          </tr>-->
         <tr>
-            <td class="label">First Name</td><td><input type="text" name="firstname"></td>
+            <td class="label">Driver</td><td><input type="text" name="diver"></td>
          </tr>
 		 <tr>
-            <td class="label">Last Name</td><td><input type="text" name="lastname"></td>
+            <td class="label">Origin</td><td><!--<input type="text" name="origin">-->
+			<select name="origin">
+				<option value="l">Boston</option>
+			</select>
+			</td>
          </tr>
         <tr>
-            <td class="label">Email</td><td><input type="text" name="email"></td>
+            <td class="label">Destination</td><td> <!--<input type="text" name="destination">-->
+			<select name="destination">
+				<option value="l">Boston</option>
+			</select>
+			</td>
          </tr>
           <tr>
-            <td class="label">Phone</td><td><input type="text" name="phone"></td>
+            <td class="label">Seats</td><td><input type="text" name="seats"></td>
          </tr>
-		   <tr>
-            <td class="label">Status</td><td><input type="text" name="status"></td>
+		  <tr>
+            <td class="label">Date</td><td><input type="text" name="date"></td>
+         </tr>
+		 <tr>
+            <td class="label">Flexibility</td><td><input type="text" name="flexibility"></td>
          </tr>
          <tr>
-            <td class="label"></td>
+            <td></td>
             <td>
-                <input type="button" value="Add member" onClick="saveMember()">
+                <input type="button" value="Add Ride" onClick="addRide()">
             </td>
          </tr>
         </table>
@@ -81,11 +92,11 @@
 </div>
 
 <script>
-    function saveMember(){       
+    function addRide(){       
        $.ajax({        
-        url:"/database/members/",
+        url:"/database/rides/",
         type:"post",
-        data:$("#membersform").serialize(),
+        data:$("#ridesform").serialize(),
         success:function(res){            
             window.location.reload();
             return false;
@@ -94,7 +105,7 @@
             console.log(xhr.responseText);
             var err = '';
             $.each(JSON.parse(xhr.responseText) , function(i, item) {               
-                 err +='<li>'+item.msg+'</li>';
+                 err += '<li>' + item.msg + '</li>';
             });
             $(".err-area").html(err);    
             return false;
@@ -103,9 +114,9 @@
        });
     }
     
-    function deleteMember(id){    
+    function deleteRide(id){    
         $.ajax({
-            url:"/database/members/"+id,
+            url:"/database/rides/"+id,
             type: 'DELETE',
             success: function(res) {                
                 window.location.reload();

@@ -3,43 +3,40 @@
     <head>
         <title><%=title%></title>
         <script type="text/javascript" src="/../jquery-1.10.2.min.js"></script>
-        <link rel="stylesheet" href="/../stylesheet.css">
     </head>
 <body>
-<form method="post" action="" id="membersform">
+<form method="post" action="" id="locationform">
     <table cellpadding="12">
     <tr>
-        <td class="label">First Name</td><td><input type="text" name="firstname" value="<%=data[0].firstname%>"></td>
+        <td class="label">Name</td><td><input type="text" name="name" value="<%=data[0].name%>"></td>
      </tr>
 	 <tr>
-        <td class="label">Last Name</td><td><input type="text" name="lastname" value="<%=data[0].lastname%>"></td>
+        <td class="label">City</td><td><input type="text" name="city" value="<%=data[0].city%>"></td>
      </tr>
     <tr>
-        <td class="label">Email</td><td><input type="text" name="email" value="<%=data[0].email%>"></td>
+        <td class="label">State</td><td><input type="text" name="state" value="<%=data[0].state%>"></td>
      </tr>
       <tr>
-        <td class="label">Phone</td><td><input type="text" name="phone" value="<%=data[0].phone%>"></td>
+        <td class="label">Zipcode</td><td><input type="text" name="zipcode" value="<%=data[0].zipcode%>"></td>
      </tr>
-	   <tr>
-        <td class="label">Status</td><td><input type="text" name="status" value="<%=data[0].status%>"></td>
-     </tr>
+
      <tr>
         <td class="label"></td>
         <td>
-            <input type="button" value="Save changes" onClick="saveMember()">
+            <input type="button" value="Save changes" onClick="saveLocation()">
         </td>
      </tr>
     </table>
 </form>
 	<script>
     
-        function saveMember(){           
+        function saveLocation(){           
            $.ajax({            
-            url:"/database/members/"+<%=data[0].id%>,
+            url:"/database/locations/"+<%=data[0].id%>,
             type:"put",
-            data:$("#membersform").serialize(),
+            data:$("#locationform").serialize(),
             success:function(res){                
-                window.location.href = '/database/members/';
+                window.location.href = '/database/locations/';
                 return false;
             },
             error:function(xhr, status, error){                
