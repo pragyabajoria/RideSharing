@@ -189,7 +189,7 @@ app.use(
     connection(mysql,{
         host     : 'localhost',
         user     : 'root',
-        password : '',
+        password : 'root',
 		port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
@@ -203,9 +203,9 @@ router.use(function(req, res, next) {
     next();
 });
 
-var cu1 = router.route('/members');
+var members = router.route('/members');
 
-cu1.get(function(req,res){
+members.get(function(req,res){
     req.getConnection(function(err,conn){
         if (err) return next("connection error");
         var query = conn.query('SELECT * FROM members',function(err,rows){
@@ -219,7 +219,7 @@ cu1.get(function(req,res){
 });
 
 //save new member
-cu1.post(function(req,res){
+members.post(function(req,res){
 
     req.assert('firstname','Please Enter First Name').notEmpty();
 	req.assert('lastname','Please Enter Last Name').notEmpty();
@@ -251,13 +251,13 @@ cu1.post(function(req,res){
      });
 });
 
-var cu2 = router.route('/members/:id');
-cu2.all(function(req,res,next){
+var member = router.route('/members/:id');
+member.all(function(req,res,next){
     console.log(req.params);
     next();
 });
 
-cu2.get(function(req,res,next){
+member.get(function(req,res,next){
     var id = req.params.id;
     req.getConnection(function(err,conn){
         if (err) return next("connection error");
@@ -274,7 +274,7 @@ cu2.get(function(req,res,next){
 
 });
 
-cu2.put(function(req,res){
+member.put(function(req,res){
     var id = req.params.id;
 
 	req.assert('firstname','Please Enter First Name').notEmpty();
@@ -308,7 +308,7 @@ cu2.put(function(req,res){
 
 });
 
-cu2.delete(function(req,res){
+member.delete(function(req,res){
     var id = req.params.id;
      req.getConnection(function (err, conn) {
         if (err) return next("connection error");
@@ -322,6 +322,142 @@ cu2.delete(function(req,res){
      });
 });
 
+
+//DATABASE - LOCATIONS 
+var locations = router.route('/locations');
+
+locations.get(function(req,res){
+    req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+        var query = conn.query('SELECT * FROM locations',function(err,rows){
+            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            res.render('locations',{title:"Location Table Example",data:rows});
+         });
+    });
+});
+
+//save new location
+locations.post(function(req,res){
+
+    req.assert('name','Please Enter Location Name').notEmpty();
+	req.assert('city','Please Enter City').notEmpty();
+   	req.assert('state','Please State').notEmpty();
+	req.assert('zipcode','Please Zip Code').notEmpty();
+    var errors = req.validationErrors();
+    if(errors){
+        res.status(422).json(errors);
+        return;
+    }
+
+    var data = {
+        name:req.body.name,
+		city:req.body.city,
+        state:req.body.state,
+		zipcode:req.body.zipcode,
+     };
+    req.getConnection(function (err, conn){
+        if (err) return next("connection error");
+        var query = conn.query("INSERT INTO locations set ? ",data, function(err, rows){
+           if(err){
+                console.log(err);
+                return next("mysql error");
+           }
+          res.sendStatus(200);
+        });
+     });
+});
+
+var location = router.route('/locations/:id');
+location.all(function(req,res,next){
+    console.log(req.params);
+    next();
+});
+
+location.get(function(req,res,next){
+    var id = req.params.id;
+    req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+        var query = conn.query("SELECT * FROM locations WHERE id = ? ",[id],function(err,rows){            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            if(rows.length < 1)
+                return res.send("Location Not found");
+            res.render('editlocation',{title:"Edit Location",data:rows});
+        });
+
+    });
+
+});
+
+location.put(function(req,res){
+    var id = req.params.id;
+
+	req.assert('name','Please Enter Location Name').notEmpty();
+	req.assert('city','Please Enter City').notEmpty();
+	req.assert('state','Please Enter State').notEmpty();
+   
+
+    var errors = req.validationErrors();
+    if(errors){
+        res.status(422).json(errors);
+        return;
+    }
+
+    var data = {
+        name:req.body.name,
+		city:req.body.city,
+        state:req.body.state,
+        zipcode:req.body.zipcode
+     };
+
+    req.getConnection(function (err, conn){
+        if (err) return next("connection error");
+        var query = conn.query("UPDATE locations set ? WHERE id = ? ",[data,id], function(err, rows){
+           if(err){
+                console.log(err);
+                return next("mysql error");
+           }
+          res.sendStatus(200);
+        });
+     });
+
+});
+
+location.delete(function(req,res){
+    var id = req.params.id;
+     req.getConnection(function (err, conn) {
+        if (err) return next("connection error");
+        var query = conn.query("DELETE FROM locations  WHERE id = ? ",[id], function(err, rows){
+             if(err){
+                console.log(err);
+                return next("mysql error");
+             }
+             res.sendStatus(200);
+        });
+     });
+});
+
+//END of DATABASE - LOCATIONS
+// DATABASE - RIDES
+var rides = router.route('/rides');
+
+rides.get(function(req,res){
+    req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+        var query = conn.query('SELECT * FROM rides',function(err,rows){
+            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            res.render('rides',{title:"Rides Table Example",data:rows});
+         });
+    });
+});
+//END OF RIDES
 app.use('/database', router);
 
 //end of mysql
