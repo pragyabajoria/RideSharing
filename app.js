@@ -175,6 +175,12 @@ app.get('/auth/facebook/callback',
   }
 );
 
+app.get('/boston', function(req,res) {
+  var calendar = '<iframe src="https://www.google.com/calendar/embed?src=bajor22p%40mtholyoke.edu&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>';
+  res.send(calendar);
+});
+
+
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
@@ -194,6 +200,9 @@ app.get('/profile', function (req, res) {
   res.send(form);
 });
 
+app.get('/searchrides', function (req, res) {
+  res.send("Searching for " + req.query['search']);
+});
 
 //mysql connection
 var connection  = require('express-myconnection'),
