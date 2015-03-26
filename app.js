@@ -175,11 +175,34 @@ app.get('/auth/facebook/callback',
   }
 );
 
+app.get('/boston', function(req,res) {
+  var calendar = '<iframe src="https://www.google.com/calendar/embed?src=bajor22p%40mtholyoke.edu&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>';
+  res.send(calendar);
+});
+
+
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
 
+app.get('/profile', function (req, res) {
+  // Create the form to add a new user
+  var form = '<p><b>Add Profile Information</b></p><br>' +      
+    '<form action="/users/add" method="get">' +
+    'UID:<br> <input type="text" name="uid"><br><br>' + 
+    'First Name:<br> <input type="text" name="fname"><br><br>' +
+    'Last Name:<br> <input type="text" name="lname"><br><br>' +
+    'University:<br> <input type="text" name="university"><br><br>' +
+    'Age:<br> <input type="text" name="age"><br><br>' +
+    '<input type="submit" value="Submit Profile Changes">' +
+    '</form><br><br>';
+  res.send(form);
+});
+
+app.get('/searchrides', function (req, res) {
+  res.send("Searching for " + req.query['search']);
+});
 
 //mysql connection
 var connection  = require('express-myconnection'),
