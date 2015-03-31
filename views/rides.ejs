@@ -6,9 +6,9 @@
     </head>
 <body>
 <div>
-    <table border="0" cellpadding="6" cellspacing="6">
+    <table border="0" cellpadding="5" cellspacing="5">
         <tr>
-            <th width="65px">ID</th>
+            <th>ID</th>
             <th>Driver</th>
 			<th>Origin</th>
             <th>Destination</th>
@@ -21,15 +21,16 @@
          for(var i = 0;i < data.length;i++) { %>         
         <tr>
 			<td><%=data[i].id%></td>
-            <td><%=data[i].driver%></td>
+            <td><%=data[i].firstname%> <%=data[i].lastname%></td>
 			<td><%=data[i].origin%></td>
             <td><%=data[i].destination%></td>
             <td><%=data[i].seats%></td>
-			<td><%=data[i].datetime%></td>
+			<td><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
 			<td><%=data[i].flexibility%></td>
             <td>
-                <a href="/database/rides/<%=data[i].id%>">Edit Ride</a>               
-                <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>               
+				<a href="/rides/<%=data[i].id%>">Request Ride</a>  
+                <a href="/rides/<%=data[i].id%>">Edit Ride</a>               
+                <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>          
             </td>
         </tr>
     <% }
@@ -41,82 +42,11 @@
     <% } %>
                                       
     </table>
-</div>
-<div class="page-data">
-    
-    <form method="post" action="" id="ridesform">
-        <table cellpadding="12">
-		<tr>
-			<h3> Add a new Ride</h3>
-		</tr>
-		<!--<tr>			
-            <td class="label">ID</td><td><input type="text" name="id"></td>
-         </tr>-->
-        <tr>
-            <td class="label">Driver</td><td><input type="text" name="diver"></td>
-         </tr>
-		 <tr>
-            <td class="label">Origin</td><td><!--<input type="text" name="origin">-->
-			<select name="origin">
-				<option value="l">Boston</option>
-			</select>
-			</td>
-         </tr>
-        <tr>
-            <td class="label">Destination</td><td> <!--<input type="text" name="destination">-->
-			<select name="destination">
-				<option value="l">Boston</option>
-			</select>
-			</td>
-         </tr>
-          <tr>
-            <td class="label">Seats</td><td><input type="text" name="seats"></td>
-         </tr>
-		  <tr>
-            <td class="label">Date</td><td><input type="text" name="date"></td>
-         </tr>
-		 <tr>
-            <td class="label">Flexibility</td><td><input type="text" name="flexibility"></td>
-         </tr>
-         <tr>
-            <td></td>
-            <td>
-                <input type="button" value="Add Ride" onClick="addRide()">
-            </td>
-         </tr>
-        </table>
-    </form>
-</div>
-<div class="page-data">
-     <ul class="err-area"></ul>
-</div>
-
 <script>
-    function addRide(){       
-       $.ajax({        
-        url:"/database/rides/",
-        type:"post",
-        data:$("#ridesform").serialize(),
-        success:function(res){            
-            window.location.reload();
-            return false;
-        },
-        error:function(xhr, status, error){           
-            console.log(xhr.responseText);
-            var err = '';
-            $.each(JSON.parse(xhr.responseText) , function(i, item) {               
-                 err += '<li>' + item.msg + '</li>';
-            });
-            $(".err-area").html(err);    
-            return false;
-        }
-        
-       });
-    }
-    
+   
     function deleteRide(id){    
         $.ajax({
-            url:"/database/rides/"+id,
+            url:"/rides/"+id,
             type: 'DELETE',
             success: function(res) {                
                 window.location.reload();
