@@ -3,6 +3,7 @@
     <head>
         <title><%=title%></title>
         <script type="text/javascript" src="/../jquery-1.10.2.min.js"></script>
+		
     </head>
 <body>
 <form method="post" action="" id="ridesform">
@@ -20,7 +21,9 @@
       <tr>
         <td class="label">Seats</td><td><input type="text" name="seats" value="<%=data[0].seats%>"></td>
      </tr>
-
+		<tr>
+			<td>Date</td><td><input type="date" name="date" value="<%=data[0].datetime%>"></td>
+		</tr>
      <tr>
         <td class="label"></td>
         <td>
@@ -33,11 +36,11 @@
     
         function saveRide(){           
            $.ajax({            
-            url:"/database/rides/"+<%=data[0].id%>,
+            url:"/rides/"+<%=data[0].id%>,
             type:"put",
             data:$("#ridesform").serialize(),
             success:function(res){                
-                window.location.href = '/database/rides/';
+                window.location.href = '/rides/';
                 return false;
             },
             error:function(xhr, status, error){                
