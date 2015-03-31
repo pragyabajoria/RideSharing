@@ -465,13 +465,16 @@ location.delete(function(req,res){
 });
 
 //END of DATABASE - LOCATIONS
+
 // DATABASE - RIDES
 var rides = router.route('/rides');
 
+//DISPLAY ALL RIDES
 rides.get(function(req,res){
     req.getConnection(function(err,conn){
         if (err) return next("connection error");
-        var query = conn.query('SELECT * FROM rides',function(err,rows){
+   
+		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination, r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination',function(err,rows){
             if(err){
                 console.log(err);
                 return next("mysql error");
@@ -480,8 +483,133 @@ rides.get(function(req,res){
          });
     });
 });
+
+
+//ADD NEW RIDE
+
+var newride = router.route('/newride');
+
+newride.get(function(req,res){
+    req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+   
+		var query = conn.query('SELECT * FROM locations',function(err,rows){
+            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            res.render('newride',{title:"Add Ride",data:rows});
+         });
+    });
+});
+
+newride.post(function(req,res){
+
+    req.assert('driverid','Please Enter ID').notEmpty();
+	req.assert('origin','Please Select Origin').notEmpty();
+   	req.assert('destination','Please Select Destination').notEmpty();
+	req.assert('datetime','Please Enter Date and Time').notEmpty();
+    var errors = req.validationErrors();
+    if(errors){
+        res.status(422).json(errors);
+        return;
+    }
+
+    var data = {
+        driverid:req.body.driverid,
+		origin:req.body.origin,
+        destination:req.body.destination,
+		seats:req.body.seats,
+		datetime:req.body.datetime,
+		flexibility:req.body.flexibility,
+     };
+    req.getConnection(function (err, conn){
+        if (err) return next("connection error");
+        var query = conn.query("INSERT INTO rides set ? ",data, function(err, rows){
+           if(err){
+                console.log(err);
+                return next("mysql error");
+           }
+          res.sendStatus(200);
+        });
+     });
+});
+
+//EDIT A RIDE
+var ride = router.route('/rides/:id');
+ride.all(function(req,res,next){
+    console.log(req.params);
+    next();
+});
+
+ride.get(function(req,res,next){
+    var id = req.params.id;
+    req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+        var query = conn.query("SELECT * FROM rides WHERE id = ? ",[id],function(err,rows){            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            if(rows.length < 1)
+                return res.send("ride Not found");
+            res.render('editride',{title:"Edit ride",data:rows});
+        });
+
+    });
+
+});
+
+ride.put(function(req,res){
+    var id = req.params.id;
+
+	req.assert('name','Please Enter Location Name').notEmpty();
+	req.assert('city','Please Enter City').notEmpty();
+	req.assert('state','Please Enter State').notEmpty();
+   
+
+    var errors = req.validationErrors();
+    if(errors){
+        res.status(422).json(errors);
+        return;
+    }
+
+    var data = {
+        name:req.body.name,
+		city:req.body.city,
+        state:req.body.state,
+        zipcode:req.body.zipcode
+     };
+
+    req.getConnection(function (err, conn){
+        if (err) return next("connection error");
+        var query = conn.query("UPDATE rides set ? WHERE id = ? ",[data,id], function(err, rows){
+           if(err){
+                console.log(err);
+                return next("mysql error");
+           }
+          res.sendStatus(200);
+        });
+     });
+
+});
+
+//DELETE A RIDE
+ride.delete(function(req,res){
+    var id = req.params.id;
+     req.getConnection(function (err, conn) {
+        if (err) return next("connection error");
+        var query = conn.query("DELETE FROM rides  WHERE id = ? ",[id], function(err, rows){
+             if(err){
+                console.log(err);
+                return next("mysql error");
+             }
+             res.sendStatus(200);
+        });
+     });
+});
+
 //END OF RIDES
-app.use('/database', router);
+app.use('/', router);
 
 //end of mysql
 
