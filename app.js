@@ -579,11 +579,11 @@ ride.get(function(req,res,next){
 ride.put(function(req,res){
     var id = req.params.id;
 
-	req.assert('name','Please Enter Location Name').notEmpty();
-	req.assert('city','Please Enter City').notEmpty();
-	req.assert('state','Please Enter State').notEmpty();
-   
-
+	//req.assert('driverid','Please Enter ID').notEmpty();
+	req.assert('origin','Please Select Origin').notEmpty();
+   	req.assert('destination','Please Select Destination').notEmpty();
+	req.assert('datetime','Please Enter Date and Time').notEmpty();
+	req.assert('flexibility','Please Enter Flexibility').notEmpty();
     var errors = req.validationErrors();
     if(errors){
         res.status(422).json(errors);
@@ -591,10 +591,12 @@ ride.put(function(req,res){
     }
 
     var data = {
-        name:req.body.name,
-		city:req.body.city,
-        state:req.body.state,
-        zipcode:req.body.zipcode
+        //driverid:req.body.driverid,
+		origin:req.body.origin,
+        destination:req.body.destination,
+		seats:req.body.seats,
+		datetime:req.body.datetime,
+		flexibility:req.body.flexibility,
      };
 
     req.getConnection(function (err, conn){
