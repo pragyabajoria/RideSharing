@@ -241,6 +241,8 @@ members.get(function(req,res){
     });
 });
 
+
+
 //save new member
 members.post(function(req,res){
 
@@ -502,7 +504,10 @@ newride.get(function(req,res){
          });
     });
 });
-
+var datepicker = router.route('/datepicker');
+datepicker.get(function(req, res){
+  res.render('datepicker', { user: req.user });
+});
 newride.post(function(req,res){
 
     req.assert('driverid','Please Enter ID').notEmpty();
