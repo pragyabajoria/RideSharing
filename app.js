@@ -120,9 +120,9 @@ app.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });
 
-app.get('/members', function(req, res){
-  res.render('members', { user: req.user });
-});
+//app.get('/members', function(req, res){
+  //res.render('members', { user: req.user });
+//});
 
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
