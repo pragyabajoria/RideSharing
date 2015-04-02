@@ -4,6 +4,7 @@ var express = require('express')
   , passport = require('passport')
   , util = require('util')
   , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+  , LocalStrategy = require('passport-local').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy
   , http = require('http')
   , morgan = require('morgan')
@@ -22,6 +23,11 @@ var GOOGLE_CLIENT_SECRET = "oeuagjMWcUCBvnap-fG_Ni9A";
 // 
 var FACEBOOK_APP_ID = "428397073986914"
 var FACEBOOK_APP_SECRET = "f97c85a02714df3e124d56aa9fb56950";
+
+var userId;
+var userName;
+var userEmail;
+var userPhotograph;
 
 // Passport session setup. To support persistent login sessions, Passport needs to serialize 
 // users into and deserialize users out of the session.  Typically, this will be as simple
@@ -49,7 +55,9 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
-      
+      userId = profile.id;
+      userName = profile.displayName;
+      userEmail = profile.emails[0].value;
       // To keep the example simple, the user's Google profile is returned to
       // represent the logged-in user.  In a typical application, you would want
       // to associate the Google account with a user record in your database,
@@ -62,20 +70,19 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:4000/auth/facebook/callback"
+    callbackURL: "http://localhost:4000/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'photos']
   },
   function(accessToken, refreshToken, profile, done) {
+    userId = profile.id;
+    userName = profile.displayName;
     // asynchronous verification, for effect...
     process.nextTick(function () {
-      
-      // To keep the example simple, the user's Facebook profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Facebook account with a user record in your database,
-      // and return that user instead.
       return done(null, profile);
     });
   }
 ));
+
 
 var app = express();
 
@@ -212,7 +219,7 @@ app.use(
     connection(mysql,{
         host     : 'localhost',
         user     : 'root',
-        password : 'root',
+        password : '',
 		port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
