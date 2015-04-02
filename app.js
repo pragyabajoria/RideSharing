@@ -56,9 +56,8 @@ passport.use(new GoogleStrategy({
     // asynchronous verification, for effect...
     process.nextTick(function () {
       userId = profile.id;
-      console.log("user id: " + userId);
-      console.log("user display name: " + profile.displayName);
-      console.log("User email: " + profile.emails[0].value);
+      userName = profile.displayName;
+      userEmail = profile.emails[0].value;
       // To keep the example simple, the user's Google profile is returned to
       // represent the logged-in user.  In a typical application, you would want
       // to associate the Google account with a user record in your database,
@@ -75,8 +74,8 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'photos']
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log("user id: " + profile.id);
-    console.log("user name: " + profile.displayName);
+    userId = profile.id;
+    userName = profile.displayName;
     // asynchronous verification, for effect...
     process.nextTick(function () {
       return done(null, profile);
@@ -220,7 +219,7 @@ app.use(
     connection(mysql,{
         host     : 'localhost',
         user     : 'root',
-        password : 'root',
+        password : '',
 		port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
