@@ -28,7 +28,7 @@
             <td><%=data[i].phone%></td>
 			<td><%=data[i].status%></td>
             <td>
-                <a href="/database/members/<%=data[i].id%>">Edit</a>               
+                <a href="/members/<%=data[i].id%>">Edit</a>               
                 <a href="javascript:void(0)" onClick="deleteMember(<%=data[i].id%>)">Delete</a>               
             </td>
         </tr>
@@ -83,7 +83,7 @@
 <script>
     function saveMember(){       
        $.ajax({        
-        url:"/database/members/",
+        url:"/members/",
         type:"post",
         data:$("#membersform").serialize(),
         success:function(res){            
@@ -105,7 +105,7 @@
     
     function deleteMember(id){    
         $.ajax({
-            url:"/database/members/"+id,
+            url:"/members/"+id,
             type: 'DELETE',
             success: function(res) {                
                 window.location.reload();
