@@ -15,6 +15,7 @@
             <th>Seats</th>
 			<th>Date and Time</th>
 			<th>Flexibility (hours)</th>
+			<th>Requested</th>
         </tr>
                        
         <% if(data.length){                         
@@ -27,8 +28,9 @@
             <td><%=data[i].seats%></td>
 			<td><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
 			<td><%=data[i].flexibility%></td>
+			<td><%=data[i].requested%></td>
             <td>
-				<a href="/rides/<%=data[i].id%>">Request Ride</a>  
+				<a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>, 1)">Request Ride</a>  
                 <a href="/rides/<%=data[i].id%>">Edit Ride</a>               
                 <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>          
             </td>
@@ -55,6 +57,22 @@
             error:function(xhr, status, error){            
                 console.log(xhr.responseText);
                 alert("delete error");
+                return false;
+            }
+        });
+    }
+	
+	function requestRide(id){    
+        $.ajax({
+            url:"/rides/"+id,
+            type: 'POST',
+            success: function(res) {                
+                window.location.reload();
+                return false;
+            },
+            error:function(xhr, status, error){            
+                console.log(xhr.responseText);
+                alert("mysql error");
                 return false;
             }
         });

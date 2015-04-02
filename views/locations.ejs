@@ -25,7 +25,7 @@
             <td><%=data[i].state%></td>
             <td><%=data[i].zipcode%></td>
             <td>
-                <a href="/database/locations/<%=data[i].id%>">Edit Location</a>               
+                <a href="/locations/<%=data[i].id%>">Edit Location</a>               
                 <a href="javascript:void(0)" onClick="deleteLocation(<%=data[i].id%>)">Delete Location</a>               
             </td>
         </tr>
@@ -77,7 +77,7 @@
 <script>
     function saveLocation(){       
        $.ajax({        
-        url:"/database/locations/",
+        url:"/locations/",
         type:"post",
         data:$("#locationform").serialize(),
         success:function(res){            
@@ -99,7 +99,7 @@
     
     function deleteLocation(id){    
         $.ajax({
-            url:"/database/locations/"+id,
+            url:"/locations/"+id,
             type: 'DELETE',
             success: function(res) {                
                 window.location.reload();
