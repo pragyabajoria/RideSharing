@@ -32,11 +32,11 @@
     
         function saveLocation(){           
            $.ajax({            
-            url:"/database/locations/"+<%=data[0].id%>,
+            url:"/locations/"+<%=data[0].id%>,
             type:"put",
             data:$("#locationform").serialize(),
             success:function(res){                
-                window.location.href = '/database/locations/';
+                window.location.href = '/locations/';
                 return false;
             },
             error:function(xhr, status, error){                
