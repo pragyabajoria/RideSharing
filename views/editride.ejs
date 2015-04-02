@@ -6,23 +6,63 @@
 		
     </head>
 <body>
+
 <form method="post" action="" id="ridesform">
+
     <table cellpadding="12">
     <tr>
-        <td class="label">Driver</td><td><input type="text" name="driver" value="<%=data[0].driver%>"></td>
+        <td class="label">Driver ID</td><td><input type="text" name="driverid" value="<%=ride[0].driverid%>"></td>
      </tr>
 
     <tr>
-        <td class="label">Origin</td><td><input type="text" name="origin" value="<%=data[0].origin%>"></td>
+        <td class="label">Origin</td><td><!--<input type="text" name="origin" value="<%=ride[0].origin%>">-->
+		
+		<select name="origin">
+				<% if(locations.length){                         
+         for(var i = 0;i < locations.length;i++) { 
+				if(locations[i].id==ride[0].origin){%> 
+				<option value="<%=locations[i].id%>" selected><%=locations[i].name%> <%=locations[i].city%> <%=locations[i].state%> <%=locations[i].zipcode%></option>
+				<%}
+				else{ %> 
+				<option value="<%=locations[i].id%>"><%=locations[i].name%> <%=locations[i].city%> <%=locations[i].state%> <%=locations[i].zipcode%></option>
+				<%}
+				
+    }
+    
+     }else{ %>
+	 
+	 <option value="0">No Locations</option>
+
+    <% } %>
+		
+		</td>
      </tr>
 	 	 <tr>
-        <td class="label">Destination</td><td><input type="text" name="destination" value="<%=data[0].destination%>"></td>
+        <td class="label">Destination</td><td><!--<input type="text" name="destination" value="<%=ride[0].destination%>">-->
+		<select name="destination">
+				<% if(locations.length){                         
+         for(var i = 0;i < locations.length;i++) { 
+				if(locations[i].id==ride[0].destination){%> 
+				<option value="<%=locations[i].id%>" selected><%=locations[i].name%> <%=locations[i].city%> <%=locations[i].state%> <%=locations[i].zipcode%></option>
+				<%}
+				else{ %> 
+				<option value="<%=locations[i].id%>"><%=locations[i].name%> <%=locations[i].city%> <%=locations[i].state%> <%=locations[i].zipcode%></option>
+				<%}
+     }
+    
+     }else{ %>
+	 
+	 <option value="0">No Locations</option>
+
+    <% } %>
+		
+		</td>
      </tr>
       <tr>
-        <td class="label">Seats</td><td><input type="text" name="seats" value="<%=data[0].seats%>"></td>
+        <td class="label">Seats</td><td><input type="text" name="seats" value="<%=ride[0].seats%>"></td>
      </tr>
 		<tr>
-			<td>Date</td><td><input type="date" name="date" value="<%=data[0].datetime%>"></td>
+			<td>Date</td><td><input type="date" name="date" value="<%=ride[0].datetime%>"></td>
 		</tr>
      <tr>
         <td class="label"></td>
@@ -36,7 +76,7 @@
     
         function saveRide(){           
            $.ajax({            
-            url:"/rides/"+<%=data[0].id%>,
+            url:"/rides/"+<%=ride[0].id%>,
             type:"put",
             data:$("#ridesform").serialize(),
             success:function(res){                

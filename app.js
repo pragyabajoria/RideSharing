@@ -128,9 +128,9 @@ app.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });
 
-app.get('/members', function(req, res){
-  res.render('members', { user: req.user });
-});
+//app.get('/members', function(req, res){
+  //res.render('members', { user: req.user });
+//});
 
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -220,7 +220,7 @@ app.use(
     connection(mysql,{
         host     : 'localhost',
         user     : 'root',
-        password : '',
+        password : 'root',
 		port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
@@ -248,6 +248,8 @@ members.get(function(req,res){
          });
     });
 });
+
+
 
 //save new member
 members.post(function(req,res){
@@ -510,7 +512,10 @@ newride.get(function(req,res){
          });
     });
 });
-
+var datepicker = router.route('/datepicker');
+datepicker.get(function(req, res){
+  res.render('datepicker', { user: req.user });
+});
 newride.post(function(req,res){
 
     req.assert('driverid','Please Enter ID').notEmpty();
@@ -554,15 +559,27 @@ ride.get(function(req,res,next){
     var id = req.params.id;
     req.getConnection(function(err,conn){
         if (err) return next("connection error");
-        var query = conn.query("SELECT * FROM rides WHERE id = ? ",[id],function(err,rows){            if(err){
+	
+		
+
+        var query1 = conn.query("SELECT * FROM rides WHERE id = ? ",[id],function(err,ride){            
+			if(err){
                 console.log(err);
                 return next("mysql error");
             }
-            if(rows.length < 1)
+            if(ride.length < 1)
                 return res.send("ride Not found");
-            res.render('editride',{title:"Edit ride",data:rows});
+            var query2 = conn.query('SELECT * FROM locations',function(err,locations){
+				if(err){
+					console.log(err);
+					return next("mysql error");
+				}
+				res.render('editride',{title:"Edit ride", ride:ride, locations:locations});
+			});
         });
 
+		
+		
     });
 
 });
@@ -612,6 +629,26 @@ ride.delete(function(req,res){
                 return next("mysql error");
              }
              res.sendStatus(200);
+        });
+     });
+});
+
+//REQUEST A RIDE
+ride.post(function(req,res){
+    var rideid = req.params.id;
+	 var memberid = '1';
+     var data = {
+        rideid:rideid,
+		memberid:memberid,
+     };
+    req.getConnection(function (err, conn){
+        if (err) return next("connection error");
+        var query = conn.query("INSERT INTO riderequests set ? ",data, function(err, rows){
+           if(err){
+                console.log(err);
+                return next("mysql error");
+           }
+          res.sendStatus(200);
         });
      });
 });
