@@ -14,9 +14,6 @@ var express = require('express')
   , session = require('express-session')
   , methodOverride = require('method-override')
   , moment = require('moment');
-  ;
-
-
   
 // Google API Access link for creating client ID and secret:
 // https://code.google.com/apis/console/
@@ -218,7 +215,7 @@ app.get('/auth/google/callback',
 				});
 
 	} 
-	res.redirect('/dashboard.html');
+	res.render('pages/dashboard');
 			
 		});
 		
@@ -249,7 +246,7 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
   
-    res.redirect('/dashboard.html');
+    res.render('pages/dashboard');
   }
 );
 
