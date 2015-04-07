@@ -278,8 +278,6 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-<<<<<<< HEAD
-=======
 app.get('/profile', function (req, res) {
   // Create the form to add a new user
   var form = '<p><b>Add Profile Information</b></p><br>' +      
@@ -296,7 +294,7 @@ app.get('/profile', function (req, res) {
 //SELECT  *
 //FROM    ride, location
 //WHERE   ride.`name` COLLATE UTF8_GENERAL_CI LIKE '%query%'
->>>>>>> 6436747786e0758718f53bc108228c8c3faad669
+
 app.get('/searchrides', function (req, res) {
 
  	req.getConnection(function(err,conn){
