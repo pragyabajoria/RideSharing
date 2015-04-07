@@ -12,7 +12,10 @@ var express = require('express')
   , bodyParser = require('body-parser')
   , multer = require('multer')
   , session = require('express-session')
-  , methodOverride = require('method-override');
+  , methodOverride = require('method-override')
+  , moment = require('moment');
+  ;
+
 
   
 // Google API Access link for creating client ID and secret:
@@ -28,6 +31,9 @@ var userId;
 var userName;
 var userEmail;
 var userPhotograph;
+//console.log(userId);
+//console.log(userName);
+//console.log(userEmail);
 
 // Passport session setup. To support persistent login sessions, Passport needs to serialize 
 // users into and deserialize users out of the session.  Typically, this will be as simple
@@ -127,6 +133,30 @@ app.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });
 
+  //mysql connection
+var connection  = require('express-myconnection'),
+    mysql = require('mysql');
+
+app.use(
+    connection(mysql,{
+        host     : 'localhost',
+        user     : 'root',
+        password : 'root',
+		port	 : 3306,
+        database : 'mhcrideshare',
+        debug    : false
+    },'request')
+);
+
+var router = express.Router();
+
+router.use(function(req, res, next) {
+    console.log(req.method, req.url);
+    next();
+});
+
+//end mysql
+
 //app.get('/members', function(req, res){
   //res.render('members', { user: req.user });
 //});
@@ -151,10 +181,54 @@ app.get('/auth/google',
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/dashboard.html');
-  }
-);
+
+
+  function(req, res, next) {
+
+    req.getConnection(function (err, conn){
+		
+        if (err) return next("connection error");
+		
+		
+		var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ",userId,function(err,rows){            
+			
+			if(err){
+                console.log(err1);
+                return next("mysql error");
+            }
+            
+			if(rows.length < 1){
+				
+		
+				var name = userName.toString().split(" ");
+				//console.log("first name: "+name[0]);
+				//console.log("last name: "+name[1]);
+				//console.log("member not already saved in database");
+				var data = {
+					firstname:name[0],
+					lastname:name[1],
+					email:userEmail,
+					gmailid:userId,
+
+				};
+				
+				var query2 = conn.query("INSERT INTO members set ? ",data, function(err2, rows2){
+				
+					if(err2){
+						console.log(err2);
+						return next("mysql error");
+					}
+					
+				});
+
+	} 
+	res.redirect('/dashboard.html');
+			
+		});
+		
+    });
+
+});
 
 // GET /auth/facebook
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -178,6 +252,7 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
+  
     res.redirect('/dashboard.html');
   }
 );
@@ -211,27 +286,25 @@ app.get('/searchrides', function (req, res) {
   res.send("Searching for " + req.query['search']);
 });
 
-//mysql connection
-var connection  = require('express-myconnection'),
-    mysql = require('mysql');
 
-app.use(
-    connection(mysql,{
-        host     : 'localhost',
-        user     : 'root',
-        password : '',
-		port	 : 3306,
-        database : 'mhcrideshare',
-        debug    : false
-    },'request')
-);
 
-var router = express.Router();
+setInterval(function(){
+  //console.log('test');
+  var now = moment()
+  var formatted = now.format('YYYY-MM-DD hh:mm:ss a')
+  console.log(formatted)
+  //console.log(Date.now())
+  
+  deleteoldrides();
 
-router.use(function(req, res, next) {
-    console.log(req.method, req.url);
-    next();
-});
+function deleteoldrides()
+{
+
+}
+  
+  //write code to remove old rides
+  
+},24*60*60*1000);  
 
 var members = router.route('/members');
 
@@ -243,6 +316,11 @@ members.get(function(req,res){
                 console.log(err);
                 return next("mysql error");
             }
+			
+			console.log(userId);
+			console.log(userName);
+			console.log(userEmail);
+			
             res.render('members',{title:"Members Table Example",data:rows});
          });
     });
@@ -480,10 +558,21 @@ var rides = router.route('/rides');
 
 //DISPLAY ALL RIDES
 rides.get(function(req,res){
+
+	req.getConnection(function (err, conn) {
+        if (err) return next("connection error");
+        var query = conn.query("DELETE FROM rides  WHERE  datetime < CURDATE()", function(err, rows){
+             if(err){
+                console.log(err);
+                return next("mysql error");
+             }
+        });
+     });
+	 
     req.getConnection(function(err,conn){
         if (err) return next("connection error");
+		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination, r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND r.datetime>= CURDATE()',function(err,rows){
    
-		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination, r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination',function(err,rows){
             if(err){
                 console.log(err);
                 return next("mysql error");
