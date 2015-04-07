@@ -59,10 +59,13 @@
 		</td>
      </tr>
       <tr>
-        <td class="label">Seats</td><td><input type="text" name="seats" value="<%=ride[0].seats%>"></td>
+        <td class="label">Seats</td><td><input type="number" name="seats" value="<%=ride[0].seats%>"></td>
      </tr>
 		<tr>
-			<td>Date</td><td><input type="date" name="date" value="<%=ride[0].datetime%>"></td>
+			<td>Date</td><td><input type="text" name="datetime" value="<%=ride[0].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%>"></td>
+		</tr>
+		<tr>
+			<td>Flexibility</td><td><input type="number" name="flexibility" value="<%=ride[0].flexibility%>"></td>
 		</tr>
      <tr>
         <td class="label"></td>
