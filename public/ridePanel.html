@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Rides to -FILL IN-</title>
+		<meta name="viewport" content="eidth=device-width, initial-scale=1.0, user-scalable=no"/>
+		<meta charset="UTF-8">
+	
+    	<!--<link rel="shortcut icon" type="image/png" src="icons/extremelySmallCar.png" />-->
+		<link type="text/css" rel="stylesheet" href="carousel.css"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+  		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+  		<link rel="stylesheet" href="css/bootstrap-theme.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	</head>
+	<body>
+		<!-- Navbar
+	    ================================================== -->
+		<div class="navbar-wrapper">
+	    <nav class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	    		      <span class="sr-only">Toggle navigation</span>
+	    		      <span class="icon-bar"></span>
+	    		      <span class="icon-bar"></span>
+	    		      <span class="icon-bar"></span>
+	    		    </button>
+	    		    <a class="navbar-brand" href="#">Ride Share</a>
+	    		</div>
+
+			    <!-- Collect the nav links, forms, and other content for toggling -->
+			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			      	<!-- Search Box -->
+					<form class="navbar-form navbar-left" role="search" action="http://127.0.0.1:4000/searchrides" method="get">
+						<div class="form-group">
+							<input type="search" name="search" class="form-control" required="required" autocomplete="on" placeholder="Enter Ride Location">
+						</div>
+						<button type="submit" class="btn btn-default">Search</button>
+					</form>
+
+					<ul class="nav navbar-nav">
+						<li><a href="/profile">Profile <span class="sr-only">(current)</span></a></li>
+	          <li><a href="/boston">Boston</a></li>
+	          <li><a href="#">Bradley Int'l Airport</a></li>
+	          <li><a href="#">Holyoke Mall</a></li>
+	          <li><a href="#">New York City</a></li>
+	          <li><a href="#">Springfield Bus Terminal</a></li>
+					</ul>
+
+					<!-- Log Out -->
+					<ul class="nav navbar-nav navbar-right">
+						<!--<li><a href="/auth/facebook"><img src="icons/signin-with-facebook.png" width="154" height="28"></a></li>
+						<li><a href="/auth/google"><img src="icons/signin-with-google.png" width="154" height="28"></a></li>-->
+						<li><a href="/logout"> Log Out </a></li>
+					</ul>
+			    </div><!-- /.navbar-collapse -->
+			  </div><!-- /.container-->
+			</nav> 
+		</div><!-- /.navbar-wrapper-->
+
+		<br><br>
+		<div class="panel panel-primary">
+      		<div class="panel-heading">
+        		<h3 class="panel-title">Panel title</h3>
+      		</div>
+      		<div class="panel-body">
+        		Panel content
+      		</div>
+    	</div>
+    <script src="js/bootstrap.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
