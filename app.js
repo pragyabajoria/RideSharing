@@ -281,9 +281,24 @@ app.get('/profile', function (req, res) {
     '</form><br><br>';
   res.send(form);
 });
-
+//SELECT  *
+//FROM    ride, location
+//WHERE   ride.`name` COLLATE UTF8_GENERAL_CI LIKE '%query%'
 app.get('/searchrides', function (req, res) {
-  res.send("Searching for " + req.query['search']);
+
+ 	req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination, r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ?', "%"+req.query['search']+"%", function(err,rows){
+   
+            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            res.render('searchrides',{title:"Rides Search",data:rows});
+         });
+    }); 
+	
+  //res.send("Searching for " + req.query['search']);
 });
 
 
@@ -555,6 +570,15 @@ location.delete(function(req,res){
 
 // DATABASE - RIDES
 var rides = router.route('/rides');
+
+//SEARCH Rides
+//
+
+//SELECT  *
+//FROM    ride, location
+//WHERE   ride.`name` COLLATE UTF8_GENERAL_CI LIKE '%query%'
+
+
 
 //DISPLAY ALL RIDES
 rides.get(function(req,res){
