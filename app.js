@@ -20,7 +20,7 @@ var express = require('express')
 var GOOGLE_CLIENT_ID = "398983337498-4aeok6070njf36gp6rkhfqhoijfisr6t.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "oeuagjMWcUCBvnap-fG_Ni9A";
 
-// 
+// Facebook App Creation 
 var FACEBOOK_APP_ID = "428397073986914"
 var FACEBOOK_APP_SECRET = "f97c85a02714df3e124d56aa9fb56950";
 
@@ -87,9 +87,6 @@ passport.use(new FacebookStrategy({
 var app = express();
 
 // configure Express
-//app.set('views', __dirname + '/views');
-//app.set('view engine', 'ejs');
-
 app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -102,21 +99,20 @@ app.use(session({ secret: 'keyboard cat',
                   saveUninitialized: true,
                   cookie: { secure: true }}));
 
-// Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
+// Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
 //app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.set('views','./views');
-  app.set('view engine','ejs');
+app.set('view engine','ejs');
 
 app.get('/', function(req, res){
-  res.redirect('/index.html');
+  res.render('pages/index');
 });
 
 app.get('/account', ensureAuthenticated, function(req, res){
@@ -183,28 +179,28 @@ app.get('/auth/facebook/callback',
 );
 
 app.get('/boston', function(req,res) {
-  var calendar = '<iframe src="https://www.google.com/calendar/embed?src=bajor22p%40mtholyoke.edu&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>';
-  res.send(calendar);
+  res.render('pages/destination', {title: 'Boston'});
 });
 
+app.get('/holyokeMall', function(req,res) {
+  res.render('pages/destination', {title: 'Holyoke Mall'});
+});
+
+app.get('/nyc', function(req,res) {
+  res.render('pages/destination', {title: 'New York City'});
+});
+
+app.get('/springfield', function(req,res) {
+  res.render('pages/destination', {title: 'Springfield'});
+});
+
+app.get('/bradley', function(req,res) {
+  res.render('pages/destination', {title: 'Bradley Airport'});
+});
 
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
-});
-
-app.get('/profile', function (req, res) {
-  // Create the form to add a new user
-  var form = '<p><b>Add Profile Information</b></p><br>' +      
-    '<form action="/users/add" method="get">' +
-    'UID:<br> <input type="text" name="uid"><br><br>' + 
-    'First Name:<br> <input type="text" name="fname"><br><br>' +
-    'Last Name:<br> <input type="text" name="lname"><br><br>' +
-    'University:<br> <input type="text" name="university"><br><br>' +
-    'Age:<br> <input type="text" name="age"><br><br>' +
-    '<input type="submit" value="Submit Profile Changes">' +
-    '</form><br><br>';
-  res.send(form);
 });
 
 app.get('/searchrides', function (req, res) {
@@ -247,8 +243,6 @@ members.get(function(req,res){
          });
     });
 });
-
-
 
 //save new member
 members.post(function(req,res){
