@@ -12,7 +12,10 @@ var express = require('express')
   , bodyParser = require('body-parser')
   , multer = require('multer')
   , session = require('express-session')
-  , methodOverride = require('method-override');
+  , methodOverride = require('method-override')
+  , moment = require('moment');
+  ;
+
 
   
 // Google API Access link for creating client ID and secret:
@@ -28,6 +31,9 @@ var userId;
 var userName;
 var userEmail;
 var userPhotograph;
+//console.log(userId);
+//console.log(userName);
+//console.log(userEmail);
 
 // Passport session setup. To support persistent login sessions, Passport needs to serialize 
 // users into and deserialize users out of the session.  Typically, this will be as simple
@@ -123,6 +129,30 @@ app.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });
 
+  //mysql connection
+var connection  = require('express-myconnection'),
+    mysql = require('mysql');
+
+app.use(
+    connection(mysql,{
+        host     : 'localhost',
+        user     : 'root',
+        password : 'root',
+		port	 : 3306,
+        database : 'mhcrideshare',
+        debug    : false
+    },'request')
+);
+
+var router = express.Router();
+
+router.use(function(req, res, next) {
+    console.log(req.method, req.url);
+    next();
+});
+
+//end mysql
+
 //app.get('/members', function(req, res){
   //res.render('members', { user: req.user });
 //});
@@ -147,10 +177,54 @@ app.get('/auth/google',
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/dashboard.html');
-  }
-);
+
+
+  function(req, res, next) {
+
+    req.getConnection(function (err, conn){
+		
+        if (err) return next("connection error");
+		
+		
+		var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ",userId,function(err,rows){            
+			
+			if(err){
+                console.log(err1);
+                return next("mysql error");
+            }
+            
+			if(rows.length < 1){
+				
+		
+				var name = userName.toString().split(" ");
+				//console.log("first name: "+name[0]);
+				//console.log("last name: "+name[1]);
+				//console.log("member not already saved in database");
+				var data = {
+					firstname:name[0],
+					lastname:name[1],
+					email:userEmail,
+					gmailid:userId,
+
+				};
+				
+				var query2 = conn.query("INSERT INTO members set ? ",data, function(err2, rows2){
+				
+					if(err2){
+						console.log(err2);
+						return next("mysql error");
+					}
+					
+				});
+
+	} 
+	res.redirect('/dashboard.html');
+			
+		});
+		
+    });
+
+});
 
 // GET /auth/facebook
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -174,6 +248,7 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
+  
     res.redirect('/dashboard.html');
   }
 );
@@ -203,31 +278,61 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+<<<<<<< HEAD
+=======
+app.get('/profile', function (req, res) {
+  // Create the form to add a new user
+  var form = '<p><b>Add Profile Information</b></p><br>' +      
+    '<form action="/users/add" method="get">' +
+    'UID:<br> <input type="text" name="uid"><br><br>' + 
+    'First Name:<br> <input type="text" name="fname"><br><br>' +
+    'Last Name:<br> <input type="text" name="lname"><br><br>' +
+    'University:<br> <input type="text" name="university"><br><br>' +
+    'Age:<br> <input type="text" name="age"><br><br>' +
+    '<input type="submit" value="Submit Profile Changes">' +
+    '</form><br><br>';
+  res.send(form);
+});
+//SELECT  *
+//FROM    ride, location
+//WHERE   ride.`name` COLLATE UTF8_GENERAL_CI LIKE '%query%'
+>>>>>>> 6436747786e0758718f53bc108228c8c3faad669
 app.get('/searchrides', function (req, res) {
-  res.send("Searching for " + req.query['search']);
+
+ 	req.getConnection(function(err,conn){
+        if (err) return next("connection error");
+		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination, r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ?', "%"+req.query['search']+"%", function(err,rows){
+   
+            if(err){
+                console.log(err);
+                return next("mysql error");
+            }
+            res.render('searchrides',{title:"Rides Search",data:rows});
+         });
+    }); 
+	
+  //res.send("Searching for " + req.query['search']);
 });
 
-//mysql connection
-var connection  = require('express-myconnection'),
-    mysql = require('mysql');
 
-app.use(
-    connection(mysql,{
-        host     : 'localhost',
-        user     : 'root',
-        password : '',
-		port	 : 3306,
-        database : 'mhcrideshare',
-        debug    : false
-    },'request')
-);
 
-var router = express.Router();
+setInterval(function(){
+  //console.log('test');
+  var now = moment()
+  var formatted = now.format('YYYY-MM-DD hh:mm:ss a')
+  console.log(formatted)
+  //console.log(Date.now())
+  
+  deleteoldrides();
 
-router.use(function(req, res, next) {
-    console.log(req.method, req.url);
-    next();
-});
+function deleteoldrides()
+{
+
+}
+  
+  //write code to remove old rides
+  
+},24*60*60*1000);  
 
 var members = router.route('/members');
 
@@ -239,6 +344,11 @@ members.get(function(req,res){
                 console.log(err);
                 return next("mysql error");
             }
+			
+			console.log(userId);
+			console.log(userName);
+			console.log(userEmail);
+			
             res.render('members',{title:"Members Table Example",data:rows});
          });
     });
@@ -472,12 +582,32 @@ location.delete(function(req,res){
 // DATABASE - RIDES
 var rides = router.route('/rides');
 
+//SEARCH Rides
+//
+
+//SELECT  *
+//FROM    ride, location
+//WHERE   ride.`name` COLLATE UTF8_GENERAL_CI LIKE '%query%'
+
+
+
 //DISPLAY ALL RIDES
 rides.get(function(req,res){
+
+	req.getConnection(function (err, conn) {
+        if (err) return next("connection error");
+        var query = conn.query("DELETE FROM rides  WHERE  datetime < CURDATE()", function(err, rows){
+             if(err){
+                console.log(err);
+                return next("mysql error");
+             }
+        });
+     });
+	 
     req.getConnection(function(err,conn){
         if (err) return next("connection error");
+		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination, r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND r.datetime>= CURDATE()',function(err,rows){
    
-		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination, r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination',function(err,rows){
             if(err){
                 console.log(err);
                 return next("mysql error");
@@ -580,11 +710,11 @@ ride.get(function(req,res,next){
 ride.put(function(req,res){
     var id = req.params.id;
 
-	req.assert('name','Please Enter Location Name').notEmpty();
-	req.assert('city','Please Enter City').notEmpty();
-	req.assert('state','Please Enter State').notEmpty();
-   
-
+	//req.assert('driverid','Please Enter ID').notEmpty();
+	req.assert('origin','Please Select Origin').notEmpty();
+   	req.assert('destination','Please Select Destination').notEmpty();
+	req.assert('datetime','Please Enter Date and Time').notEmpty();
+	req.assert('flexibility','Please Enter Flexibility').notEmpty();
     var errors = req.validationErrors();
     if(errors){
         res.status(422).json(errors);
@@ -592,10 +722,12 @@ ride.put(function(req,res){
     }
 
     var data = {
-        name:req.body.name,
-		city:req.body.city,
-        state:req.body.state,
-        zipcode:req.body.zipcode
+        //driverid:req.body.driverid,
+		origin:req.body.origin,
+        destination:req.body.destination,
+		seats:req.body.seats,
+		datetime:req.body.datetime,
+		flexibility:req.body.flexibility,
      };
 
     req.getConnection(function (err, conn){
