@@ -9,8 +9,14 @@
 	<link type="text/css" rel="stylesheet" href="carousel.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<<<<<<< HEAD
 	
+=======
+  <link rel="stylesheet" href="css/bootstrap-theme.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+>>>>>>> 9a439d2477a9db7118cb278fe9790b23b56efe62
 	<!--<script type="text/javascript">
         
         /**
@@ -68,64 +74,54 @@
     <!-- End custom code copied from Developer Console -->
 </head>
 <body>
-
-	<!-- Navbar
+  <header>
+	  <!--<% include views/partials/header %>-->
+    <!-- Navbar
     ================================================== -->
-	<div class="navbar-wrapper">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </button>
-		      <a class="navbar-brand" href="#">Ride Share</a>
-		    </div>
+    <div class="navbar-wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Ride Share</a>
+            </div>
 
-		    <!-- Collect the nav links, forms, and other content for toggling -->
-		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		      	<!-- Search Box -->
-				<form class="navbar-form navbar-left" role="search" action="http://127.0.0.1:4000/searchrides" method="get">
-					<div class="form-group">
-						<input type="search" name="search" class="form-control" required="required" autocomplete="on" placeholder="Enter Ride Location">
-					</div>
-					<button type="submit" class="btn btn-default">Search</button>
-				</form>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!-- Search Box -->
+                <form class="navbar-form navbar-left" role="search" action="http://127.0.0.1:4000/searchrides" method="get">
+                    <div class="form-group">
+                        <input type="search" name="search" class="form-control" required="required" autocomplete="on" placeholder="Enter Ride Location">
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </form>
 
-				<ul class="nav navbar-nav">
-					<li><a href="/profile">Profile <span class="sr-only">(current)</span></a></li>
-          <li><a href="/boston">Boston</a></li>
-          <li><a href="#">Bradley Int'l Airport</a></li>
-          <li><a href="#">Holyoke Mall</a></li>
-          <li><a href="#">New York City</a></li>
-          <li><a href="#">Springfield Bus Terminal</a></li>
+                <ul class="nav navbar-nav">
+                    <li><a href="/profile">Profile <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/boston">Boston</a></li>
+                    <li><a href="#">Bradley Int'l Airport</a></li>
+                    <li><a href="#">Holyoke Mall</a></li>
+                    <li><a href="#">New York City</a></li>
+                    <li><a href="#">Springfield Bus Terminal</a></li>
+                </ul>
 
-					<!-- Dropdown Menu 
-					<li class="dropdown">
-			  			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Popular Destinations <span class="caret"></span></a>
-			  			<ul class="dropdown-menu" role="menu">
-			    			<li><a href="#">Boston</a></li>
-			    			<li><a href="#">Bradley Int'l Airport</a></li>
-						    <li><a href="#">Holyoke Mall</a></li>
-						  	<li><a href="#">New York City</a></li>
-						  	<li><a href="#">Springfield Bus Terminal</a></li>
-			  			</ul>
-					</li> -->
-				</ul>
-
-				<!-- Log Out -->
-				<ul class="nav navbar-nav navbar-right">
-					<!--<li><a href="/auth/facebook"><img src="icons/signin-with-facebook.png" width="154" height="28"></a></li>
-					<li><a href="/auth/google"><img src="icons/signin-with-google.png" width="154" height="28"></a></li>-->
-					<li><a href="/logout"> Log Out </a></li>
-				</ul>
-		    </div><!-- /.navbar-collapse -->
-		  </div><!-- /.container-->
-		</nav> 
-	</div><!-- /.navbar-wrapper-->
-
+                <!-- Log Out -->
+                <ul class="nav navbar-nav navbar-right">
+                    <!--<li><a href="/auth/facebook"><img src="icons/signin-with-facebook.png" width="154" height="28"></a></li>
+                    <li><a href="/auth/google"><img src="icons/signin-with-google.png" width="154" height="28"></a></li>-->
+                    <li><a href="/logout"> Log Out </a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-->
+        </nav> 
+    </div><!-- /.navbar-wrapper-->
+  </header>
+  <main>
     <!-- Carousel
     ================================================== -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -179,10 +175,15 @@
         <span class="sr-only">Next</span>
       </a>
     </div><!-- /.carousel -->
+    
     <br><br>
-	<div class="container">
+	  <div class="container">
         <h2 class="form-signin-heading">Request / Offer a ride</h2>
-	</div>
+	  </div>
+</main>
+<footer>
+
+</footer>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	
