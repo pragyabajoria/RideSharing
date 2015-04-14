@@ -36,6 +36,27 @@ module.exports = function(app, passport) {
     '</form><br><br>';
   	res.send(form);
 	});
+
+	app.get('/boston', function(req,res) {
+  		res.render('pages/destination', {title: 'Boston'});
+	});
+
+	app.get('/holyokeMall', function(req,res) {
+  		res.render('pages/destination', {title: 'Holyoke Mall'});
+	});
+
+	app.get('/nyc', function(req,res) {
+  		res.render('pages/destination', {title: 'New York City'});
+	});
+
+	app.get('/springfield', function(req,res) {
+  		res.render('pages/destination', {title: 'Springfield'});
+	});
+
+	app.get('/bradley', function(req,res) {
+  		res.render('pages/destination', {title: 'Bradley Airport'});
+	});
+
 	
 	/*//Registration page
 	app.get('/register', function(req, res){
