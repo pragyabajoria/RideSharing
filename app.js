@@ -15,77 +15,6 @@ var express = require('express')
   , methodOverride = require('method-override')
   , moment = require('moment');
   
-// Google API Access link for creating client ID and secret:
-// https://code.google.com/apis/console/
-//var GOOGLE_CLIENT_ID = "398983337498-4aeok6070njf36gp6rkhfqhoijfisr6t.apps.googleusercontent.com";
-//var GOOGLE_CLIENT_SECRET = "oeuagjMWcUCBvnap-fG_Ni9A";
-
-// Facebook App Creation 
-//var FACEBOOK_APP_ID = "428397073986914"
-//var FACEBOOK_APP_SECRET = "f97c85a02714df3e124d56aa9fb56950";
-
-//var userId;
-//var userName;
-//var userEmail;
-//var userPhotograph;
-//console.log(userId);
-//console.log(userName);
-//console.log(userEmail);
-/*
-// Passport session setup. To support persistent login sessions, Passport needs to serialize 
-// users into and deserialize users out of the session.  Typically, this will be as simple
-// as storing the user ID when serializing, and finding the user by ID when deserializing.
-// However, since this example does not have a database of user records, the complete Google
-// profile/Facebook profile is serialized and deserialized.
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
-
-// Use GoogleStrategy within Passport.
-// Strategies in Passport require a `verify` function, which accept
-// credentials (in this case, an accessToken, refreshToken, and Google
-//  profile), and invoke a callback with a user object.
-passport.use(new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:4000/auth/google/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      userId = profile.id;
-      userName = profile.displayName;
-      userEmail = profile.emails[0].value;
-      // To keep the example simple, the user's Google profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Google account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
-    });
-  }
-));
-
-passport.use(new FacebookStrategy({
-    clientID: FACEBOOK_APP_ID,
-    clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:4000/auth/facebook/callback",
-    profileFields: ['id', 'displayName', 'photos']
-  },
-  function(accessToken, refreshToken, profile, done) {
-    userId = profile.id;
-    userName = profile.displayName;
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-      return done(null, profile);
-    });
-  }
-));*/
-
 
 var app = express();
 
@@ -105,26 +34,36 @@ app.use(session({ secret: 'keyboard cat',
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use(express.static(__dirname + '/public'));
 //app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.set('views','./views');
 app.set('view engine','ejs');
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+require('./config/passport')(passport);
 
-app.get('/', function(req, res){
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+require('./routes/routes.js')(app, passport);
+
+
+/*app.get('/', function(req, res){
   res.render('pages/index');
 });
 
 app.get('/account', ensureAuthenticated, function(req, res){
   res.render('account', { user: req.user });
-});
+});*/
 
-app.get('/login', function(req, res){
+/*app.get('/login', function(req, res){
   res.render('login', { user: req.user });
-});
+});*/
 
   //mysql connection
 var connection  = require('express-myconnection'),
@@ -148,14 +87,6 @@ router.use(function(req, res, next) {
     next();
 });
 
-// Initialize Passport!  Also use passport.session() middleware, to support
-// persistent login sessions (recommended).
-require('./config/passport')(passport);
-
-app.use(passport.initialize());
-app.use(passport.session());
-//app.use(flash());
-
 //end mysql
 
 //app.get('/members', function(req, res){
@@ -167,7 +98,7 @@ app.use(passport.session());
 //   request.  The first step in Google authentication will involve
 //   redirecting the user to google.com.  After authorization, Google
 //   will redirect the user back to this application at /auth/google/callback
-app.get('/auth/google',
+/*app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
                                             'https://www.googleapis.com/auth/userinfo.email'] }),
   function(req, res){
@@ -231,6 +162,7 @@ app.get('/auth/google/callback',
 
 });
 
+/*
 // GET /auth/facebook
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Facebook authentication will involve
@@ -257,6 +189,7 @@ app.get('/auth/facebook/callback',
     res.render('pages/dashboard');
   }
 );
+*/
 
 app.get('/boston', function(req,res) {
   res.render('pages/destination', {title: 'Boston'});
@@ -278,11 +211,12 @@ app.get('/bradley', function(req,res) {
   res.render('pages/destination', {title: 'Bradley Airport'});
 });
 
+/*
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-
+*/
 app.get('/profile', function (req, res) {
   // Create the form to add a new user
   var form = '<p><b>Add Profile Information</b></p><br>' +      
@@ -316,8 +250,6 @@ app.get('/searchrides', function (req, res) {
 	
   //res.send("Searching for " + req.query['search']);
 });
-
-
 
 setInterval(function(){
   //console.log('test');
@@ -810,8 +742,6 @@ app.use('/', router);
 
 //end of mysql
 
-app.use(express.static(__dirname + '/public'));
-
 //http.createServer(app).listen(4000);
 
 // Simple route middleware to ensure user is authenticated.
@@ -819,7 +749,7 @@ app.use(express.static(__dirname + '/public'));
 //   the request is authenticated (typically via a persistent login session),
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
-function ensureAuthenticated(req, res, next) {
+/*function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login');
 }
@@ -844,7 +774,7 @@ app.use(function(err, req, res, next) {
         message: err.message,
         error: {}
     });
-});
+}); */
 
 // Export the app as the module:
 module.exports = app;
