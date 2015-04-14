@@ -17,21 +17,21 @@ var express = require('express')
   
 // Google API Access link for creating client ID and secret:
 // https://code.google.com/apis/console/
-var GOOGLE_CLIENT_ID = "398983337498-4aeok6070njf36gp6rkhfqhoijfisr6t.apps.googleusercontent.com";
-var GOOGLE_CLIENT_SECRET = "oeuagjMWcUCBvnap-fG_Ni9A";
+//var GOOGLE_CLIENT_ID = "398983337498-4aeok6070njf36gp6rkhfqhoijfisr6t.apps.googleusercontent.com";
+//var GOOGLE_CLIENT_SECRET = "oeuagjMWcUCBvnap-fG_Ni9A";
 
 // Facebook App Creation 
-var FACEBOOK_APP_ID = "428397073986914"
-var FACEBOOK_APP_SECRET = "f97c85a02714df3e124d56aa9fb56950";
+//var FACEBOOK_APP_ID = "428397073986914"
+//var FACEBOOK_APP_SECRET = "f97c85a02714df3e124d56aa9fb56950";
 
-var userId;
-var userName;
-var userEmail;
-var userPhotograph;
+//var userId;
+//var userName;
+//var userEmail;
+//var userPhotograph;
 //console.log(userId);
 //console.log(userName);
 //console.log(userEmail);
-
+/*
 // Passport session setup. To support persistent login sessions, Passport needs to serialize 
 // users into and deserialize users out of the session.  Typically, this will be as simple
 // as storing the user ID when serializing, and finding the user by ID when deserializing.
@@ -84,7 +84,7 @@ passport.use(new FacebookStrategy({
       return done(null, profile);
     });
   }
-));
+));*/
 
 
 var app = express();
@@ -147,6 +147,14 @@ router.use(function(req, res, next) {
     console.log(req.method, req.url);
     next();
 });
+
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+require('./config/passport')(passport);
+
+app.use(passport.initialize());
+app.use(passport.session());
+//app.use(flash());
 
 //end mysql
 
