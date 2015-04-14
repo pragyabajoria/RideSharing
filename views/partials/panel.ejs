@@ -1,15 +1,23 @@
 <!-- views/partials/panel.ejs -->
-<html class = "full" lang="en">
-  <head>
-  </head>
-  <body>
-  	<head>
-  	</head>
-
-  	<main>
-  	</main>
-  	
-  	<footer>
-  	</footer>
-  </body>
- </html>
+<div class="container-fluid scroll">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Ride Destination
+      </h3>
+      </div>
+        <div class="panel-body">
+          <!-- List group -->
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Origin</strong>: <%= title %></li>
+            <li class="list-group-item">Destination: </li>
+            <li class="list-group-item">Date and Time: </li>
+            <li class="list-group-item">Seats Available: </li>
+            <li class="list-group-item">Flexibility: </li>
+            <li class="list-group-item">Offered By: </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /.panel -->
+</div>
