@@ -2,7 +2,13 @@
 <html>
     <head>
         <title><%=title%></title>
-        <script type="text/javascript" src="/../jquery-1.10.2.min.js"></script>
+        <!--<script type="text/javascript" src="/../jquery-1.10.2.min.js"></script>-->
+		
+		<link rel="stylesheet" type="text/css" media="screen" href="/../datepicker/css/bootstrap-datetimepicker.min.css">
+		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+		<script type="text/javascript" src="/../datepicker/jquery.min.js"></script>
+		<script type="text/javascript" src="/../datepicker/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/../datepicker/bootstrap-datetimepicker.js"></script> 
 		
     </head>
 <body>
@@ -62,10 +68,23 @@
         <td class="label">Seats</td><td><input type="number" name="seats" value="<%=ride[0].seats%>"></td>
      </tr>
 		<tr>
-			<td>Date</td><td><input type="text" name="datetime" value="<%=ride[0].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%>"></td>
+			<!--<td>Date</td><td><input type="text" name="datetime" value="<%=ride[0].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%>"></td-->
+			
+			<td class="label">Date</td><td>
+			
+				<div id="datetimepicker" class="input-append" name="datetime">
+					<input data-format="yyyy-MM-dd HH:mm:ss PP" type="text" value="<%=ride[0].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%>"></input>
+					<span class="add-on">
+					  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+					  </i>
+					</span>
+				</div>
+			
+			</td>
+			
 		</tr>
 		<tr>
-			<td>Flexibility</td><td><input type="number" name="flexibility" value="<%=ride[0].flexibility%>"></td>
+			<td class="label">Flexibility</td><td><input type="number" name="flexibility" value="<%=ride[0].flexibility%>"></td>
 		</tr>
      <tr>
         <td class="label"></td>
@@ -98,6 +117,15 @@
            });
         }
     
+		$(function() {
+			$('#datetimepicker').datetimepicker({
+			 collapse: false,
+			 pick12HourFormat: true,
+			  format: 'yyyy-MM-dd HH:mm:ss PP',
+				language: 'en',
+				
+			});
+		});
     </script>
 </body>
 </html>
