@@ -32,6 +32,15 @@ module.exports = function(passport) {
     function(accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
         process.nextTick(function() {
+            //userId = profile.id;
+            //userName = profile.displayName;
+            //userEmail = profile.emails[0].value;
+            // To keep the example simple, the user's Google profile is returned to
+            // represent the logged-in user.  In a typical application, you would want
+            // to associate the Google account with a user record in your database,
+            // and return that user instead.
+            return done(null, profile);
+
             // try to find the user based on their Google email
             /*User.login(profile.emails[0].value, profile.id, function(err, user) {
                 if (err)
