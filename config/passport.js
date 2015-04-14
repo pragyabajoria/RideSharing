@@ -33,7 +33,7 @@ module.exports = function(passport) {
         // asynchronous verification, for effect...
         process.nextTick(function() {
             // try to find the user based on their Google email
-            User.login(profile.emails[0].value, profile.id, function(err, user) {
+            /*User.login(profile.emails[0].value, profile.id, function(err, user) {
                 if (err)
                     return done(err);
                 if (user) {
@@ -50,9 +50,9 @@ module.exports = function(passport) {
                         if (err)
                             console.log(err);
                         return done(undefined, result);
-                    });*/
+                    });
                 }
-            });
+            }); */
         });
     }));
   
