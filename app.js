@@ -134,7 +134,7 @@ app.use(
     connection(mysql,{
         host     : 'localhost',
         user     : 'root',
-        password : '',
+        password : 'root',
 		port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
@@ -713,11 +713,11 @@ ride.put(function(req,res){
    	req.assert('destination','Please Select Destination').notEmpty();
 	req.assert('datetime','Please Enter Date and Time').notEmpty();
 	req.assert('flexibility','Please Enter Flexibility').notEmpty();
-    var errors = req.validationErrors();
+    /* var errors = req.validationErrors();
     if(errors){
         res.status(422).json(errors);
         return;
-    }
+    } */
 
     var data = {
         //driverid:req.body.driverid,
