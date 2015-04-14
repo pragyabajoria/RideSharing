@@ -98,13 +98,14 @@ router.use(function(req, res, next) {
 //   request.  The first step in Google authentication will involve
 //   redirecting the user to google.com.  After authorization, Google
 //   will redirect the user back to this application at /auth/google/callback
-/*app.get('/auth/google',
+app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
                                             'https://www.googleapis.com/auth/userinfo.email'] }),
   function(req, res){
     // The request will be redirected to Google for authentication, so this
     // function will not be called.
-  });
+  }
+);
 
 // GET /auth/google/callback
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -114,53 +115,42 @@ router.use(function(req, res, next) {
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),
 
+    function(req, res, next) {
+      req.getConnection(function (err, conn) {
+        if (err) {
+          return next("connection error");
+        }
+        var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ",userId,function(err,rows){            
 
-  function(req, res, next) {
+        if (err) {
+          console.log(err1);
+          return next("mysql error");
+        }
+        if (rows.length < 1) {
 
-    req.getConnection(function (err, conn){
-		
-        if (err) return next("connection error");
-		
-		
-		var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ",userId,function(err,rows){            
-			
-			if(err){
-                console.log(err1);
-                return next("mysql error");
-            }
-            
-			if(rows.length < 1){
-				
-		
-				var name = userName.toString().split(" ");
-				//console.log("first name: "+name[0]);
-				//console.log("last name: "+name[1]);
-				//console.log("member not already saved in database");
-				var data = {
-					firstname:name[0],
-					lastname:name[1],
-					email:userEmail,
-					gmailid:userId,
-
-				};
-				
-				var query2 = conn.query("INSERT INTO members set ? ",data, function(err2, rows2){
-				
-					if(err2){
-						console.log(err2);
-						return next("mysql error");
-					}
+          var name = userName.toString().split(" ");
+				  //console.log("first name: "+name[0]);
+				  //console.log("last name: "+name[1]);
+				  //console.log("member not already saved in database");
+				  var data = {
+					 firstname:name[0],
+					 lastname:name[1],
+					 email:userEmail,
+					 gmailid:userId,
+				  };
+		  		
+          var query2 = conn.query("INSERT INTO members set ? ", data, function(err2, rows2) {
 					
-				});
-
-	} 
-	res.render('pages/dashboard');
-			
-		});
-		
-    });
-
-});
+              if (err2) {
+						    console.log(err2);
+						    return next("mysql error");
+					    }	// if closes
+				  }); // query2 closes
+        } // if closes
+        res.render('pages/dashboard');
+      }); // req.getConnection closes
+    }); // function closes
+  });
 
 /*
 // GET /auth/facebook
@@ -191,6 +181,7 @@ app.get('/auth/facebook/callback',
 );
 */
 
+/*
 app.get('/boston', function(req,res) {
   res.render('pages/destination', {title: 'Boston'});
 });
@@ -209,7 +200,7 @@ app.get('/springfield', function(req,res) {
 
 app.get('/bradley', function(req,res) {
   res.render('pages/destination', {title: 'Bradley Airport'});
-});
+});*/
 
 /*
 app.get('/logout', function(req, res){
