@@ -24,17 +24,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/profile', function (req, res) {
-  // Create the form to add a new user
-  	var form = '<p><b>Add Profile Information</b></p><br>' +      
-    '<form action="/users/add" method="get">' +
-    'UID:<br> <input type="text" name="uid"><br><br>' + 
-    'First Name:<br> <input type="text" name="fname"><br><br>' +
-    'Last Name:<br> <input type="text" name="lname"><br><br>' +
-    'University:<br> <input type="text" name="university"><br><br>' +
-    'Age:<br> <input type="text" name="age"><br><br>' +
-    '<input type="submit" value="Submit Profile Changes">' +
-    '</form><br><br>';
-  	res.send(form);
+  		res.render('pages/profile');
 	});
 
 	app.get('/boston', function(req,res) {
