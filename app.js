@@ -58,13 +58,8 @@ app.use(
     connection(mysql,{
         host     : 'localhost',
         user     : 'root',
-<<<<<<< HEAD
-        password : 'root',
-		port	 : 3306,
-=======
         password : '',
-		    port	 : 3306,
->>>>>>> 56d114e74f76e1d021e24b01f54f9b223c933fd8
+		port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
     },'request')
