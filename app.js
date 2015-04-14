@@ -59,7 +59,7 @@ app.use(
         host     : 'localhost',
         user     : 'root',
         password : '',
-        port   : 3306,
+		    port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
     },'request')
@@ -76,6 +76,7 @@ router.use (function (req, res, next) {
 
 // GET /auth/google
 app.get('/auth/google',
+
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
                                             'https://www.googleapis.com/auth/userinfo.email'] }),
   function (req, res) {
@@ -96,7 +97,7 @@ app.get('/auth/google/callback',
         return next("connection error");
       }
         
-      var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ",userId, function (err, rows) {            
+      var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ",userId, function (err, rows){            
 
         if (err) {
           console.log(err1);
@@ -106,23 +107,23 @@ app.get('/auth/google/callback',
         if (rows.length < 1) {
 
           var name = userName.toString().split(" ");
-          //console.log("first name: "+name[0]);
-          //console.log("last name: "+name[1]);
-          //console.log("member not already saved in database");
-          var data = {
-           firstname : name[0],
-           lastname : name[1],
-           email : userEmail,
-           gmailid : userId,
-          };
-          
+				  //console.log("first name: "+name[0]);
+				  //console.log("last name: "+name[1]);
+				  //console.log("member not already saved in database");
+				  var data = {
+					 firstname : name[0],
+					 lastname : name[1],
+					 email : userEmail,
+					 gmailid : userId,
+				  };
+		  		
           var query2 = conn.query("INSERT INTO members set ? ", data, function (err2, rows2) {
-          
+					
             if (err2) {
-              console.log(err2);
-              return next("mysql error");
-            } // if closes
-          }); // query2 closes
+						  console.log(err2);
+						  return next("mysql error");
+					  }	// if closes
+				  }); // query2 closes
         } // if closes
         res.render('pages/dashboard');
       }); // req.getConnection closes
@@ -135,13 +136,13 @@ app.get('/auth/google/callback',
 
 app.get('/searchrides', function (req, res) {
 
-  req.getConnection(function (err,conn) {
+ 	req.getConnection(function (err,conn) {
     
     if (err) return next("connection error");
-    var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination,' + 
+		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
-      ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ?', "%"+req.query['search']+"%", function (err, rows) {
+      ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ?', "%"+req.query['search']+"%", function(err,rows){
    
         if (err) {
           console.log(err);
@@ -155,7 +156,7 @@ app.get('/searchrides', function (req, res) {
 
 setInterval (function() {
   //console.log('test');
-  var now = moment();
+  var now = moment()
   var formatted = now.format('YYYY-MM-DD hh:mm:ss a');
   console.log(formatted);
   //console.log(Date.now())
@@ -171,7 +172,7 @@ setInterval (function() {
 
 var members = router.route('/members');
 
-members.get (function (req, res) {
+members.get (function (req, res){
   
   req.getConnection(function (err,conn) {
     if (err) return next("connection error");
@@ -182,24 +183,24 @@ members.get (function (req, res) {
         console.log(err);
         return next("mysql error");
       }
-      
-      console.log(userId);
-      console.log(userName);
-      console.log(userEmail);
-      
+			
+			console.log(userId);
+			console.log(userName);
+			console.log(userEmail);
+			
       res.render('members',{title:"Members Table Example",data:rows});
     });
   });
 });
 
 //save new member
-members.post(function (req, res) {
+members.post(function(req,res) {
 
   req.assert('firstname','Please Enter First Name').notEmpty();
-  req.assert('lastname','Please Enter Last Name').notEmpty();
+	req.assert('lastname','Please Enter Last Name').notEmpty();
   req.assert('email','Please Enter a Valid Email').isEmail();
-  req.assert('phone','Please Enter Phone').notEmpty();
-  req.assert('status','Please Enter Status').notEmpty();
+	req.assert('phone','Please Enter Phone').notEmpty();
+	req.assert('status','Please Enter Status').notEmpty();
   
   var errors = req.validationErrors();
   
@@ -210,10 +211,10 @@ members.post(function (req, res) {
 
   var data = {
     firstname : req.body.firstname,
-    lastname : req.body.lastname,
+		lastname : req.body.lastname,
     email : req.body.email,
-    phone : req.body.phone,
-    status : req.body.status,
+		phone : req.body.phone,
+		status : req.body.status,
   };
     
   req.getConnection(function (err, conn) {
@@ -234,7 +235,7 @@ members.post(function (req, res) {
 
 var member = router.route('/members/:id');
 
-member.all (function (req, res, next) {
+member.all(function (req, res, next) {
   console.log(req.params);
   next();
 });
@@ -264,12 +265,12 @@ member.get(function (req, res, next) {
   });
 });
 
-member.put(function (req, res) {
+member.put(function(req,res) {
   
   var id = req.params.id;
 
-  req.assert('firstname', 'Please Enter First Name').notEmpty();
-  req.assert('lastname', 'Please Enter Last Name').notEmpty();
+	req.assert('firstname', 'Please Enter First Name').notEmpty();
+	req.assert('lastname', 'Please Enter Last Name').notEmpty();
   req.assert('email', 'Please Enter a Valid Email').isEmail();
 
   var errors = req.validationErrors();
@@ -280,11 +281,11 @@ member.put(function (req, res) {
   }
 
   var data = {
-    firstname : req.body.firstname,
-    lastname : req.body.lastname,
-    email : req.body.email,
-    phone : req.body.phone,
-    status : req.body.status
+    firstname:req.body.firstname,
+		lastname:req.body.lastname,
+    email:req.body.email,
+    phone:req.body.phone,
+		status:req.body.status
   };
 
   req.getConnection(function (err, conn) {
@@ -340,7 +341,7 @@ locations.get (function (req, res) {
         console.log (err);
         return next ("mysql error");
       }
-      res.render('locations', { title : "Location Table Example", data : rows });
+      res.render('locations',{ title : "Location Table Example", data : rows });
 
     });
   });
@@ -350,9 +351,9 @@ locations.get (function (req, res) {
 locations.post(function(req, res) {
 
   req.assert('name','Please Enter Location Name').notEmpty();
-  req.assert('city','Please Enter City').notEmpty();
+	req.assert('city','Please Enter City').notEmpty();
   req.assert('state','Please State').notEmpty();
-  req.assert('zipcode','Please Zip Code').notEmpty();
+	req.assert('zipcode','Please Zip Code').notEmpty();
   
   var errors = req.validationErrors();
   
@@ -363,9 +364,9 @@ locations.post(function(req, res) {
 
   var data = {
     name : req.body.name,
-    city : req.body.city,
+		city : req.body.city,
     state : req.body.state,
-    zipcode : req.body.zipcode,
+		zipcode : req.body.zipcode,
   };
 
   req.getConnection(function (err, conn) {
@@ -400,13 +401,13 @@ location.get (function (req, res, next) {
     if (err) {
       return next("connection error");
     } 
-    var query = conn.query("SELECT * FROM locations WHERE id = ? ",[id],function (err,rows) {
+    var query = conn.query("SELECT * FROM locations WHERE id = ? ",[id],function(err,rows) {
       
-      if (err) {
+      if(err) {
         console.log(err);
         return next("mysql error");
       }
-      if (rows.length < 1) {
+      if(rows.length < 1) {
         return res.send("Location Not found");
       }
       res.render('editlocation', { title : "Edit Location", data : rows });
@@ -414,13 +415,13 @@ location.get (function (req, res, next) {
   });
 });
 
-location.put(function (req, res) {
+location.put(function(req,res) {
 
   var id = req.params.id;
 
-  req.assert('name', 'Please Enter Location Name').notEmpty();
-  req.assert('city', 'Please Enter City').notEmpty();
-  req.assert('state', 'Please Enter State').notEmpty();
+	req.assert('name', 'Please Enter Location Name').notEmpty();
+	req.assert('city', 'Please Enter City').notEmpty();
+	req.assert('state', 'Please Enter State').notEmpty();
    
   var errors = req.validationErrors();
   
@@ -431,7 +432,7 @@ location.put(function (req, res) {
 
   var data = {
     name : req.body.name,
-    city : req.body.city,
+		city : req.body.city,
     state : req.body.state,
     zipcode : req.body.zipcode
   };
@@ -442,7 +443,7 @@ location.put(function (req, res) {
       return next("connection error");
     }
     
-    var query = conn.query("UPDATE locations set ? WHERE id = ? ", [data, id], function (err, rows) {
+    var query = conn.query("UPDATE locations set ? WHERE id = ? ", [data,id], function (err, rows) {
 
       if (err) {
         console.log(err);
@@ -453,7 +454,7 @@ location.put(function (req, res) {
   });
 });
 
-location.delete (function (req, res) {
+location.delete (function (req,res) {
   
   var id = req.params.id;
   req.getConnection (function (err, conn) {
@@ -489,7 +490,7 @@ var rides = router.route('/rides');
 //DISPLAY ALL RIDES
 rides.get (function (req,res) {
 
-  req.getConnection(function (err, conn) {
+	req.getConnection(function (err, conn) {
     
     if (err) {
       return next("connection error");
@@ -502,15 +503,15 @@ rides.get (function (req,res) {
       }
     });
   });
-   
-  //To add: check for requests by current user
+	 
+	//To add: check for requests by current user
   req.getConnection(function (err,conn) {
     
     if (err) {
       return next("connection error");
     }
 
-    var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin,' +
+		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin,' +
                            'l2.name AS destination, r.seats, r.datetime, r.flexibility' +
                            'FROM rides AS r, members AS m, locations as l1,' + 
                            'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND' +
@@ -521,6 +522,7 @@ rides.get (function (req,res) {
         return next("mysql error");
       }
       res.render('rides',{title:"Rides Table Example",data:rows});
+      });
     });
   });
 });
@@ -538,7 +540,7 @@ newride.get (function (req, res) {
       return next("connection error");
     }
   
-    var query = conn.query('SELECT * FROM locations',function (err, rows) {
+		var query = conn.query('SELECT * FROM locations',function (err, rows) {
       
       if (err) {
         console.log(err);
@@ -558,9 +560,9 @@ datepicker.get(function(req, res){
 newride.post (function (req, res) {
 
   req.assert('driverid', 'Please Enter ID').notEmpty();
-  req.assert('origin', 'Please Select Origin').notEmpty();
+	req.assert('origin', 'Please Select Origin').notEmpty();
   req.assert('destination', 'Please Select Destination').notEmpty();
-  req.assert('datetime', 'Please Enter Date and Time').notEmpty();
+	req.assert('datetime', 'Please Enter Date and Time').notEmpty();
   
   var errors = req.validationErrors();
   
@@ -571,11 +573,11 @@ newride.post (function (req, res) {
 
   var data = {
     driverid : req.body.driverid,
-    origin : req.body.origin,
+		origin : req.body.origin,
     destination : req.body.destination,
-    seats : req.body.seats,
-    datetime : req.body.datetime,
-    flexibility : req.body.flexibility,
+		seats : req.body.seats,
+		datetime : req.body.datetime,
+		flexibility : req.body.flexibility,
   };
   
   req.getConnection(function (err, conn) {
@@ -612,9 +614,9 @@ ride.get (function (req, res, next) {
     if (err) {
       return next("connection error");
     }
-   
+	 
     var query1 = conn.query("SELECT * FROM rides WHERE id = ? ", [id], function (err, ride) {            
-    
+		
       if (err) {
         console.log(err);
         return next("mysql error");
@@ -625,28 +627,27 @@ ride.get (function (req, res, next) {
       }
     
       var query2 = conn.query('SELECT * FROM locations', function (err, locations) {
-      
+			
         if (err) {
-         console.log(err);
-         return next("mysql error");
-         }
-      
+			   console.log(err);
+			   return next("mysql error");
+			   }
+			
         res.render('editride',{title:"Edit ride", ride:ride, locations:locations});
-      });
+		  });
     });
-   });  
+   });	
 });
 
 ride.put(function (req,res) {
   
   var id = req.params.id;
 
-  //req.assert('driverid','Please Enter ID').notEmpty();
-  req.assert('origin','Please Select Origin').notEmpty();
+	//req.assert('driverid','Please Enter ID').notEmpty();
+	req.assert('origin','Please Select Origin').notEmpty();
   req.assert('destination','Please Select Destination').notEmpty();
-  req.assert('datetime','Please Enter Date and Time').notEmpty();
-  req.assert('flexibility','Please Enter Flexibility').notEmpty();
-
+	req.assert('datetime','Please Enter Date and Time').notEmpty();
+	req.assert('flexibility','Please Enter Flexibility').notEmpty();
   
   var errors = req.validationErrors();
   
@@ -657,11 +658,11 @@ ride.put(function (req,res) {
 
   var data = {
         //driverid:req.body.driverid,
-    origin : req.body.origin,
+		origin : req.body.origin,
     destination : req.body.destination,
-    seats : req.body.seats,
-    datetime : req.body.datetime,
-    flexibility : req.body.flexibility,
+		seats : req.body.seats,
+		datetime : req.body.datetime,
+		flexibility : req.body.flexibility,
   };
 
   req.getConnection(function (err, conn) {
@@ -704,46 +705,82 @@ ride.delete(function (req,res) {
 //REQUEST A RIDE
 ride.post(function (req, res, next) {
 
-  req.getConnection(function (err, conn) {
-    
+	req.getConnection(function (err, conn) {
+		
     if (err) return next("connection error");
-    
-    //console.log("*** ");
-    var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err1, rows) {            
-      
+		
+		//console.log("*** ");
+		var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err1, rows) {            
+			
       if (err1) {
         console.log(err1);
         return next("mysql error");
       }
-      
-      //console.log("*** " + rows[0].id);
+			
+			//console.log("*** " + rows[0].id);
             
-      if(rows.length = 1) { 
-  
-       var rideid = req.params.id;
-       var memberid = rows[0].id;
-       var data = {
-          rideid : rideid,
-          memberid : memberid,
-       };
-          
-       var query2 = conn.query("INSERT INTO riderequests set ? ", data, function (err2, rows2) {
-        
-        if (err2) {
-          console.log(err2);
-          return next("mysql error");
-        }
-          //res.sendStatus(200);
-       });
-         
-      }
-      res.sendStatus(200);
-    });
-  });
+			if(rows.length = 1) {	
+	
+			 var rideid = req.params.id;
+			 var memberid = rows[0].id;
+			 var data = {
+					rideid : rideid,
+					memberid : memberid,
+			 };
+				 	
+			 var query2 = conn.query("INSERT INTO riderequests set ? ", data, function (err2, rows2) {
+				
+				if (err2) {
+					console.log(err2);
+					return next("mysql error");
+				}
+				  //res.sendStatus(200);
+			 });
+				 
+		  }
+			res.sendStatus(200);
+		});
+	});
 });
 
 //END OF RIDES
 app.use('/', router);
+
+//end of mysql
+
+//http.createServer(app).listen(4000);
+
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+/*function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+}); */
 
 // Export the app as the module:
 module.exports = app;
