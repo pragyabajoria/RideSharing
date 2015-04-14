@@ -20,7 +20,9 @@
       </div>
       <p>RideShare | <%=title %></p> 
       <div>
-        <% include ../partials/panel %>
+        <% for (var i = 0; i < 10; i++) { %>
+          <% include ../partials/panel %>
+        <% } %>
       </div> 
     </main>
 
