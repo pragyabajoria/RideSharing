@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <% include ../partials/head %>
+        <% include ../partials/header %>
         <!--<link rel="shortcut icon" type="image/png" src="icons/extremelySmallCar.png" />-->
         <link type="text/css" rel="stylesheet" href="carousel.css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -13,13 +13,17 @@
     <body class="container">
 
         <header>
-            <% include ../partials/header %>
+            <% include ../partials/head %>
         </header>
 
         <main>
-            <div class="jumbotron">
+            <div>
+                <div>
+                    <% include ../partials/carousel %>
+                </div>
                 <h1>Request or Share a Ride</h1>
                 <p></p>
+
             </div>
         </main>
 

@@ -18,7 +18,12 @@
         <a href="/listView">List View</a>
         <a href="/calendarView">Calendar View</a>
       </div>
-      <p>RideShare | <%=title %></p>  
+      <p>RideShare | <%=title %></p> 
+      <div>
+        <% for (var i = 0; i < 10; i++) { %>
+          <% include ../partials/panel %>
+        <% } %>
+      </div> 
     </main>
 
     <footer>
