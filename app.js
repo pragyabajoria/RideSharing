@@ -642,11 +642,12 @@ ride.put(function (req,res) {
   var id = req.params.id;
 
   //req.assert('driverid','Please Enter ID').notEmpty();
-  req.assert('origin','Please Select Origin').notEmpty();
-  req.assert('destination','Please Select Destination').notEmpty();
-  req.assert('datetime','Please Enter Date and Time').notEmpty();
-  req.assert('flexibility','Please Enter Flexibility').notEmpty();
-
+  req.assert('origin', 'Please Select Origin').notEmpty();
+  req.assert('destination', 'Please Select Destination').notEmpty();
+  req.assert('datetime', 'Please Enter Date and Time').notEmpty();
+  req.assert('flexibility', 'Please Enter Flexibility').notEmpty();
+	req.assert('datetime', 'Please Enter Date and Time').notEmpty();
+	req.assert('flexibility', 'Please Enter Flexibility').notEmpty();
   
   var errors = req.validationErrors();
   
