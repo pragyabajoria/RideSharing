@@ -134,7 +134,7 @@ app.use(
     connection(mysql,{
         host     : 'localhost',
         user     : 'root',
-        password : 'root',
+        password : '',
 		port	 : 3306,
         database : 'mhcrideshare',
         debug    : false
@@ -599,6 +599,7 @@ rides.get(function(req,res){
         });
      });
 	 
+	//To add: check for requests by current user
     req.getConnection(function(err,conn){
         if (err) return next("connection error");
 		var query = conn.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination, r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND r.datetime>= CURDATE()',function(err,rows){
@@ -630,10 +631,12 @@ newride.get(function(req,res){
          });
     });
 });
-var datepicker = router.route('/datepicker');
+
+/* var datepicker = router.route('/datepicker');
 datepicker.get(function(req, res){
   res.render('datepicker', { user: req.user });
-});
+}); */
+
 newride.post(function(req,res){
 
     req.assert('driverid','Please Enter ID').notEmpty();
@@ -754,23 +757,44 @@ ride.delete(function(req,res){
 });
 
 //REQUEST A RIDE
-ride.post(function(req,res){
-    var rideid = req.params.id;
-	 var memberid = '1';
-     var data = {
-        rideid:rideid,
-		memberid:memberid,
-     };
-    req.getConnection(function (err, conn){
-        if (err) return next("connection error");
-        var query = conn.query("INSERT INTO riderequests set ? ",data, function(err, rows){
-           if(err){
-                console.log(err);
+ride.post(function(req,res,next){
+    
+	req.getConnection(function (err, conn){
+		if (err) return next("connection error");
+		
+		//console.log("*** ");
+		var query1 = conn.query("SELECT * FROM members WHERE gmailid = ? ",userId,function(err1,rows){            
+			
+			if(err1){
+                console.log(err1);
                 return next("mysql error");
-           }
-          res.sendStatus(200);
-        });
-     });
+            }
+			
+			//console.log("*** " + rows[0].id);
+            
+			if(rows.length = 1){	
+	
+				 var rideid = req.params.id;
+				 var memberid = rows[0].id;
+				 var data = {
+					rideid:rideid,
+					memberid:memberid,
+				 };
+				 
+				
+				var query2 = conn.query("INSERT INTO riderequests set ? ",data, function(err2, rows2){
+				
+				   if(err2){
+						console.log(err2);
+						return next("mysql error");
+				   }
+				  //res.sendStatus(200);
+				});
+				 
+			}
+				res.sendStatus(200);
+		});
+	});
 });
 
 //END OF RIDES
