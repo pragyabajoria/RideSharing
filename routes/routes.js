@@ -3,13 +3,14 @@ module.exports = function(app, passport) {
 	//var user = require('./user');
 	var auth = require('./auth');
 	var dashboard = require('./dashboard');
+	var db = require('./db');
 		
 	//app.use('/', index);
 	//app.use('/user', user);
 	//app.use('/event', event);
 	app.use('/auth', auth);
-	app.use('/db', db);
 	app.use('/dashboard', dashboard);
+	app.use('/', db);
 	
 	//Home page
 	app.get('/', function(req, res){
@@ -114,3 +115,4 @@ function ensureAuthenticated(req, res, next) {
 	// else redirect to homepage
 	res.redirect('/login');
 };
+
