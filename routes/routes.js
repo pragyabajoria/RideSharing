@@ -8,6 +8,7 @@ module.exports = function(app, passport) {
 	//app.use('/user', user);
 	//app.use('/event', event);
 	app.use('/auth', auth);
+	app.use('/db', db);
 	app.use('/dashboard', dashboard);
 	
 	//Home page
