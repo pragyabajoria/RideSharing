@@ -8,17 +8,22 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">-->
 
-    <meta name="viewport" content="eidth=device-width, initial-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <meta charset="UTF-8"/>
   
-      <!--<link rel="shortcut icon" type="image/png" src="icons/extremelySmallCar.png" />-->
     <link type="text/css" rel="stylesheet" href="carousel.css"/>
- 
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <!-- Links for DataPicker -->
+    <link rel="stylesheet" type="text/css" media="screen" href="datepicker/css/bootstrap-datetimepicker.min.css">
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script type="text/javascript" src="datepicker/jquery.min.js"></script>
+    <script type="text/javascript" src="datepicker/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="datepicker/bootstrap-datetimepicker.js"></script> 
 
   </head>
   <body>
@@ -70,7 +75,7 @@
 
     <main>
       <!-- Panel -->
-      <br><br><br><br><br><br><br><br>
+      <br><br><br><br><br>
       <div>
         <div class="container-fluid scroll">
           <div class="panel panel-info">
@@ -80,11 +85,29 @@
               <div class="panel-body">
                 <!-- List group -->
                 <ul class="list-group">
-                  <li class="list-group-item">Origin: </li>
-                  <li class="list-group-item">Destination: </li>
-                  <li class="list-group-item">Date and Time: </li>
-                  <li class="list-group-item">Seats Available: </li>
-                  <li class="list-group-item">Flexibility: </li>
+                  <li class="list-group-item">Origin: 
+                    <select name="origin" class="" required="required"></select>
+                  </li>
+                  <li class="list-group-item">Destination: 
+                    <select name="destination" class="" required="required"></select>
+                  </li>
+                  <li class="list-group-item">Date and Time: 
+                    <div id="datetimepicker" class="input-append" name="datetime">
+                      <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date"></input>
+                      <span class="add-on">
+                        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                      </span>
+                    </div>
+                  </li>
+                  <li class="list-group-item">Seats Available: 
+                    <input type="text" name="seats" class="" required="required" autocomplete="on" placeholder="Enter Number of Seats"/>
+                  </li>
+                  <li class="list-group-item">Flexibility: 
+                    <input type="text" name="flexible" class="form-control" required="required" autocomplete="on" placeholder="Enter Flexibility on Departure Time (Examples: +2 Hours Later or -1 Hour Earlier)"/>
+                    <button type="button" class="btn btn-default"> + </button>
+                    <button type="button" class="btn btn-default"> - </button>
+                  </li>
+                  <li class="list-group-item"><button type="button" class="btn btn-default"> Enter Ride </button></li>
                 </ul>
               </div>
           </div>
@@ -93,5 +116,16 @@
     </main>
 
     <footer></footer>
+    <script>
+        $(function() {
+      $('#datetimepicker').datetimepicker({
+       collapse: false,
+       pick12HourFormat: true,
+        format: 'yyyy-MM-dd HH:mm:ss PP',
+        language: 'en',
+        
+      });
+    });
+    </script>
   </body>
 </html>
