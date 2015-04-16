@@ -21,6 +21,10 @@ module.exports = function(app, passport) {
   		res.render('login', { user: req.user });
 	});
 
+	app.get('/riderequest', function(req, res){
+  		res.render('pages/rideRequest');
+	});
+
 	app.get('/account', ensureAuthenticated, function(req, res){
   		res.render('account', { user: req.user });
 	});
