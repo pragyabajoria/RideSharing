@@ -13,56 +13,71 @@
   <main>
     <!-- Panel -->
     <br><br><br><br><br>
-    <div>
-      <div class="container-fluid scroll col-md-7">
-        <div class="panel panel-info">
-          <div class="panel-heading">
-            <h1 class="panel-title"><strong>Request or Share a Ride</strong></h1>
-          </div>
-          <div class="panel-body">
-            <!-- List group -->
-            <ul class="list-group">
-              <li class="list-group-item"><strong>Origin </strong>
-                <select name="origin" class="" required="required"></select>
-              </li>
-              <li class="list-group-item"><strong>Destination</strong> 
-                <select name="destination" class="" required="required"></select>
-              </li>
-              <li class="list-group-item"><strong>Date and Time</strong> 
-                <div id="datetimepicker" class="input-append" name="datetime">
-                  <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date"></input>
-                  <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                  </span>
-                </div>
-              </li>
-              <li class="list-group-item"><strong>Seats Available</strong> 
-                <input type="text" name="seats" class="" required="required" autocomplete="on" placeholder="Enter Number of Seats"></input>
-              </li>
-              <li class="list-group-item"><strong>Enter Flexibility on Departure Time (in hours)</strong> 
-                <input type="text" name="flexible" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
-                  <button type="button" class="btn btn-default"> + </button>
-                  <button type="button" class="btn btn-default"> - </button>
-              </li>
-              <li class="list-group-item">
-                <button type="button" class="btn btn-default"> Request a Ride </button>
-                <button type="button" class="btn btn-default"> Post a Ride </button>
-              </li>
-            </ul>
+
+    <form id="requestForm" method="post" class="container-fluid panel panel-info col-md-6">
+      <div class="row">
+        <div class="col-md-4 selectContainer form-group">
+          <label class="control-label">Origin</label>
+          <select class="form-control" name="origin">
+            <option value="">Choose an origin</option>
+            <option value="boston">Boston</option>
+            <option value="springfield">Springfield</option>
+            <option value="hampshireMall">Hampshire Mall</option>
+            <option value="nyc">New York City</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 form-group">
+          <label class="control-label">Destination</label>
+          <select class="form-control" name="destination">
+            <option value="">Choose a Destination</option>
+            <option value="boston">Boston</option>
+            <option value="springfield">Springfield</option>
+            <option value="hampshireMall">Hampshire Mall</option>
+            <option value="nyc">New York City</option>
+          </select>
+        </div>
+      </div> <!--row-->
+
+      <div class="row">
+        <div class="col-md-4 form-group" 4style="max-width: 100%;">
+          <label class="control-label">Date and Time</label>
+          <div id="datetimepicker" class="input-append" name="datetime">
+            <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date"></input>
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
           </div>
         </div>
-      </div>
-    </div> <!-- /.panel -->
-  </main>
-  <script>
-    $(function () {
-      $('#datetimepicker').datetimepicker({
-        collapse: false,
-        pick12HourFormat: true,
-        format: 'yyyy-MM-dd HH:mm:ss PP',
-        language: 'en',  
+
+        <div class="col-md-4 form-group">
+          <label class="control-label">Seats Available</label>
+          <input type="text" class="form-control" name="seats" required="required"/>
+        </div>
+      </div> <!--row ends-->
+
+      <div class="row">
+        <div class="col-md-6 form-group" style="display: inline">
+          <label class="control-label">Flexibility on Departure Time</label> 
+          <input type="text" name="flexible" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
+          <button type="button" class="btn-xs btn-default" > + </button>
+          <button type="button" class="btn-xs btn-default" > - </button>
+        </div>
+      </div> <!-- row ends -->
+      <div class="row">
+        <button type="submit" class="btn btn-default">Request a Ride</button>
+        <button type="submit" class="btn btn-default">Post a Ride</button>
+      </div> <!-- row ends -->
+    </form>
+    <script>
+      $(function () {
+        $('#datetimepicker').datetimepicker({
+          collapse: false,
+          pick12HourFormat: true,
+          format: 'yyyy-MM-dd HH:mm:ss PP',
+          language: 'en',  
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
