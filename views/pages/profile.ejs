@@ -8,19 +8,22 @@
     <header>
       <% include ../partials/header %>
     </header>
+    
     <br><br><br>
     <br><br><br>
+
     <h1><b>Add Profile Information</b></h1><br>   
       <p><em>UID: 12365 </em></p>  
+
+      <!-- User information -->
       <form action="/dashboard" method="get">
         <strong>Name </strong><input type="text" name="fname"><br><br>
-        <strong>University </strong><input type="text" name="university"> <br> <br>
-        <strong>Gender </strong>Male  <input type="radio" name="sex" value="male">
-           Female  <input type="radio" name="sex" value="female"><br><br><br>
+        <strong>University </strong><input type="text" name="university"> <br><br>
         <input type="submit" value="Submit Profile Changes">
       </form>
+
       <br><br>
-    </p>
+
     <footer>
         <% include ../partials/footer %>
     </footer>
