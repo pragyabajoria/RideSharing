@@ -3,6 +3,13 @@
 <head>
   <% include ../partials/head %>
   <% include ../partials/datepickerHead %>
+  <style type="text/css"> 
+    .center-panel
+    {
+      position: absolute;
+      left : 25%;
+    }
+  </style>
 </head>
 
 <body>
@@ -13,7 +20,6 @@
   <main>
     <!-- Panel -->
     <br><br><br><br><br>
-
     <form id="requestForm" method="post" class="container-fluid panel panel-info col-md-6">
       <div class="row">
         <div class="col-md-4 selectContainer form-group">
@@ -52,7 +58,7 @@
 
         <div class="col-md-4 form-group">
           <label class="control-label">Seats Available</label>
-          <input type="text" class="form-control" name="seats" required="required"/>
+          <input type="text" class="form-control" placeholder="Example: 2" name="seats" required="required"/>
         </div>
       </div> <!--row ends-->
 
@@ -79,5 +85,8 @@
         });
       });
     </script>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
   </body>
 </html>
