@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `mhcrideshare` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `mhcrideshare`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: localhost    Database: mhcrideshare
@@ -62,7 +64,7 @@ CREATE TABLE `members` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `gmailid_UNIQUE` (`gmailid`),
   UNIQUE KEY `facebookid_UNIQUE` (`facebookid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +73,7 @@ CREATE TABLE `members` (
 
 LOCK TABLES `members` WRITE;
 /*!40000 ALTER TABLE `members` DISABLE KEYS */;
-INSERT INTO `members` VALUES (1,'Jane','Smith','lisa@example.com','4130000004','active',NULL,NULL),(2,'Alice','Roberts','alice@example.com','4131110001','active',NULL,NULL),(3,'Fatima','Reza','fatima@example.com','413888999','active',NULL,NULL),(4,'Anna','Jones','anna@example.com','67288878787','inactive',NULL,NULL),(5,'Ellen','Johnson','ellen@example.com','87827481278','active',NULL,NULL),(10,'AAAA','BBBB','ab@example.com','863861868','XYZ',NULL,NULL);
+INSERT INTO `members` VALUES (1,'Jane','Smith','lisa@example.com','4130000004','active',NULL,NULL),(2,'Alice','Roberts','alice@example.com','4131110001','active',NULL,NULL),(3,'Fatima','Reza','fatima@example.com','413888999','active',NULL,NULL),(4,'Anna','Jones','anna@example.com','67288878787','inactive',NULL,NULL),(5,'Ellen','Johnson','ellen@example.com','87827481278','active',NULL,NULL),(20,'Qudsia','Aziz','qudsiya@gmail.com',NULL,NULL,NULL,'114441594168208196080'),(21,'Qudsia','Aziz','aziz22q@mtholyoke.edu',NULL,NULL,NULL,'100861510474878478046');
 /*!40000 ALTER TABLE `members` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +97,7 @@ CREATE TABLE `riderequests` (
 
 LOCK TABLES `riderequests` WRITE;
 /*!40000 ALTER TABLE `riderequests` DISABLE KEYS */;
-INSERT INTO `riderequests` VALUES (1,3),(2,1);
+INSERT INTO `riderequests` VALUES (1,1),(1,3),(1,20),(1,21),(2,1),(4,1),(5,20);
 /*!40000 ALTER TABLE `riderequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +119,7 @@ CREATE TABLE `rides` (
   `offered` varchar(45) DEFAULT NULL,
   `requested` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +128,7 @@ CREATE TABLE `rides` (
 
 LOCK TABLES `rides` WRITE;
 /*!40000 ALTER TABLE `rides` DISABLE KEYS */;
-INSERT INTO `rides` VALUES (1,2,1,3,1,2,'2015-03-12 03:00:00',NULL,NULL),(2,2,3,1,1,2,'2015-03-22 03:00:00',NULL,NULL),(4,1,1,1,1,1,'2018-01-19 03:14:07',NULL,NULL);
+INSERT INTO `rides` VALUES (1,2,1,3,6,6,'2015-05-19 07:14:00',NULL,NULL),(4,1,1,1,1,3,'2015-05-31 12:14:00',NULL,NULL),(5,1,1,1,6,5,'2015-05-25 09:14:00',NULL,NULL);
 /*!40000 ALTER TABLE `rides` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -139,4 +141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-31  1:20:08
+-- Dump completed on 2015-04-15 20:51:38
