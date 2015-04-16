@@ -3,31 +3,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <% include ../partials/header %>
-        
-        <link type="text/css" rel="stylesheet" href="carousel.css"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/bootstrap-theme.css">
+        <% include ../partials/head %>
     </head>
-    <body class="container">
+    <body>
 
         <header>
-            <% include ../partials/head %>
+            <% include ../partials/header %>
         </header>
 
         <main>
             <div>
                 <div>
-                    <% include ../partials/carousel %>
+                  <% include ../partials/carousel %>
                 </div>
-                <h1>Request or Share a Ride</h1>
+                <div style="text-align: center">
+                  <a href="/riderequest">Request or Share a Ride</a>
+                </div>
                 <p></p>
-
             </div>
-        </main>
+        </main> 
 
         <footer>
             <% include ../partials/footer %>
