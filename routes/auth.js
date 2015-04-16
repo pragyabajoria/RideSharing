@@ -10,7 +10,7 @@ var passport = require('passport');
 router.get('/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
 											'https://www.googleapis.com/auth/userinfo.email'] }),
-	function(req, res){
+	function (req, res){
 	  // The request will be redirected to Google for authentication, so this
 	  // function will not be called.
 	}
