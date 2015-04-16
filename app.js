@@ -16,7 +16,6 @@ var express = require('express')
   , connection  = require('express-myconnection') //mysql connection
   , mysql = require('mysql')
   , moment = require('moment');
-  
 
 var app = express();
 
@@ -73,7 +72,7 @@ router.use (function (req, res, next) {
 });
 
 //end mysql
-
+/*
 // GET /auth/google
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
@@ -128,6 +127,7 @@ app.get('/auth/google/callback',
       }); // req.getConnection closes
     }); // function closes
   });
+*/
 
 //SELECT  *
 //FROM    ride, location
