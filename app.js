@@ -126,8 +126,7 @@ app.get('/auth/google/callback',
         res.render('pages/dashboard');
       }); // req.getConnection closes
     }); // function closes
-  });
-*/
+  });*/
 
 //SELECT  *
 //FROM    ride, location
