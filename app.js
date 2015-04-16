@@ -47,7 +47,7 @@ app.set('view engine','ejs');
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 require('./config/passport')(passport);
-require('./routes/routes.js')(app, passport);
+require('./routes/routes')(app, passport);
 
 var userId;
 var userName;
