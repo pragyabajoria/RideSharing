@@ -16,7 +16,6 @@ var express = require('express')
   , connection  = require('express-myconnection') //mysql connection
   , mysql = require('mysql')
   , moment = require('moment');
-  
 
 var app = express();
 
@@ -47,7 +46,7 @@ app.set('view engine','ejs');
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 require('./config/passport')(passport);
-require('./routes/routes.js')(app, passport);
+require('./routes/routes')(app, passport);
 
 var userId;
 var userName;
@@ -73,7 +72,7 @@ router.use (function (req, res, next) {
 });
 
 //end mysql
-
+/*
 // GET /auth/google
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
@@ -127,7 +126,7 @@ app.get('/auth/google/callback',
         res.render('pages/dashboard');
       }); // req.getConnection closes
     }); // function closes
-  });
+  });*/
 
 //SELECT  *
 //FROM    ride, location

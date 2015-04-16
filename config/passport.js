@@ -11,26 +11,26 @@ module.exports = function(passport) {
     // Passport session setup. To support persistent login sessions, Passport needs to serialize 
   // users into and deserialize users out of the session.  Typically, this will be as simple
   // as storing the user ID when serializing, and finding the user by ID when deserializing.
-    passport.serializeUser(function(email, done) {
-        done(null, email);
+    passport.serializeUser(function (email, done) {
+        done (null, email);
     });
 
-    passport.deserializeUser(function(email, done) {
-        User.findByEmail(email, function(err, user) {
+    passport.deserializeUser (function (email, done) {
+        /*
+        User.findByEmail(email, function (err, user) {
             done(err, user);
-        });
+        });*/
     });
     
-    /*
+    
     // =========================================================================
     // GOOGLE ==================================================================
     // =========================================================================
-    passport.use( new GoogleStrategy({
-        clientID: configAuth.googleAuth.clientID,
-        clientSecret: configAuth.googleAuth.clientSecret,
-        callbackURL: configAuth.googleAuth.callbackURL,
-    },
-    function(accessToken, refreshToken, profile, done) {
+    passport.use(new GoogleStrategy({
+            clientID : configAuth.googleAuth.clientID,
+            clientSecret : configAuth.googleAuth.clientSecret,
+            callbackURL : configAuth.googleAuth.callbackURL,
+        }, function(accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
         process.nextTick(function() {
             //userId = profile.id;
@@ -50,21 +50,21 @@ module.exports = function(passport) {
                     // if a user is found, login
                     return done(undefined, user);
                 } else {
-          //newUser.google.id    = profile.id;
+            //newUser.google.id    = profile.id;
                     //newUser.google.token = accessToken;
                     //newUser.google.name  = profile.displayName;
                     //newUser.google.email = profile.emails[0].value;
                     var email = profile.emails[0].value;
-          var password = profile.id;
-                    /*User.register(email, password, function(err, result) {
+            var password = profile.id;
+                    User.register(email, password, function(err, result) {
                         if (err)
                             console.log(err);
                         return done(undefined, result);
                     });
                 }
-            }); 
+            });*/ 
         });
-    }));*/
+    }));
   
   // =========================================================================
     // Facebook ================================================================
