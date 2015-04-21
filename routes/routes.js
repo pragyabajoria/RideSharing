@@ -3,11 +3,8 @@ module.exports = function(app, passport) {
 	//var user = require('./user');
 	var auth = require('./auth');
 	var dashboard = require('./dashboard');
-<<<<<<< HEAD
 	//var db = require('./db');
-=======
 	var dbfunctions = require('./dbfunctions');
->>>>>>> bec79f67cb528b64b60869e9a8aeddad7059106d
 		
 	//app.use('/', index);
 	//app.use('/user', user);
@@ -38,7 +35,6 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/boston', function(req,res) {
-<<<<<<< HEAD
   		res.render('pages/destination', {title: 'Boston'});
 	});
 
@@ -56,7 +52,6 @@ module.exports = function(app, passport) {
 
 	app.get('/bradley', function(req,res) {
   		res.render('pages/destination', {title: 'Bradley Airport'});
-=======
 
 		function handleResult(err, result) {
 		    if (err) {
@@ -132,7 +127,6 @@ module.exports = function(app, passport) {
 		var destination = "Bradley Airport";
 		dbfunctions.selectAllRides(handleResult, destination);
   		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
->>>>>>> bec79f67cb528b64b60869e9a8aeddad7059106d
 	});
 
 	
