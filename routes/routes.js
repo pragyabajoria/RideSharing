@@ -26,6 +26,10 @@ module.exports = function(app, passport) {
   		res.render('pages/rideRequest');
 	});
 
+	app.get('/contactform', function(req,res) {
+  		res.render('pages/contactForm');
+	});
+
 	app.get('/account', ensureAuthenticated, function(req, res){
   		res.render('account', { user: req.user });
 	});
