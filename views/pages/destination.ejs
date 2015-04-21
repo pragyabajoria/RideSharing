@@ -18,9 +18,57 @@
       </div>
       <p>RideShare | <%=title %></p> 
       <div>
+<<<<<<< HEAD
         <% for (var i = 0; i < 10; i++) { %>
           <% include ../partials/panel %>
         <% } %>
+=======
+                       
+        <% if(data.length){                         
+         for(var i = 0;i < data.length;i++) { %>  
+
+
+
+         <div class="container-fluid scroll">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Ride Destination
+      </h3>
+      </div>
+        <div class="panel-body">
+          <!-- List group -->
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Origin</strong>: <%=data[i].origin%></li>
+            <li class="list-group-item"><strong>Destination: </strong> <%=data[i].destination%></li>
+            <li class="list-group-item"><strong>Date: </strong><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></li>
+            <!--<li class="list-group-item"><strong>Time: </strong> 11:30pm</li>-->
+            <li class="list-group-item"><strong>Seats Available: </strong><%=data[i].seats%></li>
+            <li class="list-group-item"><strong>Flexibility: </strong><%=data[i].flexibility%></li>
+            <li class="list-group-item"><strong>Offered By: </strong><%=data[i].firstname%> <%=data[i].lastname%></li>
+            <li class="list-group-item"><strong>
+              <a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request Ride</a>  
+              <a href="/rides/<%=data[i].id%>">Edit Ride</a>               
+              <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>
+            </strong></li>
+          </ul>
+            
+        </div>
+      </div>
+    </div>
+  </div> <!-- /.panel -->
+</div>
+                  
+    <% }
+    
+     }else{ %>
+
+            <p>No Rides Offered.</p>
+
+    <% } %>
+                                      
+ 
+>>>>>>> bec79f67cb528b64b60869e9a8aeddad7059106d
       </div> 
     </main>
 
