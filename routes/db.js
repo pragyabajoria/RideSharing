@@ -10,20 +10,6 @@ var userName;
 var userEmail;
 var userPhotograph;
 
-
-app.use(express.static(path.join(__dirname, '..', 'public')));
-console.log("DIR: "+path.join(__dirname, '..', 'public'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(expressValidator());
-//app.set('views','./../views');
-app.set('views','./../views');
-app.set('view engine','ejs');
-
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-
 /* var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
