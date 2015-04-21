@@ -3,7 +3,6 @@ module.exports = function(app, passport) {
 	//var user = require('./user');
 	var auth = require('./auth');
 	var dashboard = require('./dashboard');
-	//var db = require('./db');
 	var dbfunctions = require('./dbfunctions');
 		
 	//app.use('/', index);
@@ -39,23 +38,6 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/boston', function(req,res) {
-  		res.render('pages/destination', {title: 'Boston'});
-	});
-
-	app.get('/holyokeMall', function(req,res) {
-  		res.render('pages/destination', {title: 'Holyoke Mall'});
-	});
-
-	app.get('/nyc', function(req,res) {
-  		res.render('pages/destination', {title: 'New York City'});
-	});
-
-	app.get('/springfield', function(req,res) {
-  		res.render('pages/destination', {title: 'Springfield'});
-	});
-
-	app.get('/bradley', function(req,res) {
-  		res.render('pages/destination', {title: 'Bradley Airport'});
 
 		function handleResult(err, result) {
 		    if (err) {
