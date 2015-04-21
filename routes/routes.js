@@ -3,7 +3,11 @@ module.exports = function(app, passport) {
 	//var user = require('./user');
 	var auth = require('./auth');
 	var dashboard = require('./dashboard');
+<<<<<<< HEAD
 	//var db = require('./db');
+=======
+	var dbfunctions = require('./dbfunctions');
+>>>>>>> bec79f67cb528b64b60869e9a8aeddad7059106d
 		
 	//app.use('/', index);
 	//app.use('/user', user);
@@ -34,6 +38,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/boston', function(req,res) {
+<<<<<<< HEAD
   		res.render('pages/destination', {title: 'Boston'});
 	});
 
@@ -51,6 +56,83 @@ module.exports = function(app, passport) {
 
 	app.get('/bradley', function(req,res) {
   		res.render('pages/destination', {title: 'Bradley Airport'});
+=======
+
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+
+    		res.render('pages/destination', {title: 'Boston', data:result});
+		}
+		var destination = "Boston";
+		dbfunctions.selectAllRides(handleResult, destination);
+
+  		//res.render('pages/destination', {title: 'Boston'});
+	});
+
+	app.get('/holyokeMall', function(req,res) {
+
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+
+    		res.render('pages/destination', {title: 'Holyoke Mall', data:result});
+		}
+		var destination = "Holyoke Mall";
+		dbfunctions.selectAllRides(handleResult, destination);
+
+  		//.render('pages/destination', {title: 'Holyoke Mall'});
+	});
+
+	app.get('/nyc', function(req,res) {
+
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+
+    		res.render('pages/destination', {title: 'New York City', data:result});
+		}
+		var destination = "New York City";
+		dbfunctions.selectAllRides(handleResult, destination);
+  		//res.render('pages/destination', {title: 'New York City'});
+	});
+
+	app.get('/springfield', function(req,res) {
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+
+    		res.render('pages/destination', {title: 'Springfield Bus Terminal', data:result});
+		}
+		var destination = "Springfield Bus Terminal";
+		dbfunctions.selectAllRides(handleResult, destination);
+  		//res.render('pages/destination', {title: 'Springfield'});
+	});
+
+	app.get('/bradley', function(req,res) {
+		//var rows = dbfunctions.selectAllRides();
+		//console.log('The results are: ', rows);
+
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+
+    		res.render('pages/destination', {title: 'Bradley Airport', data:result});
+		}
+		var destination = "Bradley Airport";
+		dbfunctions.selectAllRides(handleResult, destination);
+  		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
+>>>>>>> bec79f67cb528b64b60869e9a8aeddad7059106d
 	});
 
 	
