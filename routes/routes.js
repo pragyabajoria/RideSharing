@@ -181,4 +181,3 @@ function ensureAuthenticated(req, res, next) {
 	// else redirect to homepage
 	res.redirect('/login');
 };
-
