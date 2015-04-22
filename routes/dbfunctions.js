@@ -1,4 +1,3 @@
-
 var dbfunctions = require('./dbfunctions');
 // var express = require('express');
 // var router = express.Router();
@@ -30,5 +29,5 @@ dbfunctions.selectAllRides = function(callback, destination) {
   
 };
 
-
 module.exports = dbfunctions;
+
