@@ -32,7 +32,7 @@ CREATE TABLE `locations` (
   `zipcode` varchar(45) DEFAULT NULL,
   `lastridedate` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `locations` (
 
 LOCK TABLES `locations` WRITE;
 /*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-INSERT INTO `locations` VALUES (1,'Smith College','Northampton','MA','00770','0000-00-00 00:00:00'),(3,'Amherst College','Amherst','MA','00770','0000-00-00 00:00:00');
+INSERT INTO `locations` VALUES (1,'Smith College','Northampton','MA','01063','0000-00-00 00:00:00'),(3,'Amherst College','Amherst','MA','01002','0000-00-00 00:00:00'),(4,'Bradley Airport','Windsor Locks','CT','06096','0000-00-00 00:00:00'),(5,'New York City','New York','NY','10001','0000-00-00 00:00:00'),(6,'Boston','Boston','MA','02110','0000-00-00 00:00:00'),(7,'Springfield Bus Terminal','Springfield','MA','01103','0000-00-00 00:00:00'),(8,'Holyoke Mall','Holyoke','MA','01040','0000-00-00 00:00:00'),(9,'Mount Holyoke College','South Hadley','MA','01075','0000-00-00 00:00:00'),(10,'UMASS','Amherst','MA','01003','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +73,7 @@ CREATE TABLE `members` (
 
 LOCK TABLES `members` WRITE;
 /*!40000 ALTER TABLE `members` DISABLE KEYS */;
-INSERT INTO `members` VALUES (1,'Jane','Smith','lisa@example.com','4130000004','active',NULL,NULL),(2,'Alice','Roberts','alice@example.com','4131110001','active',NULL,NULL),(3,'Fatima','Reza','fatima@example.com','413888999','active',NULL,NULL),(4,'Anna','Jones','anna@example.com','67288878787','inactive',NULL,NULL),(5,'Ellen','Johnson','ellen@example.com','87827481278','active',NULL,NULL),(20,'Qudsia','Aziz','qudsiya@gmail.com',NULL,NULL,NULL,'114441594168208196080'),(21,'Qudsia','Aziz','aziz22q@mtholyoke.edu',NULL,NULL,NULL,'100861510474878478046');
+INSERT INTO `members` VALUES (1,'Jane','Smith','lisa@example.com','4130000004','active',NULL,NULL),(2,'Alice','Roberts','alice@example.com','4131110001','active',NULL,NULL),(3,'Fatima','Reza','fatima@example.com','413888999','active',NULL,NULL),(4,'Anna','Jones','anna@example.com','67288878787','inactive',NULL,NULL),(5,'Ellen','Johnson','ellen@example.com','87827481278','active',NULL,NULL);
 /*!40000 ALTER TABLE `members` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,5 +141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-15 20:51:38
-
+-- Dump completed on 2015-04-21 11:19:11
