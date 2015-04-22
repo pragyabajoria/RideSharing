@@ -4,11 +4,11 @@
   <% include ../partials/head %>
   <% include ../partials/datepickerHead %>
   <style type="text/css"> 
-    .center-panel
-    {
-      position: absolute;
-      left : 25%;
-    }
+  .center-panel
+  {
+    position: absolute;
+    left : 25%;
+  }
   </style>
 </head>
 
@@ -16,92 +16,90 @@
   <header>
     <% include ../partials/header %>
   </header>
-
+  <br><br><br><br><br><br>
   <main>
-  <div class="panel panel-info">
-    <div class="panel-heading">Panel heading without title</div>
-    <div class="panel-body">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 col-md-12 col-md-offset-3"
-            <!-- Panel -->
-            <br><br><br><br><br><br>
-            <form id="requestForm" method="post" class="container-fluid panel panel-info col-md-6">
-              <div class="row">
-                <div class="col-md-6 selectContainer form-group">
-                  <label class="control-label">Origin</label>
-                  <select class="form-control" name="origin">
-                    <option value="">Choose an origin</option>
-                    <option value="boston">Boston</option>
-                    <option value="springfield">Springfield</option>
-                    <option value="hampshireMall">Hampshire Mall</option>
-                    <option value="nyc">New York City</option>
-                  </select>
-                </div>
 
-                <div class="col-md-6 form-group">
-                  <label class="control-label">Destination</label>
-                  <select class="form-control" name="destination">
-                    <option value="">Choose a Destination</option>
-                    <option value="boston">Boston</option>
-                    <option value="springfield">Springfield</option>
-                    <option value="hampshireMall">Hampshire Mall</option>
-                    <option value="nyc">New York City</option>
-                  </select>
-                </div>
-              </div> <!-- row ends -->
+    <div class="container row">
+        <div class="col-sm-8 col-md-8 col-md-offset-3 panel panel-info">
+          <div class="panel-heading">Request / Share a Ride</div>
+          <!-- Panel -->
+          <br>
+          <div class="panel-body">
+          <form id="requestForm" method="post" class="container-fluid panel panel-info">
+            <div class="row">
+              <div class="col-md-6 selectContainer form-group">
+                <label class="control-label">Origin</label>
+                <select class="form-control" name="origin">
+                  <option value="">Choose an origin</option>
+                  <option value="boston">Boston</option>
+                  <option value="springfield">Springfield</option>
+                  <option value="hampshireMall">Hampshire Mall</option>
+                  <option value="nyc">New York City</option>
+                </select>
+              </div>
 
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label class="control-label">Date and Time</label>
-                  <div id="datetimepicker" class="input-append" name="datetime">
-                    <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date"></input>
-                    <span class="add-on">
-                      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                    </span>
-                  </div>
-                </div>
+              <div class="col-md-6 form-group">
+                <label class="control-label">Destination</label>
+                <select class="form-control" name="destination">
+                  <option value="">Choose a Destination</option>
+                  <option value="boston">Boston</option>
+                  <option value="springfield">Springfield</option>
+                  <option value="hampshireMall">Hampshire Mall</option>
+                  <option value="nyc">New York City</option>
+                </select>
+              </div>
+            </div> <!-- row ends -->
 
-                <div class="col-md-6 form-group">
-                  <label class="control-label">Seats Available</label>
-                  <input type="text" class="form-control" placeholder="Example: 2" name="seats" required="required"/>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label class="control-label">Date and Time</label>
+                <div id="datetimepicker" class="input-append" name="datetime">
+                  <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date"></input>
+                  <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                  </span>
                 </div>
-              </div> <!--row ends-->
+              </div>
 
-              <div class="row">
-                <div class="col-md-4 form-group">
-                  <label class="control-label">Flexibility On Departure Time</label> 
-                  <input type="text" name="flexible" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
-                  <button type="button" class="btn-xs btn-default" > + </button>
-                  <button type="button" class="btn-xs btn-default" > - </button>
-                </div>
-              </div> <!-- row ends -->
+              <div class="col-md-6 form-group">
+                <label class="control-label">Seats Available</label>
+                <input type="text" class="form-control" placeholder="Example: 2" name="seats" required="required"/>
+              </div>
+            </div> <!--row ends-->
 
-              <div class="row">
-                <div class="col-md-6 form-group" style="display: inline">
-                  <button type="submit" class="btn btn-default">Request a Ride</button>
-                  <button type="submit" class="btn btn-default">Post a Ride</button>
-                </div>
-              </div> <!-- row ends -->
-            </form> <!-- form ends -->
-          </div>
+            <div class="row">
+              <div class="col-md-4 form-group">
+                <label class="control-label">Flexibility On Departure Time</label> 
+                <input type="text" name="flexible" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
+                <button type="button" class="btn-xs btn-default" > + </button>
+                <button type="button" class="btn-xs btn-default" > - </button>
+              </div>
+            </div> <!-- row ends -->
+
+            <div class="row">
+              <div class="col-md-6 form-group" style="display: inline">
+                <button type="submit" class="btn btn-default">Request a Ride</button>
+                <button type="submit" class="btn btn-default">Post a Ride</button>
+              </div>
+            </div> <!-- row ends -->
+          </form> <!-- form ends -->
         </div>
-      </div>
+        </div>
+    
     </div>
-  </div>
   </main>
-    <script>
-      $(function () {
-        $('#datetimepicker').datetimepicker({
-          collapse: false,
-          pick12HourFormat: true,
-          format: 'yyyy-MM-dd HH:mm:ss PP',
-          language: 'en',  
-        });
-      });
-    </script>
-    <footer>
-        <% include ../partials/footer %>
-    </footer>
-  </body>
+  <script>
+  $(function () {
+    $('#datetimepicker').datetimepicker({
+      collapse: false,
+      pick12HourFormat: true,
+      format: 'yyyy-MM-dd HH:mm:ss PP',
+      language: 'en',  
+    });
+  });
+  </script>
+  <footer>
+    <% include ../partials/footer %>
+  </footer>
+</body>
 </html>
