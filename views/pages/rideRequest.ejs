@@ -20,15 +20,15 @@
   <main>
 
     <div class="container row">
-        <div class="col-sm-8 col-md-8 col-md-offset-3 panel panel-info">
-          <div class="panel-heading">Request / Share a Ride</div>
+        <div class="panel panel-info col-sm-8 col-md-8 col-md-offset-3 ">
+          <div class="panel-heading panel">Request / Share a Ride</div>
           <!-- Panel -->
           <br>
           <div class="panel-body">
-          <form id="requestForm" method="post" class="container-fluid panel panel-info">
+          <form id="requestForm" method="post" class="container-fluid">
             <div class="row">
               <div class="col-md-6 selectContainer form-group">
-                <label class="control-label">Origin</label>
+                <label class="control-label"><strong>Origin</strong></label>
                 <select class="form-control" name="origin">
                   <option value="">Choose an origin</option>
                   <option value="boston">Boston</option>
@@ -39,7 +39,7 @@
               </div>
 
               <div class="col-md-6 form-group">
-                <label class="control-label">Destination</label>
+                <label class="control-label"><strong>Destination</strong></label>
                 <select class="form-control" name="destination">
                   <option value="">Choose a Destination</option>
                   <option value="boston">Boston</option>
@@ -52,7 +52,7 @@
 
             <div class="row">
               <div class="col-md-6 form-group">
-                <label class="control-label">Date and Time</label>
+                <label class="control-label"><strong>Date and Time</strong></label>
                 <div id="datetimepicker" class="input-append" name="datetime">
                   <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date"></input>
                   <span class="add-on">
@@ -61,25 +61,27 @@
                 </div>
               </div>
 
-              <div class="col-md-6 form-group">
-                <label class="control-label">Seats Available</label>
+              <div class="col-md-3 form-group">
+                <label class="control-label"><strong>Seats Available</strong></label>
                 <input type="text" class="form-control" placeholder="Example: 2" name="seats" required="required"/>
               </div>
             </div> <!--row ends-->
 
             <div class="row">
               <div class="col-md-4 form-group">
-                <label class="control-label">Flexibility On Departure Time</label> 
+                <label class="control-label"><strong>Flexibility in Departure Time</strong></label> 
+                <div style="display: inline">
                 <input type="text" name="flexible" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
-                <button type="button" class="btn-xs btn-default" > + </button>
-                <button type="button" class="btn-xs btn-default" > - </button>
+                <button type="button" class="btn-xs btn-info" > + </button>
+                <button type="button" class="btn-xs btn-info" > - </button>
+              </div>
               </div>
             </div> <!-- row ends -->
 
             <div class="row">
               <div class="col-md-6 form-group" style="display: inline">
-                <button type="submit" class="btn btn-default">Request a Ride</button>
-                <button type="submit" class="btn btn-default">Post a Ride</button>
+                <button type="submit" class="btn btn-info">Request a Ride</button>
+                <button type="submit" class="btn btn-info">Post a Ride</button>
               </div>
             </div> <!-- row ends -->
           </form> <!-- form ends -->
