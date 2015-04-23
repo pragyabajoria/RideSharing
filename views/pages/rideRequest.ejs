@@ -29,22 +29,33 @@
               <div class="col-md-6 selectContainer form-group">
                 <label class="control-label"><strong>Origin</strong></label>
                 <select class="form-control" name="origin">
-                  <option value="">Choose an origin</option>
-                  <option value="boston">Boston</option>
-                  <option value="springfield">Springfield</option>
-                  <option value="hampshireMall">Hampshire Mall</option>
-                  <option value="nyc">New York City</option>
+
+                  <% if(data.length){                         
+                    for(var i = 0;i < data.length;i++) { %>                     
+                    <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
+                    
+                  <% }
+                
+                  }else{ %>               
+                    <option value="0">No Locations</option>
+                  <% } %>
+                
                 </select>
               </div>
 
               <div class="col-md-6 form-group">
                 <label class="control-label"><strong>Destination</strong></label>
                 <select class="form-control" name="destination">
-                  <option value="">Choose a Destination</option>
-                  <option value="boston">Boston</option>
-                  <option value="springfield">Springfield</option>
-                  <option value="hampshireMall">Hampshire Mall</option>
-                  <option value="nyc">New York City</option>
+                  <% if(data.length){                         
+                    for(var i = 0;i < data.length;i++) { %>                     
+                    <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
+                    
+                  <% }
+                
+                  }else{ %>               
+                    <option value="0">No Locations</option>
+                  <% } %>
+
                 </select>
               </div>
             </div> <!-- row ends -->
@@ -52,8 +63,8 @@
             <div class="row">
               <div class="col-md-6 form-group">
                 <label class="control-label"><strong>Date and Time</strong></label>
-                <div id="datetimepicker" class="input-append" name="datetime">
-                  <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date"></input>
+                <div id="datetimepicker" class="input-append" name="datetimepicker">
+                  <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date" name="datetime"></input>
                   <span class="add-on">
                     <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
                   </span>
@@ -70,7 +81,7 @@
               <div class="col-md-4 form-group">
                 <label class="control-label"><strong>Flexibility in Departure Time</strong></label> 
                 <div style="display: inline">
-                <input type="text" name="flexible" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
+                <input type="text" name="flexibility" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
                 <button type="button" class="btn-xs btn-info" > + </button>
                 <button type="button" class="btn-xs btn-info" > - </button>
               </div>
@@ -79,8 +90,8 @@
 
             <div class="row">
               <div class="col-md-6 form-group" style="display: inline">
-                <button type="submit" class="btn btn-info">Request a Ride</button>
-                <button type="submit" class="btn btn-info">Post a Ride</button>
+                <button type="submit" class="btn btn-info" onClick="requestRide()">Request a Ride</button>
+                <button type="submit" class="btn btn-info"  onClick="postRide()">Post a Ride</button>
               </div>
             </div> <!-- row ends -->
           </form> <!-- form ends -->
@@ -90,11 +101,37 @@
     </div>
   </main>
   <script>
+
+  function postRide(){   
+
+     $.ajax({  
+
+          url:"/riderequest",
+          type:"post",
+          data:$("#requestForm").serialize(),
+          success:function(res){            
+          window.location.href = '/dashboard';
+          return false;
+      },
+      error:function(xhr, status, error){   
+
+          console.log(xhr.responseText);
+          var err = '';
+          $.each(JSON.parse(xhr.responseText) , function(i, item) {               
+               err += '<li>' + item.msg + '</li>';
+          });
+          $(".error-messages").html(err);    
+          return false;
+      }
+      
+     });
+  }
+
   $(function () {
     $('#datetimepicker').datetimepicker({
       collapse: false,
       pick12HourFormat: true,
-      format: 'yyyy-MM-dd HH:mm:ss PP',
+      format: 'yyyy-MM-dd HH:mm:ss',
       language: 'en',  
     });
   });

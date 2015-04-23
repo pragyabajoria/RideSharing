@@ -22,7 +22,53 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/riderequest', function(req, res){
-  		res.render('pages/rideRequest');
+
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/rideRequest', {data:result});
+  		}
+
+  		dbfunctions.getLocations(handleResult);
+
+	});
+
+
+	app.post('/riderequest', function(req,res) {
+
+		//req.assert('driverid', 'Please Enter ID').notEmpty();
+		req.assert('origin', 'Please Select Origin').notEmpty();
+		req.assert('destination', 'Please Select Destination').notEmpty();
+		req.assert('datetime', 'Please Enter Date and Time').notEmpty();
+		  
+		var errors = req.validationErrors();
+		  
+		if (errors) {
+		    res.status(422).json(errors);
+		    return;
+		}
+
+		var data = {
+		    driverid : '1',
+		    origin : req.body.origin,
+		    destination : req.body.destination,
+		    seats : req.body.seats,
+		    datetime : req.body.datetime,
+		    flexibility : req.body.flexibility,
+		};
+  		
+  		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/dashboard');
+	  		//res.sendStatus(200);
+  		}
+
+  		dbfunctions.addNewRide(handleResult, data);
 	});
 
 	app.get('/contactform', function(req,res) {

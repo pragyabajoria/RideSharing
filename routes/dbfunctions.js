@@ -6,7 +6,7 @@ var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '',
+  password : 'root',
   port   : 3306,
   database : 'mhcrideshare',
   debug    : false
@@ -29,4 +29,26 @@ dbfunctions.selectAllRides = function(callback, destination) {
   
 };
 
+dbfunctions.getLocations = function(callback) {    
+    connection.query('SELECT * FROM locations', function(err, rows) {
+    if (err) return callback(err);
+    //connection.end(); 
+    //console.log('The results are: ', rows);
+    return callback(null, rows);    
+
+});
+  
+};
+
+dbfunctions.addNewRide = function(callback, data) {    
+    connection.query('INSERT INTO rides set ? ', data, function(err, rows) {
+    if (err) return callback(err);
+    //connection.end(); 
+    //console.log('The results are: ', rows);
+    return callback(null);    
+
+});
+  
+};
 module.exports = dbfunctions;
+
