@@ -22,6 +22,7 @@
 		position: relative; 
 		box-shadow: 0 0 50px rgba(0,0,0,0.8);
 		padding: 100px 0;
+		overflow:hidden;
 	}
 	#home { 
 		background: url(images/home.jpg) 50% 0 fixed; 
@@ -69,24 +70,23 @@
 	<!-- Section #1 -->
 	<section id="intro" data-speed="6" data-type="background">
 		<div class="container">
-			<div class="row-fluid">
-				<div class="span4 text-center">
-					<h1> RideShare</h1>
-				</div>
-				<div class="span8 text-center">
-				</div>
+			
+			<div class="well span10">
+				<h1 class="text-center"> RideShare</h1>
+				<p class="lead text-center"><br>Request or post a ride to destinations around Pioneer Valley!<br> Find your next adventure today! <br><br>Sign-in with Google or Facebook to start with RideShare. </p>
 			</div>
-			<div class="hero-unit row text-center">
-
-				<p class="lead">RideShare lets <b>YOU</b> find or post a ride to key destinations around Pioneer Valley! <br><br>Sign-up with Google or Facebook to start with RideShare! <br><br> Find your next adventure today!</p>
-				<form class="form-signin">
-					<h2 class="form-signin-heading">Sign In Now</h2>
-					<div>
-						<button class="icon"><a href="/auth/facebook"><img src="../public/icons/signin-with-facebook.png" width="200" height="44"></a></button>
-						<p><small> -OR- </small></p>
-						<button class="icon"><a href="/auth/google"><img src="../public/icons/signin-with-google.png" width="200" height="44"></a></button>
-					</div>
-				</form>
+			
+			<div align="center" class="text-center">
+				<div class="span4 well text-center">
+					<form class="form-signin">
+						<h2 class="form-signin-heading">Sign In Now</h2>
+						<div>
+							<button class="icon"><a href="/auth/facebook"><img src="../public/icons/signin-with-facebook.png" width="200" height="44"></a></button>
+							<p><small> or </small></p>
+							<button class="icon"><a href="/auth/google"><img src="../public/icons/signin-with-google.png" width="200" height="44"></a></button>
+						</div>
+					</form>
+				</div>
 			</div>
 
 		</div>
