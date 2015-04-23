@@ -1,73 +1,73 @@
 <!-- views/pages/destination.ejs -->
 <html class = "full" lang="en">
-  <head>
-      <% include ../partials/head %>
-  </head>
+<head>
+  <% include ../partials/head %>
+</head>
 
-  <body class="container">
-    <header>
-      <% include ../partials/header %>
-    </header>
+<body class="container">
+  <header>
+    <% include ../partials/header %>
+  </header>
 
-    <main>
-      <p>\n\n\n\nHELLO RIDE-SHARING</p>
-      <p>RideShare | <%=title %></p>
-      <div style="text-align:center">
-        <a href="/listView">List View</a>
-        <a href="/calendarView">Calendar View</a>
-      </div>
-      <p>RideShare | <%=title %></p> 
-      <div>
-                       
-        <% if(data.length){                         
-         for(var i = 0;i < data.length;i++) { %>  
+  <main>
+    <p>\n\n\n\nHELLO RIDE-SHARING</p>
+    <p>RideShare | <%=title %></p>
+    <div style="text-align:center">
+      <a href="/listView">List View</a>
+      <a href="/calendarView">Calendar View</a>
+    </div>
+    <p>RideShare | <%=title %></p> 
+    <div>
+
+      <% if(data.length){                         
+       for(var i = 0;i < data.length;i++) { %>  
 
 
 
-         <div class="container-fluid scroll">
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        Ride Destination
-      </h3>
-      </div>
-        <div class="panel-body">
-          <!-- List group -->
-          <ul class="list-group">
-            <li class="list-group-item"><strong>Origin</strong>: <%=data[i].origin%></li>
-            <li class="list-group-item"><strong>Destination: </strong> <%=data[i].destination%></li>
-            <li class="list-group-item"><strong>Date: </strong><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></li>
-            <!--<li class="list-group-item"><strong>Time: </strong> 11:30pm</li>-->
-            <li class="list-group-item"><strong>Seats Available: </strong><%=data[i].seats%></li>
-            <li class="list-group-item"><strong>Flexibility: </strong><%=data[i].flexibility%></li>
-            <li class="list-group-item"><strong>Offered By: </strong><%=data[i].firstname%> <%=data[i].lastname%></li>
-            <li class="list-group-item"><strong>
-              <a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request Ride</a>  
-              <a href="/rides/<%=data[i].id%>">Edit Ride</a>               
-              <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>
-            </strong></li>
-          </ul>
+       <div class="container-fluid scroll col-md-5">
+        <div class="panel panel-info col-md-offset-2">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              Ride Destination
+            </h3>
+          </div>
+          <div class="panel-body">
+            <!-- List group -->
+            <ul class="list-group">
+              <li class="list-group-item"><strong>Origin</strong>: <%=data[i].origin%></li>
+              <li class="list-group-item"><strong>Destination: </strong> <%=data[i].destination%></li>
+              <li class="list-group-item"><strong>Date: </strong><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></li>
+              <!--<li class="list-group-item"><strong>Time: </strong> 11:30pm</li>-->
+              <li class="list-group-item"><strong>Seats Available: </strong><%=data[i].seats%></li>
+              <li class="list-group-item"><strong>Flexibility: </strong><%=data[i].flexibility%></li>
+              <li class="list-group-item"><strong>Offered By: </strong><%=data[i].firstname%> <%=data[i].lastname%></li>
+              <li class="list-group-item"><strong>
+                <a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request Ride</a>  
+                <a href="/rides/<%=data[i].id%>">Edit Ride</a>               
+                <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>
+              </strong></li>
+            </ul>
             
+          </div>
         </div>
       </div>
-    </div>
-  </div> <!-- /.panel -->
-</div>
-                  
-    <% }
-    
-     }else{ %>
+    </div> <!-- /.panel -->
+  </div>
 
-            <p>No Rides Offered.</p>
+  <% }
 
-    <% } %>
-                                      
- 
-      </div> 
-    </main>
+}else{ %>
 
-    <footer>
-        <% include ../partials/footer %>
-    </footer>
-  </body>
+<p>No Rides Offered.</p>
+
+<% } %>
+
+
+</div> 
+</main>
+
+<footer>
+  <% include ../partials/footer %>
+</footer>
+</body>
 </html>
