@@ -5382,5 +5382,10 @@ button.close {
     color: #ffffff;
     background-color: #2980b9;
   }
-}}
+}
+div.img-div{
+    height:200px;
+    width:200px;
+    overflow:hidden;
+    border-radius:50%;
 }
