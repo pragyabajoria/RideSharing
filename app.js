@@ -37,9 +37,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(expressValidator());
 app.set('views','./views');
 app.set('view engine','ejs');
 
@@ -48,10 +45,6 @@ app.set('view engine','ejs');
 require('./config/passport')(passport);
 require('./routes/routes')(app, passport);
 
-var userId;
-var userName;
-var userEmail;
-var userPhotograph;
 
 app.use(
     connection(mysql,{
