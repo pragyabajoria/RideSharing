@@ -45,7 +45,8 @@ app.set('view engine','ejs');
 require('./config/passport')(passport);
 require('./routes/routes')(app, passport);
 
-
+//database tutorial and examples
+//http://teknosains.com/i/simple-crud-nodejs-mysql
 app.use(
     connection(mysql,{
         host     : 'localhost',
