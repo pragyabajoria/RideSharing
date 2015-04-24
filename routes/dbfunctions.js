@@ -40,6 +40,7 @@ dbfunctions.getLocations = function(callback) {
   
 };
 
+//need to fix 
 dbfunctions.addNewRide = function(callback, data) {    
     connection.query('INSERT INTO rides set ? ', data, function(err, rows) {
     if (err) return callback(err);
