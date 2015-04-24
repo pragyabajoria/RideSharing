@@ -2,6 +2,11 @@
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
+var userId;
+var userName;
+var userEmail;
+var userPhotograph;
+
 //var User = require('../lib/user');
 
 var configAuth = require('./auth');
@@ -33,9 +38,10 @@ module.exports = function(passport) {
         }, function(accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
         process.nextTick(function() {
-            //userId = profile.id;
-            //userName = profile.displayName;
-            //userEmail = profile.emails[0].value;
+
+            userId = profile.id;
+            userName = profile.displayName;
+            userEmail = profile.emails[0].value;
             // To keep the example simple, the user's Google profile is returned to
             // represent the logged-in user.  In a typical application, you would want
             // to associate the Google account with a user record in your database,
