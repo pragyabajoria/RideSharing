@@ -21,6 +21,20 @@ module.exports = function(app, passport) {
   		res.render('login', { user: req.user });
 	});
 
+	app.get('/searchrides', function (req, res) {
+
+			function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/destination', {title:req.query['search'], data:result});
+  		}
+
+  		dbfunctions.searchRides(handleResult, req.query['search']);
+
+	});
+
 	app.get('/riderequest', function(req, res){
 
 		function handleResult(err, result) {
