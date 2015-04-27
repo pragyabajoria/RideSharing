@@ -22,13 +22,11 @@
       <% if(data.length){                         
        for(var i = 0;i < data.length;i++) { %>  
 
-
-
        <div class="container-fluid scroll col-md-5">
         <div class="panel panel-info col-md-offset-2">
           <div class="panel-heading">
             <h3 class="panel-title">
-              Ride Destination
+              Ride Destination: <%=data[i].destination%>
             </h3>
           </div>
           <div class="panel-body">
@@ -42,9 +40,12 @@
               <li class="list-group-item"><strong>Flexibility: </strong><%=data[i].flexibility%></li>
               <li class="list-group-item"><strong>Offered By: </strong><%=data[i].firstname%> <%=data[i].lastname%></li>
               <li class="list-group-item"><strong>
-                <a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request Ride</a>  
-                <a href="/rides/<%=data[i].id%>">Edit Ride</a>               
-                <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>
+              <button type="submit" class="btn btn-info" onClick="requestRide(<%=data[i].id%>)">Request Ride</button>
+                <!--<a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request Ride</a>-->  
+                <button type="submit" class="btn btn-info" onClick="/rides/<%=data[i].id%>">Edit Ride</button>
+                <!--<a href="/rides/<%=data[i].id%>">Edit Ride</a>-->     
+                <button type="submit" class="btn btn-info" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</button>
+                <!--<a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>-->
               </strong></li>
             </ul>
             
