@@ -114,10 +114,12 @@ h6 {
 }
 
 .banner {
-    padding: 100px 0;
+    padding: 0px 0;
     color: #f8f8f8;
-    background: url(../img/banner-bg.jpg) no-repeat center center;
+    background: url(../img/banner-bg.jpg) no-repeat;
     background-size: cover;
+    max-height: 400px;
+    height: 600px;
 }
 
 .banner h2 {
@@ -131,8 +133,9 @@ h6 {
 }
 
 .banner-social-buttons {
-    float: right;
+    float: left;
     margin-top: 0;
+    margin-left: 15px;
 }
 
 @media(max-width:1199px) {
