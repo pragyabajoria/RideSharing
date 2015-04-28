@@ -5,8 +5,6 @@ module.exports = function(app, passport) {
 	var auth = require('./auth');
 	var dashboard = require('./dashboard');
 	var dbfunctions = require('./dbfunctions');
-
-
 		
 	//app.use('/', index);
 	//app.use('/user', user);
@@ -17,7 +15,7 @@ module.exports = function(app, passport) {
 	
 	//Home page
 	app.get('/', function(req, res){
-  		res.render('pages/index');
+  		res.render('landingpage/index.html');
 	});
 
 	app.get('/login', function(req, res){
@@ -33,7 +31,6 @@ module.exports = function(app, passport) {
 		}
 			res.render('pages/destination', {title:req.query['search'], data:result});
 		}
-
 		dbfunctions.searchRides(handleResult, req.query['search']);
 
 	});
