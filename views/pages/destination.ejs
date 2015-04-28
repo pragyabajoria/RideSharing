@@ -38,7 +38,7 @@
               <!--<li class="list-group-item"><strong>Time: </strong> 11:30pm</li>-->
               <li class="list-group-item"><strong>Seats Available: </strong><%=data[i].seats%></li>
               <li class="list-group-item"><strong>Flexibility: </strong><%=data[i].flexibility%></li>
-              <li class="list-group-item"><strong>Offered By: </strong><%=data[i].firstname%> <%=data[i].lastname%></li>
+              <li class="list-group-item"><strong>Offered By: </strong><%=data[i].firstname%> <%=data[i].lastname%> (<%=data[i].email%>) </li>
               <li class="list-group-item"><strong>
               <button type="submit" class="btn btn-info" onClick="requestRide(<%=data[i].id%>)">Request Ride</button>
                 <!--<a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request Ride</a>-->  
@@ -78,6 +78,7 @@ if (result) {
       type: 'DELETE',
       success: function(res) {                
           window.location.reload();
+          alert("Ride was deleted.");
           return false;
       },
       error:function(xhr, status, error){            
@@ -90,6 +91,22 @@ if (result) {
   }
 }
 
+function requestRide(id){    
+  $.ajax({
+      url:"/riderequest/"+id,
+      type: 'POST',
+      success: function(res) {                
+          window.location.reload();
+          alert("Your request was saved.");
+          return false;
+      },
+      error:function(xhr, status, error){            
+          console.log(xhr.responseText);
+          alert("mysql error");
+          return false;
+      }
+  });
+}
 </script>
 <footer>
   <% include ../partials/footer %>
