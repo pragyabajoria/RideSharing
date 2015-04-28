@@ -24,6 +24,10 @@
           <div class="panel-heading panel">Request / Share a Ride</div>
           <!-- Panel -->
           <div class="panel-body">
+
+            <div>
+                <ul class="error-messages"></ul>
+            </div>
           <form id="requestForm" method="post" class="container-fluid">
             <div class="row">
               <div class="col-md-6 selectContainer form-group">
@@ -82,16 +86,17 @@
                 <label class="control-label"><strong>Flexibility in Departure Time</strong></label> 
                 <div style="display: inline">
                 <input type="text" name="flexibility" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
-                <button type="button" class="btn-xs btn-info" > + </button>
-                <button type="button" class="btn-xs btn-info" > - </button>
+                <!--<button type="button" class="btn-xs btn-info" > + </button>
+                <button type="button" class="btn-xs btn-info" > - </button>-->
               </div>
               </div>
             </div> <!-- row ends -->
 
             <div class="row">
               <div class="col-md-6 form-group" style="display: inline">
-                <button type="submit" class="btn btn-info" onClick="requestRide()">Request a Ride</button>
-                <button type="submit" class="btn btn-info" onClick="postride()">Post a Ride</button>
+                <input type="hidden" id = 'requestid' name="request" value="">
+                <button type="submit" class="btn btn-info" onClick="requestridebutton()">Request a Ride</button>
+                <button type="submit" class="btn btn-info" onClick="postridebutton()">Post a Ride</button>
               </div>
             </div> <!-- row ends -->
           </form> <!-- form ends -->
@@ -101,6 +106,16 @@
     </div>
   </main>
   <script>
+
+   function postridebutton(){
+    document.getElementById("requestid").value = "offer";
+    postride();
+   }
+
+    function requestridebutton(){
+    document.getElementById("requestid").value = "request";
+    postride();
+   }
 
   function postride(){   
 
@@ -126,6 +141,8 @@
       
      });
   }
+
+
 
   $(function () {
     $('#datetimepicker').datetimepicker({
