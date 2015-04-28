@@ -38,6 +38,22 @@ module.exports = function(app, passport) {
 
 	});
 
+	app.get('/ride/:id', function(req, res){
+
+		var id = req.params.id;
+
+		function handleResult(err, ride, locations) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/rideEdit', {ride:ride, locations:locations});
+	  	}
+
+	  	dbfunctions.selectRide(handleResult, id);
+
+	});
+
 	app.get('/riderequest', function(req, res){
 
 		function handleResult(err, result) {
@@ -52,6 +68,42 @@ module.exports = function(app, passport) {
 
 	});
 
+	app.post('/ride/:id', function(req,res) {
+
+		var id = req.params.id;
+		
+		req.assert('origin', 'Please Select Origin').notEmpty();
+		req.assert('destination', 'Please Select Destination').notEmpty();
+		req.assert('datetime', 'Please Enter Date and Time').notEmpty();
+		  
+		var errors = req.validationErrors();
+		  
+		if (errors) {
+		    res.status(422).json(errors);
+		    return;
+		}
+
+		var data = {
+		    driverid : global.memberID,
+		    origin : req.body.origin,
+		    destination : req.body.destination,
+		    seats : req.body.seats,
+		    datetime : req.body.datetime,
+		    flexibility : req.body.flexibility,
+		};
+  		
+  		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/dashboard');
+	  		//res.send('/searchrides?search=boston');
+	  		//res.sendStatus(200);
+  		}
+
+  		dbfunctions.updateRide(handleResult,id, data);
+	});
 
 	app.post('/riderequest', function(req,res) {
 

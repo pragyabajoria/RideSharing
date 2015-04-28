@@ -42,7 +42,7 @@
               <li class="list-group-item"><strong>
               <button type="submit" class="btn btn-info" onClick="requestRide(<%=data[i].id%>)">Request Ride</button>
                 <!--<a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request Ride</a>-->  
-                <button type="submit" class="btn btn-info" onClick="/rides/<%=data[i].id%>">Edit Ride</button>
+                <button type="submit" class="btn btn-info" onClick="location.href='/ride/<%=data[i].id%>'">Edit Ride</button>
                 <!--<a href="/rides/<%=data[i].id%>">Edit Ride</a>-->     
                 <button type="submit" class="btn btn-info" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</button>
                 <!--<a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>-->
