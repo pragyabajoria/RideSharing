@@ -24,36 +24,36 @@ module.exports = function(app, passport) {
   		res.render('login', { user: req.user });
 	});
 
-app.get('/searchrides', function (req, res) {
+	app.get('/searchrides', function (req, res) {
 
-	function handleResult(err, result) {
-	if (err) {
-	    console.error(err.stack || err.message);
-	    return;
-	}
-		res.render('pages/destination', {title:req.query['search'], data:result});
-	}
+		function handleResult(err, result) {
+		if (err) {
+		    console.error(err.stack || err.message);
+		    return;
+		}
+			res.render('pages/destination', {title:req.query['search'], data:result});
+		}
 
-	dbfunctions.searchRides(handleResult, req.query['search']);
+		dbfunctions.searchRides(handleResult, req.query['search']);
 
-});
+	});
 
-app.get('/riderequest', function(req, res){
+	app.get('/riderequest', function(req, res){
 
-	function handleResult(err, result) {
-	    if (err) {
-	        console.error(err.stack || err.message);
-	        return;
-	    }
-  		res.render('pages/rideRequest', {data:result});
-  	}
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/rideRequest', {data:result});
+	  	}
 
-  	dbfunctions.getLocations(handleResult);
+	  	dbfunctions.getLocations(handleResult);
 
-});
+	});
 
 
-app.post('/riderequest', function(req,res) {
+	app.post('/riderequest', function(req,res) {
 
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
 		req.assert('origin', 'Please Select Origin').notEmpty();
@@ -87,7 +87,22 @@ app.post('/riderequest', function(req,res) {
   		}
 
   		dbfunctions.addNewRide(handleResult, data);
-});
+	});
+
+	app.delete('/ride/:id', function(req,res) {
+
+		var id = req.params.id;
+
+		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/dashboard');
+	  		//res.sendStatus(200);
+  		}
+  		dbfunctions.deleteRide(handleResult, id);
+	});
 
 
 	app.get('/contactform', function(req,res) {

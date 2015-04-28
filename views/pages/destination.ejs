@@ -66,7 +66,25 @@
 
 </div> 
 </main>
+<script>
 
+function deleteRide(id){    
+  $.ajax({
+      url:"/ride/"+id,
+      type: 'DELETE',
+      success: function(res) {                
+          window.location.reload();
+          return false;
+      },
+      error:function(xhr, status, error){            
+          console.log(xhr.responseText);
+          alert("delete error");
+          return false;
+      }
+  });
+}
+
+</script>
 <footer>
   <% include ../partials/footer %>
 </footer>

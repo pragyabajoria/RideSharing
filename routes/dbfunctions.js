@@ -54,8 +54,8 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail){
 };
 
 dbfunctions.selectRides = function(callback, destination) {    
-    connection.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination,' + 
-      ' r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, ' +
+    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination,' + 
+      ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
       ' r.datetime>= CURDATE() AND l2.name COLLATE UTF8_GENERAL_CI LIKE ?', "%"+destination+"%", function(err, rows) {
     if (err) return callback(err);
@@ -88,6 +88,15 @@ dbfunctions.addNewRide = function(callback, data) {
 });
 };
 
+dbfunctions.deleteRide = function(callback, id) {    
+
+  connection.query("DELETE FROM rides  WHERE id = ? ", [id], function (err, rows) {
+      if (err) return callback(err);
+      return callback(null);    
+  });
+
+};
+
 dbfunctions.searchRides = function(callback, search) {    
   connection.query('SELECT r.id, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, ' +
@@ -98,7 +107,7 @@ dbfunctions.searchRides = function(callback, search) {
     //console.log('The results are: ', rows);
     return callback(null, rows);    
 
-  });
+});
 
 };
 
