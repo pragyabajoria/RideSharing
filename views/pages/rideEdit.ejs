@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ../partials/head %>
+  <% include ../partials/datepickerHead %>
+  <style type="text/css"> 
+  .center-panel
+  {
+    position: absolute;
+    left : 25%;
+  }
+  </style>
+</head>
+
+<body>
+  <header>
+    <% include ../partials/header %>
+  </header>
+  <br><br><br><br><br><br>
+  <main>
+
+    <div class="container row">
+        <div class="panel panel-info col-sm-8 col-md-8 col-md-offset-3 ">
+          <div class="panel-heading panel">Edit Ride</div>
+          <!-- Panel -->
+          <div class="panel-body">
+            <div>
+                <ul class="error-messages"></ul>
+            </div>
+          <form id="editForm" method="post" class="container-fluid">
+            <div class="row">
+              <div class="col-md-6 selectContainer form-group">
+                <label class="control-label"><strong>Origin</strong></label>
+                <select class="form-control" name="origin">
+                  <% if(locations.length){                         
+                           for(var i = 0;i < locations.length;i++) { 
+                          if(locations[i].id==ride[0].origin){%> 
+                          <option value="<%=locations[i].id%>" selected><%=locations[i].name%> <%=locations[i].city%> <%=locations[i].state%> <%=locations[i].zipcode%></option>
+                          <%}
+                          else{ %> 
+                          <option value="<%=locations[i].id%>"><%=locations[i].name%> <%=locations[i].city%> <%=locations[i].state%> <%=locations[i].zipcode%></option>
+                          <%}
+                          
+                      }
+                      
+                       }else{ %>
+                     
+                     <option value="0">No Locations</option>
+
+                      <% } %>
+                
+                </select>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label"><strong>Destination</strong></label>
+                <select class="form-control" name="destination">
+                  <% if(locations.length){                         
+                   for(var i = 0;i < locations.length;i++) { 
+                  if(locations[i].id==ride[0].destination){%> 
+                  <option value="<%=locations[i].id%>" selected><%=locations[i].name%> <%=locations[i].city%> <%=locations[i].state%> <%=locations[i].zipcode%></option>
+                  <%}
+                  else{ %> 
+                  <option value="<%=locations[i].id%>"><%=locations[i].name%> <%=locations[i].city%> <%=locations[i].state%> <%=locations[i].zipcode%></option>
+                  <%}
+                  }
+              
+                }else{ %>
+             
+                  <option value="0">No Locations</option>
+
+                <% } %>
+
+                </select>
+              </div>
+            </div> <!-- row ends -->
+
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label class="control-label"><strong>Date and Time</strong></label>
+                <div id="datetimepicker" class="input-append" name="datetimepicker">
+                  <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date" name="datetime" value="<%=ride[0].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%>"></input>
+                  <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3 form-group">
+                <label class="control-label"><strong>Seats Available</strong></label>
+                <input type="text" class="form-control" placeholder="Example: 2" name="seats" required="required" value="<%=ride[0].seats%>"/>
+              </div>
+            </div> <!--row ends-->
+
+            <div class="row">
+              <div class="col-md-4 form-group">
+                <label class="control-label"><strong>Flexibility in Departure Time</strong></label> 
+                <div style="display: inline">
+                <input type="text" name="flexibility" required="required" autocomplete="on" placeholder="Example: +/- 3 hours" value="<%=ride[0].flexibility%>"></input>
+                <!--<button type="button" class="btn-xs btn-info" > + </button>
+                <button type="button" class="btn-xs btn-info" > - </button>-->
+              </div>
+              </div>
+            </div> <!-- row ends -->
+
+            <div class="row">
+              <div class="col-md-6 form-group" style="display: inline">
+                <button type="submit" class="btn btn-info" onClick="saveride()">Save changes</button>
+              </div>
+            </div> <!-- row ends -->
+          </form> <!-- form ends -->
+        </div>
+        </div>
+    
+    </div>
+  </main>
+    <script>
+    
+        function saveride(){           
+           $.ajax({            
+            //url:"/rides/"+<%=ride[0].id%>,
+            url:"/dashboard",
+            type:"put",
+            data:$("#editForm").serialize(),
+            success:function(res){                
+                window.location.href = '/dashboard';
+                return false;
+            },
+            error:function(xhr, status, error){                
+                console.log(xhr.responseText);
+                var err = '';
+                $.each(JSON.parse(xhr.responseText) , function(i, item) {                   
+                     err +='<li>'+item.msg+'</li>';
+                });
+                $(".error-messages").html(err);    
+            return false;
+            }            
+           });
+        }
+    
+  $(function () {
+    $('#datetimepicker').datetimepicker({
+      collapse: false,
+      pick12HourFormat: true,
+      format: 'yyyy-MM-dd HH:mm:ss',
+      language: 'en',  
+    });
+  });
+    </script>
+  <footer>
+    <% include ../partials/footer %>
+  </footer>
+</body>
+</html>

@@ -7,7 +7,7 @@ var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '',
+  password : 'root',
   port   : 3306,
   database : 'mhcrideshare',
   debug    : false
@@ -65,6 +65,44 @@ dbfunctions.selectRides = function(callback, destination) {
     return callback(null, rows);    
 
   }); 
+};
+
+dbfunctions.selectRide = function(callback, id) {    
+  var ride;
+  var locations;
+    // connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, l1.name AS origin, l2.name AS destination,' + 
+    //   ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
+    //   'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND ' + 
+    //   'r.id = ?', [id], function(err, rows) {
+
+      connection.query("SELECT * FROM rides WHERE id = ? ", [id], function(err, rows) {
+
+        
+    if (err) return callback(err);
+    ride = rows;
+    
+    //console.log(id);
+
+    connection.query('SELECT * FROM locations', function(err2, rows2) {
+      if (err2) return callback(err2);
+      locations = rows2;
+      //console.log(rows);
+      //console.log(rows2);
+      return callback(null, ride, locations);   
+    });
+    //console.log(memberID);
+    //connection.end(); 
+    //console.log('The results are: ', rows);
+     
+
+  }); 
+};
+
+dbfunctions.updateRide = function(callback, id, data) {    
+    connection.query("UPDATE rides set ? WHERE id = ? ", [data,id], function(err, rows) {        
+      if (err) return callback(err);
+      return callback(null);   
+    });
 };
 
 dbfunctions.getLocations = function(callback) {    
