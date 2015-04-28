@@ -68,7 +68,11 @@
 </main>
 <script>
 
-function deleteRide(id){    
+function deleteRide(id){  
+
+var result = confirm("Do you want to delete this ride?");
+if (result) {
+
   $.ajax({
       url:"/ride/"+id,
       type: 'DELETE',
@@ -82,6 +86,8 @@ function deleteRide(id){
           return false;
       }
   });
+
+  }
 }
 
 </script>
