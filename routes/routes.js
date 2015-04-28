@@ -138,9 +138,11 @@ module.exports = function(app, passport) {
 
 		var rideoffer=false;
 		var riderequest=false;
+		var dId=null;
 
 		if(request=="offer"){
 			rideoffer=true;
+			dId = global.memberID;
 		}
 
 		if(request=="request"){
@@ -148,7 +150,7 @@ module.exports = function(app, passport) {
 		}
 
 		var data = {
-		    driverid : global.memberID,
+		    driverid : dId,
 		    origin : req.body.origin,
 		    destination : req.body.destination,
 		    seats : req.body.seats,
