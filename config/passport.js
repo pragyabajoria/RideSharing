@@ -1,7 +1,7 @@
 // Passport strategies
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
+var dbfunctions = require('./../routes/dbfunctions');
 var userId;
 var userName;
 var userEmail;
@@ -42,6 +42,16 @@ module.exports = function(passport) {
             userId = profile.id;
             userName = profile.displayName;
             userEmail = profile.emails[0].value;
+
+            //send user to database
+            function handleResult(err) {
+                if (err) {
+                    console.error(err.stack || err.message);
+                    return;
+                }
+            }
+            dbfunctions.locateUser(handleResult, userId, userName, userEmail);
+
             // To keep the example simple, the user's Google profile is returned to
             // represent the logged-in user.  In a typical application, you would want
             // to associate the Google account with a user record in your database,

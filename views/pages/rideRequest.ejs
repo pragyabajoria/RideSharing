@@ -91,7 +91,7 @@
             <div class="row">
               <div class="col-md-6 form-group" style="display: inline">
                 <button type="submit" class="btn btn-info" onClick="requestRide()">Request a Ride</button>
-                <button type="submit" class="btn btn-info"  onClick="postRide()">Post a Ride</button>
+                <button type="submit" class="btn btn-info" onClick="postride()">Post a Ride</button>
               </div>
             </div> <!-- row ends -->
           </form> <!-- form ends -->
@@ -102,16 +102,16 @@
   </main>
   <script>
 
-  function postRide(){   
+  function postride(){   
 
      $.ajax({  
 
-          url:"/riderequest",
+          url:"/dashboard",
           type:"post",
           data:$("#requestForm").serialize(),
           success:function(res){            
           window.location.href = '/dashboard';
-          return false;
+          return true;
       },
       error:function(xhr, status, error){   
 
@@ -135,6 +135,7 @@
       language: 'en',  
     });
   });
+
   </script>
   <footer>
     <% include ../partials/footer %>

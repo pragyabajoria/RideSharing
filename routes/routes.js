@@ -1,9 +1,12 @@
 module.exports = function(app, passport) {
+
 	//var index = require('./index');
 	//var user = require('./user');
 	var auth = require('./auth');
 	var dashboard = require('./dashboard');
 	var dbfunctions = require('./dbfunctions');
+
+
 		
 	//app.use('/', index);
 	//app.use('/user', user);
@@ -21,36 +24,36 @@ module.exports = function(app, passport) {
   		res.render('login', { user: req.user });
 	});
 
-	app.get('/searchrides', function (req, res) {
+app.get('/searchrides', function (req, res) {
 
-			function handleResult(err, result) {
-		    if (err) {
-		        console.error(err.stack || err.message);
-		        return;
-		    }
-	  		res.render('pages/destination', {title:req.query['search'], data:result});
-  		}
+	function handleResult(err, result) {
+	if (err) {
+	    console.error(err.stack || err.message);
+	    return;
+	}
+		res.render('pages/destination', {title:req.query['search'], data:result});
+	}
 
-  		dbfunctions.searchRides(handleResult, req.query['search']);
+	dbfunctions.searchRides(handleResult, req.query['search']);
 
-	});
+});
 
-	app.get('/riderequest', function(req, res){
+app.get('/riderequest', function(req, res){
 
-		function handleResult(err, result) {
-		    if (err) {
-		        console.error(err.stack || err.message);
-		        return;
-		    }
-	  		res.render('pages/rideRequest', {data:result});
-  		}
+	function handleResult(err, result) {
+	    if (err) {
+	        console.error(err.stack || err.message);
+	        return;
+	    }
+  		res.render('pages/rideRequest', {data:result});
+  	}
 
-  		dbfunctions.getLocations(handleResult);
+  	dbfunctions.getLocations(handleResult);
 
-	});
+});
 
 
-	app.post('/riderequest', function(req,res) {
+app.post('/riderequest', function(req,res) {
 
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
 		req.assert('origin', 'Please Select Origin').notEmpty();
@@ -65,12 +68,13 @@ module.exports = function(app, passport) {
 		}
 
 		var data = {
-		    driverid : '1',
+		    driverid : global.memberID,
 		    origin : req.body.origin,
 		    destination : req.body.destination,
 		    seats : req.body.seats,
 		    datetime : req.body.datetime,
 		    flexibility : req.body.flexibility,
+		    offered: 'true',
 		};
   		
   		function handleResult(err) {
@@ -83,7 +87,8 @@ module.exports = function(app, passport) {
   		}
 
   		dbfunctions.addNewRide(handleResult, data);
-	});
+});
+
 
 	app.get('/contactform', function(req,res) {
   		res.render('pages/contactForm');
@@ -108,7 +113,8 @@ module.exports = function(app, passport) {
     		res.render('pages/destination', {title: 'Boston', data:result});
 		}
 		var destination = "Boston";
-		dbfunctions.selectAllRides(handleResult, destination);
+		
+		dbfunctions.selectRides(handleResult, destination);
 
   		//res.render('pages/destination', {title: 'Boston'});
 	});
@@ -124,7 +130,7 @@ module.exports = function(app, passport) {
     		res.render('pages/destination', {title: 'Holyoke Mall', data:result});
 		}
 		var destination = "Holyoke Mall";
-		dbfunctions.selectAllRides(handleResult, destination);
+		dbfunctions.selectRides(handleResult, destination);
 
   		//.render('pages/destination', {title: 'Holyoke Mall'});
 	});
@@ -140,7 +146,7 @@ module.exports = function(app, passport) {
     		res.render('pages/destination', {title: 'New York City', data:result});
 		}
 		var destination = "New York City";
-		dbfunctions.selectAllRides(handleResult, destination);
+		dbfunctions.selectRides(handleResult, destination);
   		//res.render('pages/destination', {title: 'New York City'});
 	});
 
@@ -154,12 +160,12 @@ module.exports = function(app, passport) {
     		res.render('pages/destination', {title: 'Springfield Bus Terminal', data:result});
 		}
 		var destination = "Springfield Bus Terminal";
-		dbfunctions.selectAllRides(handleResult, destination);
+		dbfunctions.selectRides(handleResult, destination);
   		//res.render('pages/destination', {title: 'Springfield'});
 	});
 
 	app.get('/bradley', function(req,res) {
-		//var rows = dbfunctions.selectAllRides();
+		//var rows = dbfunctions.selectRides();
 		//console.log('The results are: ', rows);
 
 		function handleResult(err, result) {
@@ -171,7 +177,7 @@ module.exports = function(app, passport) {
     		res.render('pages/destination', {title: 'Bradley Airport', data:result});
 		}
 		var destination = "Bradley Airport";
-		dbfunctions.selectAllRides(handleResult, destination);
+		dbfunctions.selectRides(handleResult, destination);
   		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
 	});
 
