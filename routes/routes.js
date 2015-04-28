@@ -105,6 +105,22 @@ module.exports = function(app, passport) {
   		dbfunctions.updateRide(handleResult,id, data);
 	});
 
+	app.post('/riderequest/:id', function(req,res) {
+
+		var id = req.params.id;
+		
+
+  		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/dashboard');
+  		}
+
+  		dbfunctions.requestRide(handleResult,id);
+	});
+
 	app.post('/riderequest', function(req,res) {
 
 		
