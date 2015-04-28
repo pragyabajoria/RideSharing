@@ -55,6 +55,7 @@ module.exports = function(app, passport) {
 
 	app.post('/riderequest', function(req,res) {
 
+		
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
 		req.assert('origin', 'Please Select Origin').notEmpty();
 		req.assert('destination', 'Please Select Destination').notEmpty();
@@ -67,6 +68,20 @@ module.exports = function(app, passport) {
 		    return;
 		}
 
+		var request = req.body.request;
+		console.log("request value: "+ request)
+
+		var rideoffer=false;
+		var riderequest=false;
+
+		if(request=="offer"){
+			rideoffer=true;
+		}
+
+		if(request=="request"){
+			riderequest=true;
+		}
+
 		var data = {
 		    driverid : global.memberID,
 		    origin : req.body.origin,
@@ -74,7 +89,8 @@ module.exports = function(app, passport) {
 		    seats : req.body.seats,
 		    datetime : req.body.datetime,
 		    flexibility : req.body.flexibility,
-		    offered: 'true',
+		    offered: rideoffer,
+		    requested: riderequest,
 		};
   		
   		function handleResult(err) {
