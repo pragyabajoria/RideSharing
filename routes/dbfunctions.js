@@ -7,7 +7,7 @@ var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'root',
+  password : '',
   port   : 3306,
   database : 'mhcrideshare',
   debug    : false
@@ -100,6 +100,19 @@ dbfunctions.selectRide = function(callback, id) {
 
 dbfunctions.updateRide = function(callback, id, data) {    
     connection.query("UPDATE rides set ? WHERE id = ? ", [data,id], function(err, rows) {        
+      if (err) return callback(err);
+      return callback(null);   
+    });
+};
+
+dbfunctions.requestRide = function(callback, id) {    
+
+  var data = {
+          rideid : id,
+          memberid : global.memberID,
+  };
+  
+  connection.query("INSERT INTO riderequests set ? ", data, function(err, rows) {        
       if (err) return callback(err);
       return callback(null);   
     });
