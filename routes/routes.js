@@ -15,7 +15,7 @@ module.exports = function(app, passport) {
 	
 	//Home page
 	app.get('/', function(req, res){
-  		res.render('landingpage/index.html');
+  		res.render('pages/index');
 	});
 
 	app.get('/login', function(req, res){
