@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(multer());
 app.use(methodOverride());
 app.use(expressValidator());
-app.use(session({ secret: 'keyboard cat',
+app.use(session({ secret: 'rideshare',
                   resave: false,
                   saveUninitialized: true,
                   cookie: { secure: true }}));
