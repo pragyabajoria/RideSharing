@@ -1,5 +1,5 @@
 module.exports = function(app, passport) {
-	var admin=true;
+	var admin=false;
 	//var index = require('./index');
 	//var user = require('./user');
 	var auth = require('./auth');
@@ -86,29 +86,40 @@ module.exports = function(app, passport) {
 
 	app.get('/admin/users', function(req, res){
 
-		function handleResult(err, result) {
-		    if (err) {
-		        console.error(err.stack || err.message);
-		        return;
-		    }
-	  		res.render('pages/users', {title: "Admin Dashboard",data:result});
-	  	}
+		if(admin==true){
+			function handleResult(err, result) {
+			    if (err) {
+			        console.error(err.stack || err.message);
+			        return;
+			    }
+		  		res.render('pages/users', {title: "Admin Dashboard",data:result});
+		  	}
 
-	  	dbfunctions.getUsers(handleResult);
+		  	dbfunctions.getUsers(handleResult);
+
+	  			}
+		else{
+			res.send("Access Denied");
+		}
 
 	});
 
 	app.get('/admin/locations', function(req, res){
+		if(admin==true){
+			function handleResult(err, result) {
+			    if (err) {
+			        console.error(err.stack || err.message);
+			        return;
+			    }
+		  		res.render('pages/locations', {title: "Admin Dashboard",data:result});
+		  	}
 
-		function handleResult(err, result) {
-		    if (err) {
-		        console.error(err.stack || err.message);
-		        return;
-		    }
-	  		res.render('pages/locations', {title: "Admin Dashboard",data:result});
+		  	dbfunctions.getLocations(handleResult);
+
 	  	}
-
-	  	dbfunctions.getLocations(handleResult);
+		else{
+			res.send("Access Denied");
+		}
 
 	});
 	
@@ -127,9 +138,12 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/admin/addlocation', function(req, res){
-
+		if(admin==true){
 	 		res.render('pages/locationAdd');
-
+	 			  	
+		}else{
+			res.send("Access Denied");
+		}
 	});
 
 	app.post('admin/addlocation', function(req,res) {
@@ -406,14 +420,29 @@ module.exports = function(app, passport) {
 		        return;
 		    }
 
-		    var offered="";
-		    var requested="";
-		    var requests="";
+		    var offered=result;
+		    //var requested="";
+		    //var requests="";
 
-    		res.render('pages/myRides', {title: 'My Rides', data:result, offered:"", requested:"", requests:""});
+		    function handleResult(err, result2) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+
+			   
+			    var requested=result2;
+			    //var requests="";
+
+		 	   res.render('pages/myRides', {title: 'My Rides', data:result, offered:offered, requested:requested, requests:""});
+			}
+
+		    dbfunctions.selectMyRequestededRides(handleResult);
+
+    		
 		}
 		
-		dbfunctions.selectMyRides(handleResult);
+		dbfunctions.selectMyOfferedRides(handleResult);
   		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
 	});
 	

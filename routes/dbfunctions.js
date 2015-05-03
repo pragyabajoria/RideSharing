@@ -7,7 +7,7 @@ var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'root',
+  password : '',
   port   : 3306,
   database : 'mhcrideshare',
   debug    : false
@@ -67,11 +67,11 @@ dbfunctions.selectRides = function(callback, destination) {
   }); 
 };
 
-dbfunctions.selectMyRides = function(callback, destination) {    
+dbfunctions.selectMyOfferedRides = function(callback, destination) {    
     connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
-      ' r.datetime>= CURDATE() ', function(err, rows) {
+      ' r.datetime>= CURDATE() AND r.driverid = ?', global.memberID, function(err, rows) {
     if (err) return callback(err);
     //console.log(memberID);
     //connection.end(); 
@@ -81,6 +81,19 @@ dbfunctions.selectMyRides = function(callback, destination) {
   }); 
 };
 
+dbfunctions.selectMyRequestededRides = function(callback, destination) {    
+    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email, l1.name AS origin, l2.name AS destination,' + 
+      ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
+      'locations as l2, riderequests as rr WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
+      ' r.datetime>= CURDATE() AND rr.rideid = r.id AND rr.memberID = ? ', global.memberID, function(err, rows) {
+    if (err) return callback(err);
+    //console.log(memberID);
+    //connection.end(); 
+    //console.log('The results are: ', rows);
+    return callback(null, rows);    
+
+  }); 
+};
 dbfunctions.selectRide = function(callback, id) {    
   var ride;
   var locations;
