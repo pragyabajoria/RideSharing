@@ -68,7 +68,7 @@
               <div class="col-md-6 form-group">
                 <label class="control-label"><strong>Date and Time</strong></label>
                 <div id="datetimepicker" class="input-append" name="datetimepicker">
-                  <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date" name="datetime"></input>
+                  <input class="form-control" type="text" name="datetime"></input>
                   <span class="add-on">
                     <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
                   </span>
@@ -148,8 +148,8 @@
   $(function () {
     $('#datetimepicker').datetimepicker({
       collapse: false,
-      pick12HourFormat: true,
-      format: 'yyyy-MM-dd HH:mm:ss',
+      //pick12HourFormat: true,
+      format: 'yyyy-MM-dd hh:mm:ss',
       language: 'en',  
     });
   });

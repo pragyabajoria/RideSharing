@@ -79,7 +79,8 @@
               <div class="col-md-6 form-group">
                 <label class="control-label"><strong>Date and Time</strong></label>
                 <div id="datetimepicker" class="input-append" name="datetimepicker">
-                  <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date" name="datetime" value="<%=ride[0].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%>"></input>
+                  <!--<input data-format="yyyy-MM-dd hh:mm:ss" class="form-control" type="text" placeholder="Date" name="datetime" value="<%=ride[0].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%>"></input>-->
+                  <input class="form-control" type="text" placeholder="Date" name="datetime" value="<%=ride[0].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%>"></input>
                   <span class="add-on">
                     <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
                   </span>
@@ -123,8 +124,9 @@
             type:"put",
             data:$("#editForm").serialize(),
             success:function(res){                
-                //window.location.href = '/dashboard';
+                
                 alert("Your changes were saved.");
+                window.location.href = '/myrides';
                 return false;
             },
             error:function(xhr, status, error){                
@@ -142,9 +144,10 @@
         $(function () {
           $('#datetimepicker').datetimepicker({
             collapse: false,
-            pick12HourFormat: true,
-            format: 'yyyy-MM-dd HH:mm:ss',
+            //pick12HourFormat: true,
+            format: 'yyyy-MM-dd hh:mm:ss',
             language: 'en',  
+            locale: 'en',
           });
         });
     </script>
