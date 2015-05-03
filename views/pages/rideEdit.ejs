@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <% include ../partials/head %>
   <% include ../partials/datepickerHead %>
@@ -114,39 +113,39 @@
     
     </div>
   </main>
-    <script>
+  <script>
+    function saveride(){           
+      $.ajax({            
+        //url:"/rides/"+<%=ride[0].id%>,
+        url : "/dashboard",
+        type : "put",
+        data : $("#editForm").serialize(),
+        success : function(res) {                
+          window.location.href = '/dashboard';
+          return false;
+        },
+        error : function(xhr, status, error) {                
+          console.log(xhr.responseText);
+          var err = '';
+          $.each(JSON.parse(xhr.responseText) , function(i, item) {                   
+            err +='<li>'+item.msg+'</li>';
+          });
+          
+          $(".error-messages").html(err);    
+          return false;
+        }            
+      });
+    }
     
-        function saveride(){           
-           $.ajax({            
-            //url:"/rides/"+<%=ride[0].id%>,
-            url:"/dashboard",
-            type:"put",
-            data:$("#editForm").serialize(),
-            success:function(res){                
-                window.location.href = '/dashboard';
-                return false;
-            },
-            error:function(xhr, status, error){                
-                console.log(xhr.responseText);
-                var err = '';
-                $.each(JSON.parse(xhr.responseText) , function(i, item) {                   
-                     err +='<li>'+item.msg+'</li>';
-                });
-                $(".error-messages").html(err);    
-            return false;
-            }            
-           });
-        }
-    
-  $(function () {
-    $('#datetimepicker').datetimepicker({
-      collapse: false,
-      pick12HourFormat: true,
-      format: 'yyyy-MM-dd HH:mm:ss',
-      language: 'en',  
+    $(function () {
+      $('#datetimepicker').datetimepicker({
+        collapse: false,
+        pick12HourFormat: true,
+        format: 'yyyy-MM-dd HH:mm:ss',
+        language: 'en',  
+      });
     });
-  });
-    </script>
+  </script>
   <footer>
     <% include ../partials/footer %>
   </footer>

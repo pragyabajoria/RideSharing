@@ -1,10 +1,9 @@
-<!-- views/pages/index.ejs -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <% include ../partials/head %>
-</head>
+<% include ../partials/head %>
+<script>
+    jQuery(document).ready( function($) {
+        $('#datetime').val(new Date().toDateInputValue());
+    });
+</script>
 <body>
     <header>
         <% include ../partials/header %>
@@ -63,19 +62,14 @@
                                         </div>
                                     </div> <!-- row ends -->
                                     <div class="row">
-                                        <div class="col-md-5 form-group">
-                                            <label class="control-label"><strong>Date and Time</strong></label>
-                                            <div id="datetimepicker" class="input-group date" data-date-format="mm-dd-yyyy">
-                                                <input class="form-control" type="text" placeholder="Date" name="datetime">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                            </div>
-                                            <!--
-                                            <div class="input-group" data-datepicker="true">
-                                                <input name="date" type="text" class="form-control" />
-                                                <span class="input-group-addon"><i class="icon-calendar"></i></span>
-                                            </div>
-                                            -->
+                                        <div class="col-md-4 form-group">
+                                            <label for="datetime" class="sr-only">Time</label>
+                                            <input type="datetime-local" id="datetime" class="form-control" placeholder="Date & Time" name="timedate" required autofocus>
                                         </div>
+                                            <!--
+                                                <input  data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date and Time" name="datetime"></input>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            -->
 
                                         <div class="col-md-2 form-group">
                                             <label class="control-label"><strong>Seats</strong></label>
@@ -104,10 +98,8 @@
         </div>
     </main>
     <footer>
-        <% include ../partials/footer %>
+        
     </footer>
-</body>
-</html>
 <script>
 
 function postridebutton(){
@@ -145,17 +137,6 @@ function postride(){
     });
 }
 
-$(function () {
-    $('#datetimepicker').datetimepicker({
-        collapse: false,
-        pick12HourFormat: true,
-        format: 'yyyy-MM-dd HH:mm:ss',
-        language: 'en',  
-    });
-});
-
-<script>
-
 $('#requestForm').click(function() {
     $(document).trigger("add-alerts", [
         {
@@ -165,3 +146,5 @@ $('#requestForm').click(function() {
     );
 });
 </script>
+</body>
+</html>
