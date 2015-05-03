@@ -193,6 +193,9 @@ module.exports = function(app, passport) {
 		    return;
 		}
 
+		//DATE_FORMAT(date,' %r')
+		//DATE_FORMAT(date,' %T')
+
 		var data = {
 		    driverid : global.memberID,
 		    origin : req.body.origin,
@@ -407,7 +410,7 @@ module.exports = function(app, passport) {
 		    var requested="";
 		    var requests="";
 
-    		res.render('pages/myRides', {title: 'My Rides', data:result, offered, requested, requests});
+    		res.render('pages/myRides', {title: 'My Rides', data:result, offered:"", requested:"", requests:""});
 		}
 		
 		dbfunctions.selectMyRides(handleResult);
