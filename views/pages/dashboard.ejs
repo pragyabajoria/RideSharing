@@ -1,9 +1,7 @@
+<link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
 <% include ../partials/head %>
-<script>
-    jQuery(document).ready( function($) {
-        $('#datetime').val(new Date().toDateInputValue());
-    });
-</script>
+<!-- Include Bootstrap Datepicker -->
 <body>
     <header>
         <% include ../partials/header %>
@@ -63,8 +61,13 @@
                                     </div> <!-- row ends -->
                                     <div class="row">
                                         <div class="col-md-4 form-group">
-                                            <label for="datetime" class="sr-only">Time</label>
-                                            <input type="datetime-local" id="datetime" class="form-control" placeholder="Date & Time" name="timedate" required autofocus>
+                                            <label class="control-label"><strong>Date and Time</strong></label>
+                                            <div id="datetimepicker" class="input-append date">
+                                                <input type="text" placeholder="Date and Time"></input>
+                                                <span class="add-on">
+                                                    <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
+                                                </span>
+                                            </div>   
                                         </div>
                                             <!--
                                                 <input  data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date and Time" name="datetime"></input>
@@ -100,6 +103,25 @@
     <footer>
         
     </footer>
+
+    <script type="text/javascript"
+     src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+    </script> 
+    <script type="text/javascript"
+     src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+    </script>
+    <script type="text/javascript">
+      $('#datetimepicker').datetimepicker({
+        format: 'yyyy-MM-dd hh:mm:ss',
+        language: 'en'
+      });
+    </script>
 <script>
 
 function postridebutton(){
