@@ -16,27 +16,49 @@
          <table border="0" cellpadding="5" cellspacing="5">
         <tr>
             <th>ID</th>
+             <th>&nbsp;</th>
             <th>Driver</th>
+            <th>&nbsp;</th>
       <th>Origin</th>
+      <th>&nbsp;</th>
             <th>Destination</th>
+            <th>&nbsp;</th>
             <th>Seats</th>
+            <th>&nbsp;</th>
       <th>Date and Time</th>
+      <th>&nbsp;</th>
       <th>Flexibility (hours)</th>
+      <th>&nbsp;</th>
       <th>Requested</th>
         </tr>
                        
         <% if(data.length){                         
-         for(var i = 0;i < data.length;i++) { %>         
-        <tr>
+         for(var i = 0;i < data.length;i++) { 
+
+        if((i%2)==0){ %>
+          <tr bgcolor="#A9E2F3">
+        <% } else { %> 
+          <tr>
+        <% } %>    
+
+        
       <td><%=data[i].id%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=data[i].firstname%> <%=data[i].lastname%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].origin%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=data[i].destination%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=data[i].seats%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].flexibility%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].requested%></td>
-            <td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+              <td>
                 
                 <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>          
             </td>

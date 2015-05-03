@@ -142,20 +142,6 @@ module.exports = function(app, passport) {
 
 	});
 	
-	// app.delete('/ride/:id', function(req,res) {
-
-	// 	var id = req.params.id;
-	// 	function handleResult(err) {
-	// 	    if (err) {
-	// 	        console.error(err.stack || err.message);
-	// 	        return;
-	// 	    }
-	//   		res.render('pages/rides');
-	//   		//res.sendStatus(200);
- //  		}
- //  		dbfunctions.deleteRide(handleResult, id);
-	// });
-
 	app.get('/admin/addlocation', function(req, res){
 		if(admin==true){
 	 		res.render('pages/locationAdd');
