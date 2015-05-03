@@ -7,7 +7,7 @@ var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'root',
+  password : '',
   port   : 3306,
   database : 'mhcrideshare',
   debug    : false
@@ -166,9 +166,15 @@ dbfunctions.searchRides = function(callback, search) {
 //    return callback(null, memberID); 
 // };
 
-//admin access/edit/delete
-dbfunctions.getMembersList = function(callback) {
-  
+//admin related activities
+dbfunctions.getUsers = function(callback) {
+  connection.query('SELECT * FROM members', function(err, rows) {
+    if (err) return callback(err);
+    //connection.end(); 
+    //console.log('The results are: ', rows);
+    return callback(null, rows);    
+
+  });
 };
 dbfunctions.updateMember = function(callback, id) {
   

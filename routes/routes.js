@@ -65,6 +65,49 @@ module.exports = function(app, passport) {
 
 	});
 
+	//admin page
+	app.get('/admin', function(req, res){
+
+		//if admin
+
+
+	  		res.render('pages/admin', {title: "Admin Dashboard"});
+
+	  	//else redirect / access denied
+
+	});
+
+	app.get('/admin/users', function(req, res){
+
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/users', {title: "Admin Dashboard",data:result});
+	  	}
+
+	  	dbfunctions.getUsers(handleResult);
+
+	});
+
+	app.get('/admin/locations', function(req, res){
+
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/locations', {title: "Admin Dashboard",data:result});
+	  	}
+
+	  	dbfunctions.getLocations(handleResult);
+
+	});
+	
+
+	//end of admin pages
+
 	app.post('/ride/:id', function(req,res) {
 
 		var id = req.params.id;
