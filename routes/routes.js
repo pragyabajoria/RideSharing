@@ -1,5 +1,5 @@
 module.exports = function(app, passport) {
-	var admin=false;
+	var admin=true;
 	//var index = require('./index');
 	//var user = require('./user');
 	var auth = require('./auth');
