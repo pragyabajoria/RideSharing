@@ -16,33 +16,82 @@
     <h3>Rides You Have Offered</h3>
     <table border="0" cellpadding="5" cellspacing="5">
         <tr>
-            <th>ID</th>
+            <!--<th>ID</th>
+            <th>&nbsp;</th>
             <th>Driver</th>
+            <th>&nbsp;</th>-->
       <th>Origin</th>
+      <th>&nbsp;</th>
             <th>Destination</th>
+            <th>&nbsp;</th>
             <th>Seats</th>
+            <th>&nbsp;</th>
       <th>Date and Time</th>
+      <th>&nbsp;</th>
       <th>Flexibility (hours)</th>
-      <th>Requested</th>
+      <!--<th>&nbsp;</th>
+      <th>Requested</th>-->
         </tr>
                        
         <% if(offered.length){                         
-         for(var i = 0;i < offered.length;i++) { %>         
-        <tr>
-      <td><%=offered[i].id%></td>
+         for(var i = 0;i < offered.length;i++) {         
+                if((i%2)==0){ %>
+          <tr bgcolor="#A9E2F3">
+        <% } else { %> 
+          <tr bgcolor="#FFCCFF">
+        <% } %>  
+      <!--<td><%=offered[i].id%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=offered[i].firstname%> <%=offered[i].lastname%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>-->
       <td><%=offered[i].origin%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=offered[i].destination%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=offered[i].seats%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=offered[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=offered[i].flexibility%></td>
-      <td><%=offered[i].requested%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <!--<td><%=offered[i].requested%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>-->
             <td>
                 <a href="/ride/<%=offered[i].id%>">Edit Ride</a>
-                <!--<button type="submit" class="btn btn-info" onClick="location.href='/ride/<%=data[i].id%>'">Edit Ride</button> -->              
-                <a href="javascript:void(0)" onClick="deleteRide(<%=offered[i].id%>)">Delete Ride</a>          
+                <!--<button type="submit" class="btn btn-info" onClick="location.href='/ride/<%=data[i].id%>'">Edit Ride</button> --> &nbsp;&nbsp;       
+                <a href="javascript:void(0)" onClick="deleteRide(<%=offered[i].id%>)">Delete Ride</a>   
+
             </td>
         </tr>
+   
+        <tr >
+        <!--<td>&nbsp;&nbsp;&nbsp;</td>-->
+
+          <%if((i%2)==0){ %>
+           <td colspan="12" bgcolor="#6699FF">
+        <% } else { %> 
+           <td colspan="12" bgcolor="#FF99CC">
+        <% } %> 
+
+          <p>Requests: </p>
+                          <% if(requests.length){                         
+                    for(var j = 0;j < requests.length;j++) { 
+                      if (requests[j].id == offered[i].id) {
+                      %>
+                         <p><%=requests[j].firstname%> <%=requests[j].lastname%> (<%=requests[j].email%>) </p>
+                      
+                <% } } } %>  
+          </td>
+        </tr>
+        <td colspan="12">&nbsp;</td>
+        <tr>
+        </tr>
+          
+
+       
+
+
+
     <% }
     
      }else{ %>
@@ -59,27 +108,44 @@
     <h3>Rides You Have Requested</h3>
     <table border="0" cellpadding="5" cellspacing="5">
         <tr>
-            <th>ID</th>
+            <!--<th>ID</th>-->
             <th>Driver</th>
+            <th>&nbsp;</th>
       <th>Origin</th>
+      <th>&nbsp;</th>
             <th>Destination</th>
+            <th>&nbsp;</th>
             <th>Seats</th>
+            <th>&nbsp;</th>
       <th>Date and Time</th>
+      <th>&nbsp;</th>
       <th>Flexibility (hours)</th>
+      <th>&nbsp;</th>
       <th>Requested</th>
         </tr>
                        
         <% if(requested.length){                         
-         for(var i = 0;i < requested.length;i++) { %>         
-        <tr>
-      <td><%=requested[i].id%></td>
+         for(var i = 0;i < requested.length;i++) {        
+                if((i%2)==0){ %>
+          <tr bgcolor="#A9E2F3">
+        <% } else { %> 
+          <tr bgcolor="#FFCCFF">
+        <% } %>  
+      <!--<td><%=requested[i].id%></td>-->
             <td><%=requested[i].firstname%> <%=requested[i].lastname%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=requested[i].origin%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=requested[i].destination%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=requested[i].seats%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=requested[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=requested[i].flexibility%></td>
-      <td><%=requested[i].requested%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <!--<td><%=requested[i].requested%></td>-->
+
             <td>
         <a href="javascript:void(0)" onClick="requestRide(<%=requested[i].id%>, 1)">Cancel Request </a>  
           

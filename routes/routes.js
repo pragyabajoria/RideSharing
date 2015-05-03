@@ -252,7 +252,9 @@ module.exports = function(app, passport) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/dashboard');
+
+		    res.redirect('/myrides');
+	  		//res.render('pages/dashboard');
 	  		//res.send('/searchrides?search=boston');
 	  		//res.sendStatus(200);
   		}
@@ -308,6 +310,8 @@ module.exports = function(app, passport) {
 			riderequest=true;
 		}
 
+		console.log(" ****** "+ req.body.datetime);
+
 		var data = {
 		    driverid : dId,
 		    origin : req.body.origin,
@@ -324,7 +328,8 @@ module.exports = function(app, passport) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/dashboard');
+		    res.redirect('/myrides');
+	  		//res.render('pages/dashboard');
 	  		//res.sendStatus(200);
   		}
 
@@ -450,29 +455,39 @@ module.exports = function(app, passport) {
 		    }
 
 		    var offered=result;
-		    //var requested="";
-		    //var requests="";
 
 		    function handleResult(err, result2) {
-		    if (err) {
-		        console.error(err.stack || err.message);
-		        return;
-		    }
-
+			    if (err) {
+			        console.error(err.stack || err.message);
+			        return;
+			    }
 			   
-			    var requested=result2;
-			    //var requests="";
+			 	var requested=result2;			    
 
-		 	   res.render('pages/myRides', {title: 'My Rides', data:result, offered:offered, requested:requested, requests:""});
-			}
+			    function handleResult(err, result3) {
+
+				    if (err) {
+				        console.error(err.stack || err.message);
+				        return;
+				    }
+
+					   
+					    var requests=result3;
+					   
+
+				 	   res.render('pages/myRides', {title: 'My Rides', offered:offered, requested:requested, requests:requests});
+					}
+
+				    dbfunctions.selectRequestsForMyOfferedRides(handleResult);
+
+				}
 
 		    dbfunctions.selectMyRequestededRides(handleResult);
-
     		
 		}
 		
 		dbfunctions.selectMyOfferedRides(handleResult);
-  		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
+  		
 	});
 	
 	/*//Registration page
