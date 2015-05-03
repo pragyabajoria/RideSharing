@@ -123,7 +123,8 @@
             type:"put",
             data:$("#editForm").serialize(),
             success:function(res){                
-                window.location.href = '/dashboard';
+                //window.location.href = '/dashboard';
+                alert("Your changes were saved.");
                 return false;
             },
             error:function(xhr, status, error){                
