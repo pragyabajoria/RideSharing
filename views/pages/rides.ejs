@@ -1,0 +1,84 @@
+<!-- views/pages/profile.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <header>
+      <% include ../partials/header %>
+    </header>
+    <br/><br/>
+    <h1>Admin Dashboard</h1>
+
+    <div>
+         <table border="0" cellpadding="5" cellspacing="5">
+        <tr>
+            <th>ID</th>
+            <th>Driver</th>
+      <th>Origin</th>
+            <th>Destination</th>
+            <th>Seats</th>
+      <th>Date and Time</th>
+      <th>Flexibility (hours)</th>
+      <th>Requested</th>
+        </tr>
+                       
+        <% if(data.length){                         
+         for(var i = 0;i < data.length;i++) { %>         
+        <tr>
+      <td><%=data[i].id%></td>
+            <td><%=data[i].firstname%> <%=data[i].lastname%></td>
+      <td><%=data[i].origin%></td>
+            <td><%=data[i].destination%></td>
+            <td><%=data[i].seats%></td>
+      <td><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
+      <td><%=data[i].flexibility%></td>
+      <td><%=data[i].requested%></td>
+            <td>
+                
+                <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>          
+            </td>
+        </tr>
+    <% }
+    
+     }else{ %>
+         <tr>
+            <td colspan="5">No Rides</td>
+         </tr>
+    <% } %>
+                                      
+    </table>
+    </div>
+
+    <script>
+
+function deleteRide(id){  
+
+var result = confirm("Do you want to delete this ride?");
+if (result) {
+
+  $.ajax({
+      url:"/ride/"+id,
+      type: 'DELETE',
+      success: function(res) {                
+          window.location.reload();
+          alert("Ride was deleted.");
+          return false;
+      },
+      error:function(xhr, status, error){            
+          console.log(xhr.responseText);
+          alert("delete error");
+          return false;
+      }
+  });
+
+  }
+}
+    </script>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+  </body>
+</html>
