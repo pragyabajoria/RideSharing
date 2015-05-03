@@ -258,6 +258,7 @@ module.exports = function(app, passport) {
 			dId = global.memberID;
 		}
 
+		//NOTE: also add to riderequests table
 		if(request=="request"){
 			riderequest=true;
 		}
@@ -402,7 +403,11 @@ module.exports = function(app, passport) {
 		        return;
 		    }
 
-    		res.render('pages/myRides', {title: 'My Rides', data:result});
+		    var offered="";
+		    var requested="";
+		    var requests="";
+
+    		res.render('pages/myRides', {title: 'My Rides', data:result, offered, requested, requests});
 		}
 		
 		dbfunctions.selectMyRides(handleResult);
