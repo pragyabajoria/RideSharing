@@ -38,7 +38,8 @@
       <td><%=offered[i].flexibility%></td>
       <td><%=offered[i].requested%></td>
             <td>
-                <a href="/rides/<%=offered[i].id%>">Edit Ride</a>               
+                <a href="/ride/<%=offered[i].id%>">Edit Ride</a>
+                <!--<button type="submit" class="btn btn-info" onClick="location.href='/ride/<%=data[i].id%>'">Edit Ride</button> -->              
                 <a href="javascript:void(0)" onClick="deleteRide(<%=offered[i].id%>)">Delete Ride</a>          
             </td>
         </tr>
@@ -101,7 +102,28 @@
     <br/>
     <br/><br/>
     <script>
+    function deleteRide(id){  
 
+    var result = confirm("Do you want to delete this ride?");
+    if (result) {
+
+      $.ajax({
+          url:"/ride/"+id,
+          type: 'DELETE',
+          success: function(res) {                
+              window.location.reload();
+              alert("Ride was deleted.");
+              return false;
+          },
+          error:function(xhr, status, error){            
+              console.log(xhr.responseText);
+              alert("delete error");
+              return false;
+          }
+      });
+
+  }
+}
      
     </script>
     <footer>

@@ -410,6 +410,7 @@ module.exports = function(app, passport) {
   		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
 	});
 
+	// my rides page for each user
 	app.get('/myrides', function(req,res) {
 		//var rows = dbfunctions.selectRides();
 		//console.log('The results are: ', rows);
