@@ -1,5 +1,5 @@
 module.exports = function(app, passport) {
-
+	var admin=true;
 	//var index = require('./index');
 	//var user = require('./user');
 	var auth = require('./auth');
@@ -69,9 +69,16 @@ module.exports = function(app, passport) {
 	app.get('/admin', function(req, res){
 
 		//if admin
+		if(admin==true){
+			res.render('pages/admin', {title: "Admin Dashboard"});
+
+		}
+		else{
+			res.send("Access Denied");
+		}
 
 
-	  		res.render('pages/admin', {title: "Admin Dashboard"});
+	  		
 
 	  	//else redirect / access denied
 
@@ -105,6 +112,69 @@ module.exports = function(app, passport) {
 
 	});
 	
+	app.delete('/location/:id', function(req,res) {
+
+		var id = req.params.id;
+		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/locations');
+	  		//res.sendStatus(200);
+  		}
+  		dbfunctions.deleteLocation(handleResult, id);
+	});
+
+	app.get('/admin/addlocation', function(req, res){
+
+	 		res.render('pages/locationAdd');
+
+	});
+
+	app.post('admin/addlocation', function(req,res) {
+		
+		//req.assert('driverid', 'Please Enter ID').notEmpty();
+		  
+		var errors = req.validationErrors();
+		  
+		if (errors) {
+		    res.status(422).json(errors);
+		    return;
+		}
+
+		var data = {
+		    origin : req.body.origin,
+		    destination : req.body.destination,
+		    seats : req.body.seats,
+		    datetime : req.body.datetime,
+		    flexibility : req.body.flexibility,
+		};
+  		
+  		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/locations');
+	  		//res.sendStatus(200);
+  		}
+
+  		dbfunctions.addNewLocation(handleResult, data);
+	});
+
+	app.delete('/user/:id', function(req,res) {
+		var id = req.params.id;
+		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/users');
+	  		//res.sendStatus(200);
+  		}
+  		dbfunctions.deleteUser(handleResult, id);
+	});
 
 	//end of admin pages
 

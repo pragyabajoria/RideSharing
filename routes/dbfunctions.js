@@ -7,7 +7,7 @@ var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '',
+  password : 'root',
   port   : 3306,
   database : 'mhcrideshare',
   debug    : false
@@ -15,7 +15,7 @@ var connection = mysql.createConnection({
 });
 
 global.memberID;
-var admin=false;
+var admin=true;
 
 connection.connect(); 
 
@@ -176,6 +176,31 @@ dbfunctions.getUsers = function(callback) {
 
   });
 };
+
+dbfunctions.deleteLocation = function(callback, id) {    
+  connection.query("DELETE FROM locations  WHERE id = ? ", [id], function (err, rows) {
+      if (err) return callback(err);
+      return callback(null);    
+  });
+};
+
+dbfunctions.addNewLocation = function(callback, data) {    
+    connection.query('INSERT INTO locations set ? ', data, function(err, rows) {
+    if (err) return callback(err);
+    //connection.end(); 
+    //console.log('The results are: ', rows);
+    return callback(null);    
+
+});
+};
+
+dbfunctions.deleteUser = function(callback, id) {    
+  connection.query("DELETE FROM members  WHERE id = ? ", [id], function (err, rows) {
+      if (err) return callback(err);
+      return callback(null);    
+  });
+};
+
 dbfunctions.updateMember = function(callback, id) {
   
 };
