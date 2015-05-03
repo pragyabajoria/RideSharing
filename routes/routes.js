@@ -392,6 +392,22 @@ module.exports = function(app, passport) {
   		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
 	});
 
+	app.get('/myrides', function(req,res) {
+		//var rows = dbfunctions.selectRides();
+		//console.log('The results are: ', rows);
+
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+
+    		res.render('pages/myRides', {title: 'My Rides', data:result});
+		}
+		
+		dbfunctions.selectMyRides(handleResult);
+  		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
+	});
 	
 	/*//Registration page
 	app.get('/register', function(req, res){
