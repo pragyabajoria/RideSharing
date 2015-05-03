@@ -17,6 +17,10 @@ var express = require('express')
 
 var app = express();
 
+app.use(express.static(__dirname + '/public'));
+app.set('views','./views');
+app.set('view engine','ejs');
+
 // configure Express
 app.use(morgan('combined'));
 app.use(cookieParser());
@@ -25,7 +29,7 @@ app.use(bodyParser.json());
 app.use(multer());
 app.use(methodOverride());
 app.use(expressValidator());
-app.use(session({ secret: 'rideshare',
+app.use(session({ secret: 'keyboard cat',
                   resave: false,
                   saveUninitialized: true,
                   cookie: { secure: true }}));
@@ -33,10 +37,6 @@ app.use(session({ secret: 'rideshare',
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(express.static(__dirname + '/public'));
-app.set('views','./views');
-app.set('view engine','ejs');
 
 var router = express.Router();
 router.use (function (req, res, next) {

@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<div>
   <% include ../partials/head %>
   <% include ../partials/datepickerHead %>
+
   <style type="text/css"> 
   .center-panel
   {
@@ -10,152 +9,89 @@
     left : 25%;
   }
   </style>
-</head>
-
-<body>
-  <header>
-    <% include ../partials/header %>
-  </header>
   <br><br><br><br><br><br>
-  <main>
 
-    <div class="container row">
-        <div class="panel panel-info col-sm-8 col-md-8 col-md-offset-3 ">
-          <div class="panel-heading panel">Request / Share a Ride</div>
-          <!-- Panel -->
-          <div class="panel-body">
+  <div class="container row">
+    <div class="panel panel-info col-sm-8 col-md-8 col-md-offset-3 ">
+      <div class="panel-heading panel">
+        Request / Share a Ride
+      </div>
+      <!-- Panel -->
+      <div class="panel-body">
 
-            <div>
-                <ul class="error-messages"></ul>
+        <div>
+          <ul class="error-messages"></ul>
+        </div>
+        <form id="requestForm" method="post" class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 selectContainer form-group">
+              <label class="control-label"><strong>Origin</strong></label>
+              <select class="form-control" name="origin">
+
+                <% if(data.length){                         
+                  for(var i = 0;i < data.length;i++) { %>                     
+                  <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
+
+                  <% }
+
+                }else{ %>               
+                <option value="0">No Locations</option>
+                <% } %>
+
+              </select>
             </div>
-          <form id="requestForm" method="post" class="container-fluid">
-            <div class="row">
-              <div class="col-md-6 selectContainer form-group">
-                <label class="control-label"><strong>Origin</strong></label>
-                <select class="form-control" name="origin">
 
-                  <% if(data.length){                         
-                    for(var i = 0;i < data.length;i++) { %>                     
-                    <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
-                    
+            <div class="col-md-6 form-group">
+              <label class="control-label"><strong>Destination</strong></label>
+              <select class="form-control" name="destination">
+                <% if(data.length){                         
+                  for(var i = 0;i < data.length;i++) { %>                     
+                  <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
+
                   <% }
-                
-                  }else{ %>               
-                    <option value="0">No Locations</option>
-                  <% } %>
-                
-                </select>
-              </div>
 
-              <div class="col-md-6 form-group">
-                <label class="control-label"><strong>Destination</strong></label>
-                <select class="form-control" name="destination">
-                  <% if(data.length){                         
-                    for(var i = 0;i < data.length;i++) { %>                     
-                    <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
-                    
-                  <% }
-                
-                  }else{ %>               
-                    <option value="0">No Locations</option>
-                  <% } %>
+                } else { %>               
+                  <option value = "0" >No Locations</option>
+                <% } %>
 
-                </select>
-              </div>
-            </div> <!-- row ends -->
+              </select>
+            </div>
+          </div> <!-- row ends -->
 
-            <div class="row">
-              <div class="col-md-6 form-group">
-                <label class="control-label"><strong>Date and Time</strong></label>
-                <div id="datetimepicker" class="input-append" name="datetimepicker">
-                  <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date" name="datetime"></input>
-                  <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                  </span>
-                </div>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label class="control-label"><strong>Date and Time</strong></label>
+              <div id="datetimepicker" class="input-append" name="datetimepicker">
+                <input data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date" name="datetime"></input>
+                <span class="add-on">
+                  <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                </span>
               </div>
+            </div>
 
-              <div class="col-md-3 form-group">
-                <label class="control-label"><strong>Seats Available</strong></label>
-                <input type="text" class="form-control" placeholder="Example: 2" name="seats" required="required"/>
+            <div class="col-md-2 form-group">
+              <label class="control-label"><strong>Seats Available</strong></label>
+              <input type="text" class="form-control" placeholder="Example: 2" name="seats" required="required"/>
+            </div>
+            <div class="col-md-4 form-group">
+              <label class="control-label"><strong>Flexibility in Departure Time</strong></label> 
+              <div style="display: inline">
+                <input type="text" name="flexibility" required="required" autocomplete="on" placeholder="Example: +/- 3 hours">
+                </input>
               </div>
-            </div> <!--row ends-->
+            </div>
+          </div> <!-- row ends -->
 
-            <div class="row">
-              <div class="col-md-4 form-group">
-                <label class="control-label"><strong>Flexibility in Departure Time</strong></label> 
-                <div style="display: inline">
-                <input type="text" name="flexibility" required="required" autocomplete="on" placeholder="Example: +/- 3 hours"></input>
-                <!--<button type="button" class="btn-xs btn-info" > + </button>
-                <button type="button" class="btn-xs btn-info" > - </button>-->
-              </div>
-              </div>
-            </div> <!-- row ends -->
-
-            <div class="row">
-              <div class="col-md-6 form-group" style="display: inline">
-                <input type="hidden" id = 'requestid' name="request" value="">
+          <div class="row">
+            <div class="col-md-6 form-group" style="display: inline">
+              <input type="hidden" id = 'requestid' name="request" value="">
                 <button type="submit" class="btn btn-info" onClick="requestridebutton()">Request a Ride</button>
                 <button type="submit" class="btn btn-info" onClick="postridebutton()">Post a Ride</button>
-              </div>
-            </div> <!-- row ends -->
-          </form> <!-- form ends -->
-        </div>
-        </div>
-    
+              </input>
+            </div>
+          </div> <!-- row ends -->
+        </form> <!-- form ends -->
+      </div>
     </div>
-  </main>
-  <script>
-
-   function postridebutton(){
-    document.getElementById("requestid").value = "offer";
-    postride();
-   }
-
-    function requestridebutton(){
-    document.getElementById("requestid").value = "request";
-    postride();
-   }
-
-  function postride(){   
-
-     $.ajax({  
-
-          url:"/dashboard",
-          type:"post",
-          data:$("#requestForm").serialize(),
-          success:function(res){            
-          window.location.href = '/dashboard';
-          return false;
-      },
-      error:function(xhr, status, error){   
-
-          console.log(xhr.responseText);
-          var err = '';
-          $.each(JSON.parse(xhr.responseText) , function(i, item) {               
-               err += '<li>' + item.msg + '</li>';
-          });
-          $(".error-messages").html(err);    
-          return false;
-      }
-      
-     });
-  }
-
-
-
-  $(function () {
-    $('#datetimepicker').datetimepicker({
-      collapse: false,
-      pick12HourFormat: true,
-      format: 'yyyy-MM-dd HH:mm:ss',
-      language: 'en',  
-    });
-  });
-
-  </script>
-  <footer>
-    <% include ../partials/footer %>
-  </footer>
-</body>
-</html>
+  </div>
+</div>

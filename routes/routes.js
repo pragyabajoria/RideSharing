@@ -1,85 +1,77 @@
 module.exports = function(app, passport) {
 
-	//var index = require('./index');
-	//var user = require('./user');
 	var auth = require('./auth');
-	var dashboard = require('./dashboard');
 	var dbfunctions = require('./dbfunctions');
 		
-	//app.use('/', index);
-	//app.use('/user', user);
-	//app.use('/event', event);
 	app.use('/auth', auth);
-	app.use('/dashboard', dashboard);
-	//app.use('/', db);
-	
 	//Home page
 	app.get('/', function(req, res){
   		res.render('pages/index');
 	});
 
-	app.get('/login', function(req, res){
-  		res.render('login', { user: req.user });
+	/* GET home page. */
+	app.get('/dashboard', function(req, res) {
+		console.log("In routes function");
+		function handleResult(err, result) {
+			if (err) {
+			    console.error(err.stack || err.message);
+		    	return;
+			}
+	  		res.render('pages/dashboard', { data : result });
+		}
+		dbfunctions.getLocations(handleResult);
 	});
 
+	// Search Rides
 	app.get('/searchrides', function (req, res) {
-
 		function handleResult(err, result) {
-		if (err) {
-		    console.error(err.stack || err.message);
-		    return;
-		}
-			res.render('pages/destination', {title:req.query['search'], data:result});
+			if (err) {
+		    	console.error(err.stack || err.message);
+		    	return;
+			}
+			res.render('pages/destination', {title : req.query['search'], data : result });
 		}
 		dbfunctions.searchRides(handleResult, req.query['search']);
-
 	});
 
+	// Search rides with a given id
 	app.get('/ride/:id', function(req, res){
-
 		var id = req.params.id;
-
 		function handleResult(err, ride, locations) {
 		    if (err) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/rideEdit', {ride:ride, locations:locations});
+	  		res.render('pages/rideEdit', { ride : ride, locations : locations });
 	  	}
-
 	  	dbfunctions.selectRide(handleResult, id);
 
 	});
 
+	// Request a ride form
 	app.get('/riderequest', function(req, res){
-
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/rideRequest', {data:result});
+	  		res.render('pages/rideRequest', { data : result });
 	  	}
-
 	  	dbfunctions.getLocations(handleResult);
-
 	});
 
+	// Post a specific ride
 	app.post('/ride/:id', function(req,res) {
-
 		var id = req.params.id;
-		
 		req.assert('origin', 'Please Select Origin').notEmpty();
 		req.assert('destination', 'Please Select Destination').notEmpty();
 		req.assert('datetime', 'Please Enter Date and Time').notEmpty();
 		  
 		var errors = req.validationErrors();
-		  
 		if (errors) {
 		    res.status(422).json(errors);
 		    return;
 		}
-
 		var data = {
 		    driverid : global.memberID,
 		    origin : req.body.origin,
@@ -88,25 +80,22 @@ module.exports = function(app, passport) {
 		    datetime : req.body.datetime,
 		    flexibility : req.body.flexibility,
 		};
-  		
+  	
   		function handleResult(err) {
 		    if (err) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/dashboard');
+	  		res.render('pages/dashboard', { data : result });
 	  		//res.send('/searchrides?search=boston');
 	  		//res.sendStatus(200);
   		}
-
   		dbfunctions.updateRide(handleResult,id, data);
 	});
 
+	// Post a specific ride request
 	app.post('/riderequest/:id', function(req,res) {
-
 		var id = req.params.id;
-		
-
   		function handleResult(err) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -114,20 +103,16 @@ module.exports = function(app, passport) {
 		    }
 	  		res.render('pages/dashboard');
   		}
-
   		dbfunctions.requestRide(handleResult,id);
 	});
 
 	app.post('/riderequest', function(req,res) {
-
-		
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
 		req.assert('origin', 'Please Select Origin').notEmpty();
 		req.assert('destination', 'Please Select Destination').notEmpty();
 		req.assert('datetime', 'Please Enter Date and Time').notEmpty();
 		  
 		var errors = req.validationErrors();
-		  
 		if (errors) {
 		    res.status(422).json(errors);
 		    return;
@@ -158,8 +143,7 @@ module.exports = function(app, passport) {
 		    flexibility : req.body.flexibility,
 		    offered: rideoffer,
 		    requested: riderequest,
-		};
-  		
+		};	
   		function handleResult(err) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -168,14 +152,12 @@ module.exports = function(app, passport) {
 	  		res.render('pages/dashboard');
 	  		//res.sendStatus(200);
   		}
-
   		dbfunctions.addNewRide(handleResult, data);
 	});
 
 	app.delete('/ride/:id', function(req,res) {
 
 		var id = req.params.id;
-
 		function handleResult(err) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -186,7 +168,6 @@ module.exports = function(app, passport) {
   		}
   		dbfunctions.deleteRide(handleResult, id);
 	});
-
 
 	app.get('/contactform', function(req,res) {
   		res.render('pages/contactForm');
@@ -211,9 +192,7 @@ module.exports = function(app, passport) {
     		res.render('pages/destination', {title: 'Boston', data:result});
 		}
 		var destination = "Boston";
-		
 		dbfunctions.selectRides(handleResult, destination);
-
   		//res.render('pages/destination', {title: 'Boston'});
 	});
 
@@ -229,12 +208,11 @@ module.exports = function(app, passport) {
 		}
 		var destination = "Holyoke Mall";
 		dbfunctions.selectRides(handleResult, destination);
-
   		//.render('pages/destination', {title: 'Holyoke Mall'});
 	});
 
+	// New York City
 	app.get('/nyc', function(req,res) {
-
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -248,6 +226,7 @@ module.exports = function(app, passport) {
   		//res.render('pages/destination', {title: 'New York City'});
 	});
 
+	// Springfield
 	app.get('/springfield', function(req,res) {
 		function handleResult(err, result) {
 		    if (err) {
@@ -262,10 +241,8 @@ module.exports = function(app, passport) {
   		//res.render('pages/destination', {title: 'Springfield'});
 	});
 
+	// Bradley
 	app.get('/bradley', function(req,res) {
-		//var rows = dbfunctions.selectRides();
-		//console.log('The results are: ', rows);
-
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -343,5 +320,5 @@ function ensureAuthenticated(req, res, next) {
 		return next();
 	}
 	// else redirect to homepage
-	res.redirect('/login');
+	res.redirect('/');
 };
