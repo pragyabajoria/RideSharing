@@ -44,9 +44,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/ride/:id', function(req, res){
-
 		var id = req.params.id;
-
 		function handleResult(err, ride, locations) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -54,13 +52,23 @@ module.exports = function(app, passport) {
 		    }
 	  		res.render('pages/rideEdit', {ride:ride, locations:locations});
 	  	}
-
 	  	dbfunctions.selectRide(handleResult, id);
+	});
 
+	//cancel requests
+	app.post('/request/:id', function(req,res) {
+		var id = req.params.id;	
+  		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.redirect('/myrides');
+  		}
+  		dbfunctions.cancelRequest(handleResult,id);
 	});
 
 	app.get('/riderequest', function(req, res){
-
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -68,9 +76,7 @@ module.exports = function(app, passport) {
 		    }
 	  		res.render('pages/rideRequest', {data:result});
 	  	}
-
 	  	dbfunctions.getLocations(handleResult);
-
 	});
 
 	//admin page
@@ -84,16 +90,9 @@ module.exports = function(app, passport) {
 		else{
 			res.send("Access Denied");
 		}
-
-
-	  		
-
-	  	//else redirect / access denied
-
 	});
 
 	app.get('/admin/users', function(req, res){
-
 		if(global.admin==true){
 			function handleResult(err, result) {
 			    if (err) {
@@ -102,14 +101,10 @@ module.exports = function(app, passport) {
 			    }
 		  		res.render('pages/users', {title: "Admin Dashboard",data:result});
 		  	}
-
 		  	dbfunctions.getUsers(handleResult);
-
-	  			}
-		else{
+	  	} else {
 			res.send("Access Denied");
 		}
-
 	});
 
 	app.get('/admin/locations', function(req, res){
@@ -264,9 +259,6 @@ module.exports = function(app, passport) {
 		    }
 
 		    res.redirect('/myrides');
-	  		//res.render('pages/dashboard');
-	  		//res.send('/searchrides?search=boston');
-	  		//res.sendStatus(200);
   		}
 
   		dbfunctions.updateRide(handleResult,id, data);
@@ -287,6 +279,8 @@ module.exports = function(app, passport) {
 
   		dbfunctions.requestRide(handleResult,id);
 	});
+
+
 
 	app.post('/riderequest', function(req,res) {
 		

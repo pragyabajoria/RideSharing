@@ -25,6 +25,7 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail){
     if (err) {return callback(err);}    
     if (rows.length < 1) {
       var name = userName.toString().split(" ");
+
       var data = {
        firstname : name[0],
        lastname : name[1],
@@ -33,8 +34,7 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail){
        status: 'inactive',
       };
 
-      connection.query("INSERT INTO members set ? ", data, function (err2, rows2) {
-        
+      connection.query("INSERT INTO members set ? ", data, function (err2, rows2) {        
         if (err2) {return callback(err2);} 
           connection.query("SELECT * FROM members WHERE gmailid = ? ",userId, function (err3, rows3) {          
             if (err3) { return callback(err3);}            
@@ -115,21 +115,28 @@ dbfunctions.selectRequestsForMyOfferedRides = function(callback, destination) {
   }); 
 };
 
+dbfunctions.cancelRequest = function(callback, id){
+
+  //console.log("CANCEL REQUEST!");
+  //return callback(null);  
+
+  connection.query("DELETE FROM riderequests  WHERE rideid = ? AND memberid = ?", [id, global.memberID], function (err, rows) {
+    if (err) return callback(err);
+    return callback(null);    
+  });
+}
+
 dbfunctions.selectRide = function(callback, id) {    
   var ride;
   var locations;
-
   connection.query("SELECT * FROM rides WHERE id = ? ", [id], function(err, rows) {
-        
   if (err) return callback(err);
   ride = rows;
-
   connection.query('SELECT * FROM locations', function(err2, rows2) {
       if (err2) return callback(err2);
       locations = rows2;
       return callback(null, ride, locations);   
    });    
-
   }); 
 };
 
