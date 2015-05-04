@@ -30,6 +30,10 @@ module.exports = function(app, passport) {
   		res.render('pages/about');
 	});
 
+	app.get('/contact', function(req, res){
+  		res.render('pages/contactForm');
+	});
+
 	app.get('/searchrides', function (req, res) {
 
 		function handleResult(err, result) {
