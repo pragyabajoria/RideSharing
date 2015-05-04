@@ -84,9 +84,7 @@ module.exports = function(app, passport) {
 	});
 
 	//all rides list
-
-	app.get('/rides', function(req, res){
-	
+	app.get('/rides', function(req, res){	
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -94,18 +92,14 @@ module.exports = function(app, passport) {
 		    }
 	  		res.render('pages/allrideslist', {title: "All Posted Rides",data:result});
 	  	}
-
 	  	dbfunctions.selectAllRides(handleResult);
-
 	});
 
 	//admin page
 	app.get('/admin', function(req, res){
-
 		//if admin
 		if(global.admin==true){
 			res.render('pages/admin', {title: "Admin Dashboard"});
-
 		}
 		else{
 			res.send("Access Denied");
@@ -157,7 +151,6 @@ module.exports = function(app, passport) {
 		  	}
 
 		  	dbfunctions.selectAllRides(handleResult);
-
 	  	}
 		else{
 			res.send("Access Denied");
@@ -222,9 +215,7 @@ module.exports = function(app, passport) {
 		        return;
 		    }
 	  		res.render('pages/locations');
-	  		//res.sendStatus(200);
   		}
-
   		dbfunctions.addNewLocation(handleResult, data);
 	});
 
@@ -243,8 +234,7 @@ module.exports = function(app, passport) {
 
 	//end of admin pages
 
-	//ride
-
+	//rides
 	app.post('/ride/:id', function(req,res) {
 
 		var id = req.params.id;
@@ -285,9 +275,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/riderequest/:id', function(req,res) {
-
-		var id = req.params.id;
-		
+		var id = req.params.id;	
 
   		function handleResult(err) {
 		    if (err) {
@@ -296,7 +284,6 @@ module.exports = function(app, passport) {
 		    }
 	  		res.render('pages/dashboard');
   		}
-
   		dbfunctions.requestRide(handleResult,id);
 	});
 
