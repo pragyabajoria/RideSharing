@@ -115,6 +115,14 @@ dbfunctions.selectRequestsForMyOfferedRides = function(callback, destination) {
   }); 
 };
 
+dbfunctions.selectUserRideRequests = function(callback, destination) {    
+    connection.query('SELECT rideid FROM riderequests WHERE memberID = ? ', global.memberID, function(err, rows) {
+    if (err) return callback(err);
+    return callback(null, rows);    
+
+  }); 
+};
+
 dbfunctions.cancelRequest = function(callback, id){
 
   //console.log("CANCEL REQUEST!");

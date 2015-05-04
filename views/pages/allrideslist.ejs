@@ -1,0 +1,86 @@
+<!-- views/pages/profile.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <header>
+      <% include ../partials/header %>
+    </header>
+    <br/><br/>
+    <h1>Admin Dashboard</h1>
+
+    <!--<div align="center">-->
+    <div>
+        <table border="0" cellpadding="5" cellspacing="5">
+        <tr>
+            <th>ID</th>
+             <th>&nbsp;</th>
+            <th>Driver</th>
+            <th>&nbsp;</th>
+      <th>Origin</th>
+      <th>&nbsp;</th>
+            <th>Destination</th>
+            <th>&nbsp;</th>
+            <th>Seats</th>
+            <th>&nbsp;</th>
+      <th>Date and Time</th>
+      <th>&nbsp;</th>
+      <th>Flexibility (hours)</th>
+      <th>&nbsp;</th>
+      <th>Requested</th>
+        </tr>
+                       
+        <% if(data.length){                         
+         for(var i = 0;i < data.length;i++) { 
+
+        if((i%2)==0){ %>
+          <tr bgcolor="#A9E2F3">
+        <% } else { %> 
+          <tr>
+        <% } %>    
+
+        
+      <td><%=data[i].id%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><%=data[i].firstname%> <%=data[i].lastname%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=data[i].origin%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><%=data[i].destination%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><%=data[i].seats%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=data[i].flexibility%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=data[i].requested%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+              <td>
+                
+                <a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request</a>          
+            </td>
+        </tr>
+    <% }
+    
+     }else{ %>
+         <tr>
+            <td colspan="5">No Rides</td>
+         </tr>
+    <% } %>
+                                      
+    </table>
+    </div>
+
+    <script>
+
+
+    </script>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+  </body>
+</html>

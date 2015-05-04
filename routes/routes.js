@@ -83,6 +83,22 @@ module.exports = function(app, passport) {
 	  	dbfunctions.getLocations(handleResult);
 	});
 
+	//all rides list
+
+	app.get('/rides', function(req, res){
+	
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/allrideslist', {title: "All Posted Rides",data:result});
+	  	}
+
+	  	dbfunctions.selectAllRides(handleResult);
+
+	});
+
 	//admin page
 	app.get('/admin', function(req, res){
 
