@@ -60,8 +60,31 @@
       <td><%=data[i].requested%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>
               <td>
-                
-                <a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request</a>          
+
+              <% if (userriderequests.length) { 
+                     for(var j = 0;j < userriderequests.length;j++) { 
+                    if (userriderequests[j].rideid==data[i].id) {
+                     %>
+                        <a href="javascript:void(0)" onClick="cancelRequest(<%=data[i].id%>)">Cancel Request</a>   
+              <% } } }%>  
+
+              <% if(data[i].driverid!=userid) { 
+                    var alreadyRequested=0;
+                    if (userriderequests.length) { 
+                      for(var j = 0;j < userriderequests.length;j++) { 
+                        if (userriderequests[j].rideid==data[i].id) {
+                            alreadyRequested=1;
+                        }
+                      }
+                    }
+
+                    if(alreadyRequested==0) { %> 
+
+                        <a href="javascript:void(0)" onClick="requestRide(<%=data[i].id%>)">Request</a> 
+
+                  <% }
+                } %>  
+
             </td>
         </tr>
     <% }

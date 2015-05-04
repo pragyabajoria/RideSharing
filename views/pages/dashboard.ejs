@@ -147,11 +147,11 @@ function postride(){
 
     $.ajax({  
 
-        url:"/dashboard",
+        url:"/rides",
         type:"post",
         data:$("#requestForm").serialize(),
         success:function(res){            
-            window.location.href = '/dashboard';
+            window.location.href = '/rides';
             return false;
         },
         error:function(xhr, status, error){   

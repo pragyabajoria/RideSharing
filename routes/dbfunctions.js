@@ -116,7 +116,15 @@ dbfunctions.selectRequestsForMyOfferedRides = function(callback, destination) {
 };
 
 dbfunctions.selectUserRideRequests = function(callback, destination) {    
-    connection.query('SELECT rideid FROM riderequests WHERE memberID = ? ', global.memberID, function(err, rows) {
+    connection.query('SELECT * FROM riderequests WHERE memberid = ?', global.memberID, function(err, rows) {
+    if (err) return callback(err);
+    return callback(null, rows);    
+
+  }); 
+};
+
+dbfunctions.selectAllRideRequests = function(callback, destination) {    
+    connection.query('SELECT * FROM riderequests', function(err, rows) {
     if (err) return callback(err);
     return callback(null, rows);    
 
@@ -124,10 +132,8 @@ dbfunctions.selectUserRideRequests = function(callback, destination) {
 };
 
 dbfunctions.cancelRequest = function(callback, id){
-
   //console.log("CANCEL REQUEST!");
   //return callback(null);  
-
   connection.query("DELETE FROM riderequests  WHERE rideid = ? AND memberid = ?", [id, global.memberID], function (err, rows) {
     if (err) return callback(err);
     return callback(null);    

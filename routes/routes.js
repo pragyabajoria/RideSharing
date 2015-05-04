@@ -103,7 +103,16 @@ module.exports = function(app, passport) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/allrideslist', {title: "All Posted Rides",data:result});
+
+		    	function handleResult(err, result2) {
+				    if (err) {
+				        console.error(err.stack || err.message);
+				        return;
+				    }
+			  		res.render('pages/allrideslist', {title: "All Posted Rides", data:result, userriderequests:result2, userid:global.memberID});
+			  	}
+	  		//res.render('pages/allrideslist', {title: "All Posted Rides",data:result});
+	  		dbfunctions.selectUserRideRequests(handleResult);
 	  	}
 	  	dbfunctions.selectAllRides(handleResult);
 	});
