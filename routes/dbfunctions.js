@@ -14,8 +14,8 @@ var connection = mysql.createConnection({
   
 });
 
-global.memberID;
-global.admin;
+global.memberID=-1;
+global.admin=false;
 
 connection.connect(); 
 
@@ -181,6 +181,8 @@ dbfunctions.getLocations = function(callback) {
 };
 
 //need to fix 
+//get new ride id so that it can be added to riderequests table
+//or remove request a ride
 dbfunctions.addNewRide = function(callback, data) {    
     connection.query('INSERT INTO rides set ? ', data, function(err, rows) {
     if (err) return callback(err);

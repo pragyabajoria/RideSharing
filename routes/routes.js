@@ -25,6 +25,12 @@ module.exports = function(app, passport) {
 
 	app.get('/dashboard', function(req, res) {
 		console.log("In routes function");
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		function handleResult(err, result) {
 			if (err) {
 			    console.error(err.stack || err.message);
@@ -60,7 +66,15 @@ module.exports = function(app, passport) {
 
 	});
 
+	//edit ride
 	app.get('/ride/:id', function(req, res){
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		var id = req.params.id;
 		function handleResult(err, ride, locations) {
 		    if (err) {
@@ -74,6 +88,13 @@ module.exports = function(app, passport) {
 
 	//cancel requests
 	app.post('/request/:id', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		var id = req.params.id;	
   		function handleResult(err) {
 		    if (err) {
@@ -86,6 +107,13 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/riderequest', function(req, res){
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -97,7 +125,14 @@ module.exports = function(app, passport) {
 	});
 
 	//all rides list
-	app.get('/rides', function(req, res){	
+	app.get('/rides', function(req, res){
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -191,6 +226,12 @@ module.exports = function(app, passport) {
 
 	app.delete('/location/:id', function(req,res) {
 
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		var id = req.params.id;
 		function handleResult(err) {
 		    if (err) {
@@ -205,6 +246,12 @@ module.exports = function(app, passport) {
 
 	app.get('/location/:id', function(req,res) {
 
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		var id = req.params.id;
 		function handleResult(err, result) {
 		    if (err) {
@@ -217,6 +264,12 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/location/:id', function(req, res){
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
 
 		var id = req.params.id;
 
@@ -258,6 +311,12 @@ module.exports = function(app, passport) {
 	// });
 
 	app.post('/admin/addlocation', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
 		
 		req.assert('name','Please Enter Location Name').notEmpty();
 	  req.assert('city','Please Enter City').notEmpty();
@@ -290,6 +349,13 @@ module.exports = function(app, passport) {
 	});
 
 	app.delete('/user/:id', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		var id = req.params.id;
 		function handleResult(err) {
 		    if (err) {
@@ -305,6 +371,12 @@ module.exports = function(app, passport) {
 	
 	app.get('/admin/users/deactivate/:id', function(req,res) {
 
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		if(global.admin==true){
 			var id = req.params.id;
 			function handleResult(err) {
@@ -319,6 +391,12 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/admin/users/activate/:id', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
 		
 		if(global.admin==true){
 			var id = req.params.id;
@@ -337,6 +415,12 @@ module.exports = function(app, passport) {
 
 	//rides
 	app.post('/ride/:id', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
 
 		var id = req.params.id;
 		
@@ -377,6 +461,12 @@ module.exports = function(app, passport) {
 
 	app.post('/riderequest/:id', function(req,res) {
 
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		var id = req.params.id;	
 
   		function handleResult(err) {
@@ -404,6 +494,12 @@ module.exports = function(app, passport) {
 	// });
 
 	app.post('/dashboard', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
 		
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
 		req.assert('origin', 'Please Select Origin').notEmpty();
@@ -458,6 +554,12 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/riderequest', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
 		
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
 		req.assert('origin', 'Please Select Origin').notEmpty();
@@ -512,6 +614,13 @@ module.exports = function(app, passport) {
 	});
 
 	app.delete('/ride/:id', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		var id = req.params.id;
 		function handleResult(err) {
 		    if (err) {
@@ -540,6 +649,12 @@ module.exports = function(app, passport) {
 	// dashboard locations
 	app.get('/boston', function(req,res) {
 
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -562,6 +677,12 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/holyokeMall', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
 
 		function handleResult(err, result) {
 		    if (err) {
@@ -587,6 +708,12 @@ module.exports = function(app, passport) {
 
 	app.get('/nyc', function(req,res) {
 
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -609,6 +736,13 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/springfield', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -631,8 +765,12 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/bradley', function(req,res) {
-		//var rows = dbfunctions.selectRides();
-		//console.log('The results are: ', rows);
+		
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
 
 		function handleResult(err, result) {
 		    if (err) {
@@ -652,11 +790,17 @@ module.exports = function(app, passport) {
 		}
 		var destination = "Bradley Airport";
 		dbfunctions.selectRides(handleResult, destination);
-  		//res.render('pages/destination', {title: 'Bradley Airport', data:rows});
+  		
 	});
 
 	// my rides page for each user
 	app.get('/myrides', function(req,res) {
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+		
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
