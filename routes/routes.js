@@ -1,5 +1,5 @@
 module.exports = function(app, passport) {
-	var admin=true;
+	//var admin=true;
 	//var index = require('./index');
 	//var user = require('./user');
 	var auth = require('./auth');
@@ -81,7 +81,7 @@ module.exports = function(app, passport) {
 	app.get('/admin', function(req, res){
 
 		//if admin
-		if(admin==true){
+		if(global.admin==true){
 			res.render('pages/admin', {title: "Admin Dashboard"});
 
 		}
@@ -98,7 +98,7 @@ module.exports = function(app, passport) {
 
 	app.get('/admin/users', function(req, res){
 
-		if(admin==true){
+		if(global.admin==true){
 			function handleResult(err, result) {
 			    if (err) {
 			        console.error(err.stack || err.message);
@@ -117,7 +117,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/admin/locations', function(req, res){
-		if(admin==true){
+		if(global.admin==true){
 			function handleResult(err, result) {
 			    if (err) {
 			        console.error(err.stack || err.message);
@@ -136,7 +136,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/admin/rides', function(req, res){
-		if(admin==true){
+		if(global.admin==true){
 			function handleResult(err, result) {
 			    if (err) {
 			        console.error(err.stack || err.message);
@@ -155,7 +155,7 @@ module.exports = function(app, passport) {
 	});
 	
 	app.get('/admin/addlocation', function(req, res){
-		if(admin==true){
+		if(global.admin==true){
 	 		res.render('pages/locationAdd');
 	 			  	
 		}else{
@@ -178,7 +178,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/admin/addlocation', function(req, res){
-		if(admin==true){
+		if(global.admin==true){
 	 		res.render('pages/locationAdd');
 	 			  	
 		}else{
@@ -231,6 +231,8 @@ module.exports = function(app, passport) {
 	});
 
 	//end of admin pages
+
+	//ride
 
 	app.post('/ride/:id', function(req,res) {
 
@@ -291,7 +293,6 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/riderequest', function(req,res) {
-
 		
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
 		req.assert('origin', 'Please Select Origin').notEmpty();
@@ -322,7 +323,7 @@ module.exports = function(app, passport) {
 			riderequest=true;
 		}
 
-		console.log(" ****** "+ req.body.datetime);
+		//console.log(" ****** "+ req.body.datetime);
 
 		var data = {
 		    driverid : dId,
@@ -335,35 +336,30 @@ module.exports = function(app, passport) {
 		    requested: riderequest,
 		};
   		
-  		function handleResult(err) {
+  		function handleResult(err, id) {
 		    if (err) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
 		    res.redirect('/myrides');
-	  		//res.render('pages/dashboard');
-	  		//res.sendStatus(200);
   		}
-
   		dbfunctions.addNewRide(handleResult, data);
 	});
 
 	app.delete('/ride/:id', function(req,res) {
-
 		var id = req.params.id;
-
 		function handleResult(err) {
 		    if (err) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
 	  		res.render('pages/dashboard');
-	  		//res.sendStatus(200);
   		}
   		dbfunctions.deleteRide(handleResult, id);
 	});
 
 
+	//user related
 	app.get('/contactform', function(req,res) {
   		res.render('pages/contactForm');
 	});
@@ -376,6 +372,7 @@ module.exports = function(app, passport) {
   		res.render('pages/profile');
 	});
 
+	// dashboard locations
 	app.get('/boston', function(req,res) {
 
 		function handleResult(err, result) {
@@ -457,9 +454,6 @@ module.exports = function(app, passport) {
 
 	// my rides page for each user
 	app.get('/myrides', function(req,res) {
-		//var rows = dbfunctions.selectRides();
-		//console.log('The results are: ', rows);
-
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -467,39 +461,27 @@ module.exports = function(app, passport) {
 		    }
 
 		    var offered=result;
-
 		    function handleResult(err, result2) {
 			    if (err) {
 			        console.error(err.stack || err.message);
 			        return;
 			    }
 			   
-			 	var requested=result2;			    
-
+			 	var requested=result2;		    
 			    function handleResult(err, result3) {
 
 				    if (err) {
 				        console.error(err.stack || err.message);
 				        return;
 				    }
-
-					   
-					    var requests=result3;
-					   
-
+					   var requests=result3;			   
 				 	   res.render('pages/myRides', {title: 'My Rides', offered:offered, requested:requested, requests:requests});
 					}
-
 				    dbfunctions.selectRequestsForMyOfferedRides(handleResult);
-
 				}
-
-		    dbfunctions.selectMyRequestededRides(handleResult);
-    		
-		}
-		
-		dbfunctions.selectMyOfferedRides(handleResult);
-  		
+		    dbfunctions.selectMyRequestededRides(handleResult);    		
+		}		
+		dbfunctions.selectMyOfferedRides(handleResult); 		
 	});
 	
 	/*//Registration page
