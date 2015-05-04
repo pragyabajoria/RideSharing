@@ -100,11 +100,14 @@ function requestRide(id){
       },
       error:function(xhr, status, error){            
           console.log(xhr.responseText);
-          alert("mysql error");
+          window.location.reload();  
+          //it is working but still returns error
+          // alert("mysql error");
           return false;
       }
   });
 }
+
 </script>
 <footer>
   <% include ../partials/footer %>

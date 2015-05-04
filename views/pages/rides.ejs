@@ -16,8 +16,8 @@
     <div>
         <table border="0" cellpadding="5" cellspacing="5">
         <tr>
-            <th>ID</th>
-             <th>&nbsp;</th>
+            <!--<th>ID</th>
+             <th>&nbsp;</th>-->
             <th>Driver</th>
             <th>&nbsp;</th>
       <th>Origin</th>
@@ -29,8 +29,8 @@
       <th>Date and Time</th>
       <th>&nbsp;</th>
       <th>Flexibility (hours)</th>
-      <th>&nbsp;</th>
-      <th>Requested</th>
+      <!--<th>&nbsp;</th>
+      <th>Requested</th>-->
         </tr>
                        
         <% if(data.length){                         
@@ -43,9 +43,9 @@
         <% } %>    
 
         
-      <td><%=data[i].id%></td>
-      <td>&nbsp;&nbsp;&nbsp;</td>
-            <td><%=data[i].firstname%> <%=data[i].lastname%></td>
+      <!--<td><%=data[i].id%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>-->
+            <td><%=data[i].firstname%> <%=data[i].lastname%> (<%=data[i].email%>) </td>
             <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].origin%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>
@@ -57,8 +57,8 @@
       <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].flexibility%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>
-      <td><%=data[i].requested%></td>
-      <td>&nbsp;&nbsp;&nbsp;</td>
+      <!--<td><%=data[i].requested%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>-->
               <td>
                 
                 <a href="javascript:void(0)" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</a>          
@@ -92,7 +92,9 @@ if (result) {
       },
       error:function(xhr, status, error){            
           console.log(xhr.responseText);
-          alert("delete error");
+          window.location.reload();  
+          //it is working but still returns error
+          //alert("delete error");
           return false;
       }
   });

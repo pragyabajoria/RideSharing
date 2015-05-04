@@ -170,7 +170,7 @@ dbfunctions.requestRide = function(callback, id) {
   connection.query("INSERT INTO riderequests set ? ", data, function(err, rows) {        
       if (err) return callback(err);
       return callback(null);   
-    });
+  });
 };
 
 dbfunctions.getLocations = function(callback) {    

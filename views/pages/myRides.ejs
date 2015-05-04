@@ -57,9 +57,10 @@
       <!--<td><%=offered[i].requested%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>-->
             <td>
-                <a href="/ride/<%=offered[i].id%>">Edit Ride</a>
+                <a href="/ride/<%=offered[i].id%>">Edit</a>
+                &nbsp;&nbsp;&nbsp;
                 <!--<button type="submit" class="btn btn-info" onClick="location.href='/ride/<%=offered[i].id%>'">Edit Ride</button> --> 
-                <a href="javascript:void(0)" onClick="deleteRide(<%=offered[i].id%>)">Delete Ride</a>   
+                <a href="javascript:void(0)" onClick="deleteRide(<%=offered[i].id%>)">Delete</a>   
 
             </td>
         </tr>
@@ -167,14 +168,6 @@
     <a href="javascript:void(0)" onClick="offerRide()">Offer Ride</a>
     </div>
 
-
-    <br/>
-
-    <div>
-    <h3>All Rides</h3>
-    <a href="javascript:void(0)" onClick="offerRide()">Offer Ride</a>
-    </div>
-
     <br/><br/>
 
     <script>
@@ -193,7 +186,9 @@
             },
             error:function(xhr, status, error){            
                 console.log(xhr.responseText);
-                alert("Delete error!");
+                window.location.reload();  
+               //it is working but still returns error
+               // alert("Delete error!");
                 return false;
             }
         });

@@ -16,8 +16,8 @@
     <div>
         <table border="0" cellpadding="5" cellspacing="5">
         <tr>
-            <th>ID</th>
-             <th>&nbsp;</th>
+           <!-- <th>ID</th>
+             <th>&nbsp;</th>-->
             <th>Driver</th>
             <th>&nbsp;</th>
       <th>Origin</th>
@@ -29,8 +29,8 @@
       <th>Date and Time</th>
       <th>&nbsp;</th>
       <th>Flexibility (hours)</th>
-      <th>&nbsp;</th>
-      <th>Requested</th>
+      <!--<th>&nbsp;</th>
+      <th>Requested</th>-->
         </tr>
                        
         <% if(data.length){                         
@@ -43,9 +43,9 @@
         <% } %>    
 
         
-      <td><%=data[i].id%></td>
-      <td>&nbsp;&nbsp;&nbsp;</td>
-            <td><%=data[i].firstname%> <%=data[i].lastname%></td>
+      <!--<td><%=data[i].id%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>-->
+            <td><%=data[i].firstname%> <%=data[i].lastname%>  (<%=data[i].email%>) </td>
             <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].origin%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>
@@ -57,8 +57,8 @@
       <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].flexibility%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>
-      <td><%=data[i].requested%></td>
-      <td>&nbsp;&nbsp;&nbsp;</td>
+      <!--<td><%=data[i].requested%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>-->
               <td>
 
               <% if (userriderequests.length) { 
@@ -100,6 +100,43 @@
 
     <script>
 
+    function cancelRequest(id){    
+      $.ajax({
+          url:"/request/"+id,
+          type: 'POST',
+          date: 'cancel',
+          success: function(res) {                
+              window.location.reload();
+              //alert("Your request was cancelled.");
+              return false;
+          },
+          error:function(xhr, status, error){            
+              console.log(xhr.responseText);
+              alert("mysql error");
+              return false;
+          }
+      });
+    }
+
+      function requestRide(id){    
+        $.ajax({
+            url:"/riderequest/"+id,
+            type: 'POST',
+            success: function(res) {  
+                          
+                window.location.reload();   
+                //alert("Your request was saved.");               
+                return false;
+            },
+            error:function(xhr, status, error){            
+                console.log(xhr.responseText);
+                window.location.reload();  
+                //it is working but still returns error
+               // alert("mysql error");
+                return false;
+            }
+        });
+      }
 
     </script>
     <footer>
