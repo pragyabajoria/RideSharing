@@ -86,9 +86,11 @@
                 alert("This user was deleted.");
                 return false;
             },
-            error:function(xhr, status, error){            
+            error: function(xhr, status, error){            
                 console.log(xhr.responseText);
-                alert("delete error");
+                window.location.reload();  
+               //it is working but still returns error
+                //alert("delete error");
                 return false;
             }
         });

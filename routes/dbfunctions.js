@@ -60,7 +60,7 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail){
 };
 
 dbfunctions.selectRides = function(callback, destination) {    
-    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email, l1.name AS origin, l2.name AS destination,' + 
+    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email, m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
       ' r.datetime>= CURDATE() AND l2.name COLLATE UTF8_GENERAL_CI LIKE ?', "%"+destination+"%", function(err, rows) {
@@ -71,7 +71,7 @@ dbfunctions.selectRides = function(callback, destination) {
 };
 
 dbfunctions.selectAllRides = function(callback) {    
-    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email, l1.name AS origin, l2.name AS destination,' + 
+    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
       ' r.datetime>= CURDATE()', function(err, rows) {
@@ -82,7 +82,7 @@ dbfunctions.selectAllRides = function(callback) {
 };
 
 dbfunctions.selectMyOfferedRides = function(callback, destination) {    
-    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email, l1.name AS origin, l2.name AS destination,' + 
+    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
       ' r.datetime>= CURDATE() AND r.driverid = ?', global.memberID, function(err, rows) {
@@ -93,7 +93,7 @@ dbfunctions.selectMyOfferedRides = function(callback, destination) {
 };
 
 dbfunctions.selectMyRequestededRides = function(callback, destination) {    
-    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email, l1.name AS origin, l2.name AS destination,' + 
+    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2, riderequests as rr WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
       ' r.datetime>= CURDATE() AND rr.rideid = r.id AND rr.memberID = ? ', global.memberID, function(err, rows) {
@@ -105,7 +105,7 @@ dbfunctions.selectMyRequestededRides = function(callback, destination) {
 
 //returns requests for current user
 dbfunctions.selectRequestsForMyOfferedRides = function(callback, destination) {    
-    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email, l1.name AS origin, l2.name AS destination,' + 
+    connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2, riderequests as rr WHERE m.id=rr.memberid AND l1.id=r.origin AND l2.id=r.destination AND' + 
       ' r.datetime>= CURDATE() AND rr.rideid = r.id AND r.driverid = ? ', global.memberID, function(err, rows) {
@@ -182,12 +182,20 @@ dbfunctions.getLocations = function(callback) {
 
 //need to fix 
 //get new ride id so that it can be added to riderequests table
-//or remove request a ride
+//or remove request a ride button from dashboard
 dbfunctions.addNewRide = function(callback, data) {    
     connection.query('INSERT INTO rides set ? ', data, function(err, rows) {
-    if (err) return callback(err);
-    return callback(null);    
-});
+      if (err) return callback(err);
+        var data = {
+          rideid : rows.insertId,
+          memberid : global.memberID,
+        };
+        
+        connection.query("INSERT INTO riderequests set ? ", data, function(err, rows) {        
+            if (err) return callback(err);
+            return callback(null);   
+        });  
+  });
 };
 
 dbfunctions.deleteRide = function(callback, id) {   
@@ -202,7 +210,7 @@ dbfunctions.deleteRide = function(callback, id) {
 };
 
 dbfunctions.searchRides = function(callback, search) {    
-  connection.query('SELECT r.id, m.firstname, m.lastname, m.email, l1.name AS origin, l2.name AS destination,' + 
+  connection.query('SELECT r.id, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
       ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ? ', "%"+search+"%", function (err, rows) {
@@ -211,6 +219,13 @@ dbfunctions.searchRides = function(callback, search) {
   });
 };
 
+dbfunctions.getUserStatus = function(callback, id) {
+  connection.query('SELECT * FROM members WHERE id = ?', [id], function(err, rows) {
+    if (err) return callback(err);
+    return callback(null, rows);    
+
+  });
+};
 
 //admin related activities
 dbfunctions.getUsers = function(callback) {
@@ -251,9 +266,19 @@ dbfunctions.updateLocation = function(callback, id, data) {
 };
 
 dbfunctions.deleteUser = function(callback, id) {    
-  connection.query("DELETE FROM members  WHERE id = ? ", [id], function (err, rows) {
+  //remove the user's ride offers and ride requests as well
+  connection.query("DELETE FROM riderequests  WHERE memberid = ? ", [id], function (err, rows) {
       if (err) return callback(err);
-      return callback(null);    
+
+      connection.query("DELETE FROM rides  WHERE driverid = ? ", [id], function (err, rows) {
+           if (err) return callback(err);
+      
+           connection.query("DELETE FROM members  WHERE id = ? ", [id], function (err, rows) {
+               if (err) return callback(err);
+                return callback(null);    
+           });   
+
+     });   
   });
 };
 
