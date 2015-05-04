@@ -3,14 +3,14 @@ module.exports = function(app, passport) {
 	//var index = require('./index');
 	//var user = require('./user');
 	var auth = require('./auth');
-	var dashboard = require('./dashboard');
+	//var dashboard = require('./dashboard');
 	var dbfunctions = require('./dbfunctions');
 		
 	//app.use('/', index);
 	//app.use('/user', user);
 	//app.use('/event', event);
 	app.use('/auth', auth);
-	app.use('/dashboard', dashboard);
+	//app.use('/dashboard', dashboard);
 	//app.use('/', db);
 	
 	//Home page
@@ -18,9 +18,22 @@ module.exports = function(app, passport) {
   		res.render('pages/index');
 	});
 
-	app.get('/login', function(req, res){
-  		res.render('login', { user: req.user });
-	});
+	// app.get('/login', function(req, res){
+ //  		res.render('login', { user: req.user });
+	// });
+
+
+	app.get('/dashboard', function(req, res) {
+		console.log("In routes function");
+		function handleResult(err, result) {
+			if (err) {
+			    console.error(err.stack || err.message);
+		    	return;
+			}
+	  		res.render('pages/dashboard', { data : result });
+		}
+		dbfunctions.getLocations(handleResult);
+ 	});
 
 	app.get('/generalLocations', function(req, res){
   		res.render('pages/generalLocations');
@@ -289,6 +302,17 @@ module.exports = function(app, passport) {
 
 
 	//add a new ride
+
+	// app.get('/dashboard', function(req, res){
+	// 	function handleResult(err, result) {
+	// 	    if (err) {
+	// 	        console.error(err.stack || err.message);
+	// 	        return;
+	// 	    }
+	//   		res.render('pages/dashboard', {data:result});
+	//   	}
+	//   	dbfunctions.getLocations(handleResult);
+	// });
 
 	app.post('/dashboard', function(req,res) {
 		
