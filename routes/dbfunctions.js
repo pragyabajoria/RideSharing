@@ -255,4 +255,18 @@ dbfunctions.deleteUser = function(callback, id) {
   });
 };
 
+dbfunctions.deactivateUser = function(callback, id) {    
+  connection.query("UPDATE members SET status='inactive' WHERE id = ? ", [id], function (err, rows) {
+      if (err) return callback(err);
+      return callback(null);    
+  });
+};
+
+dbfunctions.activateUser = function(callback, id) {    
+  connection.query("UPDATE members SET status='active' WHERE id = ? ", [id], function (err, rows) {
+      if (err) return callback(err);
+      return callback(null);    
+  });
+};
+
 module.exports = dbfunctions;

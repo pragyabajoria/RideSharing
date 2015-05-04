@@ -302,6 +302,37 @@ module.exports = function(app, passport) {
   		dbfunctions.deleteUser(handleResult, id);
 	});
 
+	
+	app.get('/admin/users/deactivate/:id', function(req,res) {
+
+		if(global.admin==true){
+			var id = req.params.id;
+			function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.redirect('/admin/users');
+			}
+			dbfunctions.deactivateUser(handleResult, id);
+		}
+	});
+
+	app.get('/admin/users/activate/:id', function(req,res) {
+		
+		if(global.admin==true){
+			var id = req.params.id;
+			function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.redirect('/admin/users');
+	  		//res.sendStatus(200);
+			}
+			dbfunctions.activateUser(handleResult, id);
+		}
+	});
 	//end of admin pages
 
 	//rides
