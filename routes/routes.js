@@ -26,6 +26,10 @@ module.exports = function(app, passport) {
   		res.render('pages/generalLocations');
 	});
 
+	app.get('/about', function(req, res){
+  		res.render('pages/about');
+	});
+
 	app.get('/searchrides', function (req, res) {
 
 		function handleResult(err, result) {
