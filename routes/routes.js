@@ -22,6 +22,10 @@ module.exports = function(app, passport) {
   		res.render('login', { user: req.user });
 	});
 
+	app.get('/generalLocations', function(req, res){
+  		res.render('pages/generalLocations');
+	});
+
 	app.get('/searchrides', function (req, res) {
 
 		function handleResult(err, result) {
