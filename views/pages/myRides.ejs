@@ -147,7 +147,8 @@
       <!--<td><%=requested[i].requested%></td>-->
 
             <td>
-        <a href="javascript:void(0)" onClick="requestRide(<%=requested[i].id%>, 1)">Cancel Request </a>  
+        <a href="javascript:void(0)" onClick="cancelRequest(<%=requested[i].id%>)">Cancel Request </a> 
+        <!--<a href="/request/<%=requested[i].id%>">Cancel Request</a>   -->
           
             </td>
         </tr>
@@ -167,31 +168,49 @@
     </div>
     <br/>
     <br/><br/>
+
     <script>
+
     function deleteRide(id){  
+      var result = confirm("Do you want to delete this ride?");
+      if (result) {
 
-    var result = confirm("Do you want to delete this ride?");
-    if (result) {
+        $.ajax({
+            url:"/ride/"+id,
+            type: 'DELETE',
+            success: function(res) {                
+                window.location.reload();
+                alert("Ride was deleted.");
+                return false;
+            },
+            error:function(xhr, status, error){            
+                console.log(xhr.responseText);
+                alert("Delete error!");
+                return false;
+            }
+        });
+      }
+    }
 
+    function cancelRequest(id){    
       $.ajax({
-          url:"/ride/"+id,
-          type: 'DELETE',
+          url:"/request/"+id,
+          type: 'POST',
           success: function(res) {                
               window.location.reload();
-              alert("Ride was deleted.");
+              alert("Your request was cancelled.");
               return false;
           },
           error:function(xhr, status, error){            
               console.log(xhr.responseText);
-              alert("delete error");
+              alert("mysql error");
               return false;
           }
       });
+    }
 
-  }
-}
-     
     </script>
+
     <footer>
         <% include ../partials/footer %>
     </footer>
