@@ -16,21 +16,21 @@
     <div>
         <table border="0" cellpadding="5" cellspacing="5">
         <tr>
-           <!-- <th>ID</th>
-             <th>&nbsp;</th>-->
-            <th>Driver</th>
-            <th>&nbsp;</th>
-      <th>Origin</th>
-      <th>&nbsp;</th>
-            <th>Destination</th>
-            <th>&nbsp;</th>
-            <th>Seats</th>
-            <th>&nbsp;</th>
-      <th>Date and Time</th>
-      <th>&nbsp;</th>
-      <th>Flexibility (hours)</th>
-      <!--<th>&nbsp;</th>
-      <th>Requested</th>-->
+         <!-- <th>ID</th>
+           <th>&nbsp;</th>-->
+          <th>Driver</th>
+          <th>&nbsp;</th>
+          <th>Origin</th>
+          <th>&nbsp;</th>
+          <th>Destination</th>
+          <th>&nbsp;</th>
+          <th>Seats</th>
+          <th>&nbsp;</th>
+          <th>Date and Time</th>
+          <th>&nbsp;</th>
+          <th>Flexibility (hours)</th>
+          <!--<th>&nbsp;</th>
+          <th>Requested</th>-->
         </tr>
                        
         <% if(data.length){                         
@@ -45,14 +45,14 @@
         
       <!--<td><%=data[i].id%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>-->
-            <td><%=data[i].firstname%> <%=data[i].lastname%>  (<%=data[i].email%>) </td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=data[i].firstname%> <%=data[i].lastname%>  (<%=data[i].email%>) </td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].origin%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>
-            <td><%=data[i].destination%></td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td><%=data[i].seats%></td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=data[i].destination%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=data[i].seats%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
       <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].flexibility%></td>

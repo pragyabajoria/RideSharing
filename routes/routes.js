@@ -197,46 +197,94 @@ module.exports = function(app, passport) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/locations');
+	  		res.redirect('/admin/locations');
 	  		//res.sendStatus(200);
   		}
   		dbfunctions.deleteLocation(handleResult, id);
 	});
 
-	app.get('/admin/addlocation', function(req, res){
-		if(global.admin==true){
-	 		res.render('pages/locationAdd');
-	 			  	
-		}else{
-			res.send("Access Denied");
-		}
+	app.get('/location/:id', function(req,res) {
+
+		var id = req.params.id;
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.render('pages/locationEdit', { title : "Edit Location", data : result});
+  		}
+  		dbfunctions.getLocation(handleResult, id);
 	});
 
-	app.post('admin/addlocation', function(req,res) {
-		
-		//req.assert('driverid', 'Please Enter ID').notEmpty();
+	app.post('/location/:id', function(req, res){
+
+		var id = req.params.id;
+
+		req.assert('name', 'Please Enter Location Name').notEmpty();
+		req.assert('city', 'Please Enter City').notEmpty();
+		req.assert('state', 'Please Enter State').notEmpty();
+		   
+		  var errors = req.validationErrors();
 		  
-		var errors = req.validationErrors();
-		  
-		if (errors) {
+		  if (errors) {
 		    res.status(422).json(errors);
 		    return;
-		}
+		  }
 
-		var data = {
-		    origin : req.body.origin,
-		    destination : req.body.destination,
-		    seats : req.body.seats,
-		    datetime : req.body.datetime,
-		    flexibility : req.body.flexibility,
-		};
+		  var data = {
+		    name : req.body.name,
+		    city : req.body.city,
+		    state : req.body.state,
+		    zipcode : req.body.zipcode
+ 			 };
+
+		function handleResult(err, data) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.redirect('/admin/locations');
+	  	}
+	  	dbfunctions.updateLocation(handleResult, id, data);
+	});
+
+	// app.get('/addlocation', function(req, res){
+	// 	if(global.admin==true){
+	//  		res.render('pages/locationAdd');
+	 			  	
+	// 	}else{
+	// 		res.send("Access Denied");
+	// 	}
+	// });
+
+	app.post('/admin/addlocation', function(req,res) {
+		
+		req.assert('name','Please Enter Location Name').notEmpty();
+	  req.assert('city','Please Enter City').notEmpty();
+	  req.assert('state','Please State').notEmpty();
+	  req.assert('zipcode','Please Zip Code').notEmpty();
+	  
+	  var errors = req.validationErrors();
+	  
+	  if (errors) {
+	    res.status(422).json(errors);
+	    return;
+	  }
+
+	  var data = {
+	    name : req.body.name,
+	    city : req.body.city,
+	    state : req.body.state,
+	    zipcode : req.body.zipcode,
+	    lastridedate: '0000-00-00 00:00:00'
+	  };
   		
   		function handleResult(err) {
 		    if (err) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/locations');
+	  		res.redirect('/admin/locations');
   		}
   		dbfunctions.addNewLocation(handleResult, data);
 	});
@@ -297,7 +345,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/riderequest/:id', function(req,res) {
-		
+
 		var id = req.params.id;	
 
   		function handleResult(err) {
@@ -467,13 +515,19 @@ module.exports = function(app, passport) {
 		        return;
 		    }
 
-    		res.render('pages/destination', {title: 'Boston', data:result});
+		    function handleResult(err, result2) {
+				    if (err) {
+				        console.error(err.stack || err.message);
+				        return;
+				    }
+			  		res.render('pages/destination', {title: 'Boston', data:result, userriderequests:result2, userid:global.memberID});
+			  	}
+	  		
+	  		dbfunctions.selectUserRideRequests(handleResult);
+    		//res.render('pages/destination', {title: 'Boston', data:result});
 		}
-		var destination = "Boston";
-		
+		var destination = "Boston";		
 		dbfunctions.selectRides(handleResult, destination);
-
-  		//res.render('pages/destination', {title: 'Boston'});
 	});
 
 	app.get('/holyokeMall', function(req,res) {
@@ -484,7 +538,15 @@ module.exports = function(app, passport) {
 		        return;
 		    }
 
-    		res.render('pages/destination', {title: 'Holyoke Mall', data:result});
+			function handleResult(err, result2) {
+			    if (err) {
+			        console.error(err.stack || err.message);
+			        return;
+			    }
+		  		res.render('pages/destination', {title: 'Holyoke Mall', data:result, userriderequests:result2, userid:global.memberID});
+		  	}
+	  		
+	  		dbfunctions.selectUserRideRequests(handleResult);
 		}
 		var destination = "Holyoke Mall";
 		dbfunctions.selectRides(handleResult, destination);
@@ -500,7 +562,15 @@ module.exports = function(app, passport) {
 		        return;
 		    }
 
-    		res.render('pages/destination', {title: 'New York City', data:result});
+    		function handleResult(err, result2) {
+			    if (err) {
+			        console.error(err.stack || err.message);
+			        return;
+			    }
+		  		res.render('pages/destination', {title: 'New York City', data:result, userriderequests:result2, userid:global.memberID});
+		  	}
+	  		
+	  		dbfunctions.selectUserRideRequests(handleResult);
 		}
 		var destination = "New York City";
 		dbfunctions.selectRides(handleResult, destination);
@@ -514,7 +584,15 @@ module.exports = function(app, passport) {
 		        return;
 		    }
 
-    		res.render('pages/destination', {title: 'Springfield Bus Terminal', data:result});
+    		function handleResult(err, result2) {
+			    if (err) {
+			        console.error(err.stack || err.message);
+			        return;
+			    }
+		  		res.render('pages/destination', {title: 'Springfield Bus Terminal', data:result, userriderequests:result2, userid:global.memberID});
+		  	}
+	  		
+	  		dbfunctions.selectUserRideRequests(handleResult);
 		}
 		var destination = "Springfield Bus Terminal";
 		dbfunctions.selectRides(handleResult, destination);
@@ -531,7 +609,15 @@ module.exports = function(app, passport) {
 		        return;
 		    }
 
-    		res.render('pages/destination', {title: 'Bradley Airport', data:result});
+    		function handleResult(err, result2) {
+			    if (err) {
+			        console.error(err.stack || err.message);
+			        return;
+			    }
+		  		res.render('pages/destination', {title: 'Bradley Airport', data:result, userriderequests:result2, userid:global.memberID});
+		  	}
+	  		
+	  		dbfunctions.selectUserRideRequests(handleResult);
 		}
 		var destination = "Bradley Airport";
 		dbfunctions.selectRides(handleResult, destination);

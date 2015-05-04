@@ -226,12 +226,26 @@ dbfunctions.deleteLocation = function(callback, id) {
   });
 };
 
+dbfunctions.getLocation = function(callback, id) {    
+  connection.query("SELECT * FROM locations  WHERE id = ? ", [id], function (err, rows) {
+      if (err) return callback(err);
+      return callback(null, rows);    
+  });
+};
+
 dbfunctions.addNewLocation = function(callback, data) {    
     connection.query('INSERT INTO locations set ? ', data, function(err, rows) {
     if (err) return callback(err);
     return callback(null);    
 
 });
+};
+
+dbfunctions.updateLocation = function(callback, id, data) {    
+    connection.query("UPDATE locations set ? WHERE id = ? ", [data,id], function(err, rows) {        
+      if (err) return callback(err);
+      return callback(null);   
+    });
 };
 
 dbfunctions.deleteUser = function(callback, id) {    

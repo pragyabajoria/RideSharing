@@ -20,44 +20,44 @@
 
     <div class="container row">
         <div class="panel panel-info col-sm-8 col-md-8 col-md-offset-3 ">
-          <div class="panel-heading panel">Add a new location</div>
+          <div class="panel-heading panel">Edit location</div>
           <!-- Panel -->
           <div class="panel-body">
             <div>
                 <ul class="error-messages"></ul>
             </div>
-          <form id="addLocationForm" method="post" class="container-fluid">
+          <form id="editLocationForm" method="post" class="container-fluid">
             <div class="row">
               <div class="col-md-6 selectContainer form-group">
                 <label class="control-label"><strong>Name</strong></label>
-                <input type="text" class="form-control" placeholder="" name="name" required="required"/>
+                <input type="text" class="form-control" placeholder="" name="name" required="required" value="<%=data[0].name%>"/>
               </div>
             </div>
 
             <div class="row">
               <div class="col-md-6 form-group">
                 <label class="control-label"><strong>City</strong></label>
-               <input type="text" class="form-control" placeholder="" name="city" required="required"/>
+               <input type="text" class="form-control" placeholder="" name="city" required="required" value="<%=data[0].city%>"/>
               </div>
             </div> <!-- row ends -->
 
             <div class="row">
               <div class="col-md-6 form-group">
                 <label class="control-label"><strong>State</strong></label>
-               <input type="text" class="form-control" placeholder="" name="state" required="required"/>
+               <input type="text" class="form-control" placeholder="" name="state" required="required" value="<%=data[0].state%>"/>
               </div>
             </div> <!-- row ends -->
 
             <div class="row">
               <div class="col-md-6 form-group">
                 <label class="control-label"><strong>Zipcode</strong></label>
-               <input type="text" class="form-control" placeholder="" name="zipcode" required="required"/>
+               <input type="text" class="form-control" placeholder="" name="zipcode" required="required" value="<%=data[0].zipcode%>"/>
               </div>
             </div> <!-- row ends -->
 
             <div class="row">
               <div class="col-md-6 form-group" style="display: inline">
-                <button type="submit" class="btn btn-info" onClick="saveLocation()">Save location</button>
+                <button type="submit" class="btn btn-info" onClick="saveLocation()">Save changes</button>
               </div>
             </div> <!-- row ends -->
           </form> <!-- form ends -->
@@ -68,27 +68,26 @@
   </main>
     <script>
     
-       function saveLocation(){       
-       $.ajax({        
-        url:"/addlocation",
+      function saveLocation(){           
+       $.ajax({            
+        url:"/location/"+<%=data[0].id%>,
         type:"post",
-        data:$("#addLocationForm").serialize(),
-        success:function(res){            
-            //window.location.reload();
+        data:$("#editLocationForm").serialize(),
+        success:function(res){                
+            window.location.href = '/locations/';
             return false;
         },
-        error:function(xhr, status, error){           
+        error:function(xhr, status, error){                
             console.log(xhr.responseText);
             var err = '';
-            $.each(JSON.parse(xhr.responseText) , function(i, item) {               
-                 err += '<li>' + item.msg + '</li>';
+            $.each(JSON.parse(xhr.responseText) , function(i, item) {                   
+                 err +='<li>'+item.msg+'</li>';
             });
             $(".error-messages").html(err);    
             return false;
-        }
-        
+        }            
        });
-    }
+        }
     </script>
   <footer>
     <% include ../partials/footer %>

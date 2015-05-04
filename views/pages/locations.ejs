@@ -30,7 +30,7 @@
             <td><%=data[i].state%></td>
             <td><%=data[i].zipcode%></td>
             <td>
-                <a href="/locations/<%=data[i].id%>">Edit Location</a>               
+                <a href="/location/<%=data[i].id%>">Edit Location</a>               
                 <a href="javascript:void(0)" onClick="deleteLocation(<%=data[i].id%>)">Delete Location</a>               
             </td>
         </tr>
@@ -57,13 +57,15 @@
             url:"/location/"+id,
             type: 'DELETE',
             success: function(res) {                
-                window.location.reload();
-                alert("This user was deleted.");
+                //window.location.reload();
+                //alert("This user was deleted.");
                 return false;
             },
             error:function(xhr, status, error){            
                 console.log(xhr.responseText);
-                alert("delete error");
+                window.location.reload();  
+               //it is working but still returns error
+                //alert("delete error");
                 return false;
             }
         });

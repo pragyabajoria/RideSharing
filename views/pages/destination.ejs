@@ -39,7 +39,35 @@
               <li class="list-group-item"><strong>Flexibility: </strong><%=data[i].flexibility%></li>
               <li class="list-group-item"><strong>Offered By: </strong><%=data[i].firstname%> <%=data[i].lastname%> (<%=data[i].email%>) </li>
               <li class="list-group-item"><strong>
-              <button type="submit" class="btn btn-info" onClick="requestRide(<%=data[i].id%>)">Request Ride</button>
+
+                <% if (userriderequests.length) { 
+                     for(var j = 0;j < userriderequests.length;j++) { 
+                      if (userriderequests[j].rideid==data[i].id) {
+                       %>  
+
+                         <button type="submit" class="btn btn-info" onClick="cancelRequest(<%=data[i].id%>)">Cancel Request</button>
+             
+              <% } } }%>  
+
+              <% if(data[i].driverid!=userid) { 
+                    var alreadyRequested=0;
+                    if (userriderequests.length) { 
+                      for(var j = 0;j < userriderequests.length;j++) { 
+                        if (userriderequests[j].rideid==data[i].id) {
+                            alreadyRequested=1;
+                        }
+                      }
+                    }
+
+                    if(alreadyRequested==0) { %> 
+
+                     
+                       <button type="submit" class="btn btn-info" onClick="requestRide(<%=data[i].id%>)">Request Ride</button> 
+
+                  <% }
+                } %> 
+              
+                <!--<button type="submit" class="btn btn-info" onClick="requestRide(<%=data[i].id%>)">Request Ride</button>-->
                 <!--
                 <button type="submit" class="btn btn-info" onClick="location.href='/ride/<%=data[i].id%>'">Edit Ride</button>              
                 <button type="submit" class="btn btn-info" onClick="deleteRide(<%=data[i].id%>)">Delete Ride</button>
@@ -108,6 +136,22 @@ function requestRide(id){
   });
 }
 
+    function cancelRequest(id){    
+      $.ajax({
+          url:"/request/"+id,
+          type: 'POST',
+          success: function(res) {                
+              window.location.reload();
+              //alert("Your request was cancelled.");
+              return false;
+          },
+          error:function(xhr, status, error){            
+              console.log(xhr.responseText);
+              alert("mysql error");
+              return false;
+          }
+      });
+    }
 </script>
 <footer>
   <% include ../partials/footer %>
