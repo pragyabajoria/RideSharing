@@ -55,6 +55,12 @@ module.exports = function(app, passport) {
 
 	app.get('/searchrides', function (req, res) {
 
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
 		function handleResult(err, result) {
 		if (err) {
 		    console.error(err.stack || err.message);
@@ -800,7 +806,7 @@ module.exports = function(app, passport) {
 		if(global.memberID==-1){
 			res.redirect("/");
 		}
-		
+
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
