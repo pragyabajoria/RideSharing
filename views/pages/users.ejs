@@ -17,28 +17,47 @@
             <tr>
                 
                 <th>First Name</th>
+                <th>&nbsp;</th>
           <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Status</th>
           <th>&nbsp;</th>
+                <th>Email</th>
+                <th>&nbsp;</th>
+                <th>Phone</th>
+                <th>&nbsp;</th>
+                <th>Status</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
                            
             <% if(data.length){                         
-          for(var i = 0;i < data.length;i++) { %>         
-            <tr>
+          for(var i = 0;i < data.length;i++) { 
+            if((i%2)==0){ %>
+          <tr bgcolor="#A9E2F3">
+        <% } else { %> 
+          <tr>
+        <% } %>
                          <td><%=data[i].firstname%></td>
+                         <td>&nbsp;&nbsp;&nbsp;</td>
           <td><%=data[i].lastname%></td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
                 <td><%=data[i].email%></td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
                 <td><%=data[i].phone%></td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
           <td><%=data[i].status%></td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
                 <td>
                 <% if (data[i].status == 'active') {%>
                     <a href="/admin/users/deactivate/<%=data[i].id%>">Deactivate</a>  
                 <%} else{ %>
 
                     <a href="/admin/users/activate/<%=data[i].id%>">Activate</a>
-               <% } %>             
+
+               <% } %>    </td> 
+
+               <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>         
                     <a href="javascript:void(0)" onClick="deleteUser(<%=data[i].id%>)">Delete</a>               
                 </td>
             </tr>

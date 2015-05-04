@@ -16,22 +16,36 @@
     <table border="0" cellpadding="6" cellspacing="6">
         <tr>
           <th>Name</th>
+          <th>&nbsp;</th>
       <th>City</th>
+      <th>&nbsp;</th>
             <th>State</th>
+            <th>&nbsp;</th>
             <th>zipcode</th>
       <th></th>
         </tr>
                        
         <% if(data.length){                         
-         for(var i = 0;i < data.length;i++) { %>         
-        <tr>
+         for(var i = 0;i < data.length;i++) { 
+
+        if((i%2)==0){ %>
+          <tr bgcolor="#A9E2F3">
+        <% } else { %> 
+          <tr>
+        <% } %>  
+
           <td><%=data[i].name%></td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
       <td><%=data[i].city%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=data[i].state%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
             <td><%=data[i].zipcode%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
             <td>
-                <a href="/location/<%=data[i].id%>">Edit Location</a>               
-                <a href="javascript:void(0)" onClick="deleteLocation(<%=data[i].id%>)">Delete Location</a>               
+                <a href="/location/<%=data[i].id%>">Edit</a>    
+                &nbsp;&nbsp;&nbsp;           
+                <a href="javascript:void(0)" onClick="deleteLocation(<%=data[i].id%>)">Delete</a>               
             </td>
         </tr>
     <% }
