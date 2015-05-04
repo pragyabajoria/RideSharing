@@ -73,7 +73,7 @@
            <td colspan="12" bgcolor="#FF99CC">
         <% } %> 
 
-          <p>Requests: </p>
+          <p>Requested by: </p>
                           <% if(requests.length){                         
                     for(var j = 0;j < requests.length;j++) { 
                       if (requests[j].id == offered[i].id) {
@@ -166,7 +166,15 @@
     <h3>Ride Requests That Have Not Been Offered Yet</h3>
     <a href="javascript:void(0)" onClick="offerRide()">Offer Ride</a>
     </div>
+
+
     <br/>
+
+    <div>
+    <h3>All Rides</h3>
+    <a href="javascript:void(0)" onClick="offerRide()">Offer Ride</a>
+    </div>
+
     <br/><br/>
 
     <script>
