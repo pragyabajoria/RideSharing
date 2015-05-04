@@ -288,6 +288,61 @@ module.exports = function(app, passport) {
 	});
 
 
+	//add a new ride
+
+	app.post('/dashboard', function(req,res) {
+		
+		//req.assert('driverid', 'Please Enter ID').notEmpty();
+		req.assert('origin', 'Please Select Origin').notEmpty();
+		req.assert('destination', 'Please Select Destination').notEmpty();
+		req.assert('datetime', 'Please Enter Date and Time').notEmpty();
+		  
+		var errors = req.validationErrors();
+		  
+		if (errors) {
+		    res.status(422).json(errors);
+		    return;
+		}
+
+		var request = req.body.request;
+		console.log("request value: "+ request)
+
+		var rideoffer=false;
+		var riderequest=false;
+		var dId=null;
+
+		if(request=="offer"){
+			rideoffer=true;
+			dId = global.memberID;
+		}
+
+		//NOTE: also add to riderequests table
+		if(request=="request"){
+			riderequest=true;
+		}
+
+		//console.log(" ****** "+ req.body.datetime);
+
+		var data = {
+		    driverid : dId,
+		    origin : req.body.origin,
+		    destination : req.body.destination,
+		    seats : req.body.seats,
+		    datetime : req.body.datetime,
+		    flexibility : req.body.flexibility,
+		    offered: rideoffer,
+		    requested: riderequest,
+		};
+  		
+  		function handleResult(err, id) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+		    res.redirect('/rides');
+  		}
+  		dbfunctions.addNewRide(handleResult, data);
+	});
 
 	app.post('/riderequest', function(req,res) {
 		
