@@ -1,5 +1,7 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css">
 <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+<link href="../assets/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+<script src="../assets/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
 <% include ../partials/head %>
 <!-- Include Bootstrap Datepicker -->
 <body>
@@ -60,7 +62,7 @@
                                         </div>
                                     </div> <!-- row ends -->
                                     <div class="row">
-                                        <div class="col-md-4 form-group">
+                                        <div class="col-md-5 form-group">
                                             <label class="control-label"><strong>Date and Time</strong></label>
                                             <div id="datetimepicker" class="input-append date">
                                                 <input type="text" placeholder="Date and Time"></input>
@@ -122,51 +124,50 @@
         language: 'en'
       });
     </script>
-<script>
+    <script>
 
-function postridebutton(){
-    document.getElementById("requestid").value = "offer";
-    postride();
-}
-
-function requestridebutton(){
-    document.getElementById("requestid").value = "request";
-    postride();
-}
-
-function postride(){   
-
-    $.ajax({  
-
-        url:"/dashboard",
-        type:"post",
-        data:$("#requestForm").serialize(),
-        success:function(res){            
-            window.location.href = '/dashboard';
-            return false;
-        },
-        error:function(xhr, status, error){   
-
-            console.log(xhr.responseText);
-            var err = '';
-            $.each(JSON.parse(xhr.responseText) , function(i, item) {               
-               err += '<li>' + item.msg + '</li>';
-           });
-            $(".error-messages").html(err);    
-            return false;
+        function postridebutton() {
+            document.getElementById("requestid").value = "offer";
+            postride();
         }
 
-    });
-}
+        function requestridebutton() {
+            document.getElementById("requestid").value = "request";
+            postride();
+        }
 
-$('#requestForm').click(function() {
-    $(document).trigger("add-alerts", [
+        function postride() {   
+            $.ajax({  
+
+                url : "/boston",
+                type : "post",
+                data : $("#requestForm").serialize(),
+                success : function(res) {          
+                    window.location.href = '/boston';
+                    return false;
+                },
+        
+                error : function(xhr, status, error) {   
+
+                    console.log(xhr.responseText);  
+                    var err = '';
+                    $.each(JSON.parse(xhr.responseText) , function(i, item) {               
+                        err += '<li>' + item.msg + '</li>';
+                    });
+                    $(".error-messages").html(err);    
+                    return false;
+                }
+
+          });
+    }
+
+    $('#requestForm').click(function() {
+        $(document).trigger("add-alerts", [
         {
             'message': "This is a warning.",
             'priority': 'warning'
-        }]
-    );
-});
+        }]);
+    });
 </script>
 </body>
 </html>
