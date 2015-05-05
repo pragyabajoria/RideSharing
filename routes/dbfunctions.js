@@ -204,18 +204,23 @@ dbfunctions.getLocations = function(callback) {
 //need to fix 
 //get new ride id so that it can be added to riderequests table
 //or remove request a ride button from dashboard
-dbfunctions.addNewRide = function(callback, data) {    
+dbfunctions.addNewRide = function(callback, data, type) {    
     connection.query('INSERT INTO rides set ? ', data, function(err, rows) {
       if (err) return callback(err);
-        var data = {
-          rideid : rows.insertId,
-          memberid : global.memberID,
-        };
-        
-        connection.query("INSERT INTO riderequests set ? ", data, function(err, rows) {        
-            if (err) return callback(err);
-            return callback(null);   
-        });  
+
+        if(type=='request') {
+            var data = {
+              rideid : rows.insertId,
+              memberid : global.memberID,
+            };
+            
+            connection.query("INSERT INTO riderequests set ? ", data, function(err, rows) {        
+                if (err) return callback(err);
+                return callback(null);   
+            });  
+         }else{
+          return callback(null);  
+         }
   });
 };
 

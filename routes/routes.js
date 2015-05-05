@@ -549,14 +549,14 @@ module.exports = function(app, passport) {
 		    requested: riderequest,
 		};
   		
-  		function handleResult(err, id) {
+  		function handleResult(err) {
 		    if (err) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
 		    res.redirect('/rides');
   		}
-  		dbfunctions.addNewRide(handleResult, data);
+  		dbfunctions.addNewRide(handleResult, data, request);
 	});
 
 	app.post('/riderequest', function(req,res) {
