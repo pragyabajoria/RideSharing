@@ -1,142 +1,135 @@
 <!-- views/pages/index.ejs -->
+<html>
+<head>
+    <% include ../partials/head %>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    
+</head>
+<body>
 
+    <header>
+        <% include ../partials/header %>
+    </header>
 
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css">
-<link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
-        <% include ../partials/head %>
-    </head>
-    <body>
-
-        <header>
-            <% include ../partials/header %>
-        </header>
-
-       <main>
+    <main>
         <div>
             <div>
               <% include ../partials/carousel %>
-            </div>
+          </div>
+          <div>
             <div>
-                <div>
-                    <style type="text/css"> 
-                        .center-panel
-                        {
-                            position: absolute;
-                            left : 25%;
-                        }
-                    </style>
-                    <br>
-                    <section class="container row">
-                        <div class="panel panel-info col-sm-8 col-md-8 col-md-offset-4">
-                            <!-- Panel -->
-                            <div class="panel-body">
-                                <div>
-                                    <ul class="error-messages"></ul>
-                                </div>
-                                <form id="requestForm" method="post" class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-6 selectContainer form-group">
-                                            <label class="control-label"><strong>Origin</strong></label>
-                                            <select class="form-control" name="origin">
-                                                <% if ( data.length ) {                         
-                                                    for ( var i = 0; i < data.length; i++) { %>                     
-                                                        <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
+                <style type="text/css"> 
+                .center-panel
+                {
+                    position: absolute;
+                    left : 25%;
+                }
+                </style>
+                <br>
+                <section class="container row">
+                    <div class="panel panel-info col-sm-8 col-md-8 col-md-offset-4">
+                        <!-- Panel -->
+                        <div class="panel-body">
+                            <div>
+                                <ul class="error-messages"></ul>
+                            </div>
+                            <form id="requestForm" method="post" class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6 selectContainer form-group">
+                                        <label class="control-label"><strong>Origin</strong></label>
+                                        <select class="form-control" name="origin">
+                                            <% if ( data.length ) {                         
+                                                for ( var i = 0; i < data.length; i++) { %>                     
+                                                <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
 
                                                 <% }
-                                                } else { %>               
-                                                    <option value="0">No Locations</option>
-                                                <% } %>
+                                            } else { %>               
+                                            <option value="0">No Locations</option>
+                                            <% } %>
 
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label class="control-label"><strong>Destination</strong></label>
-                                            <select class="form-control" name="destination">
-                                                <% if (data.length) {                         
-                                                    for (var i = 0; i < data.length; i++) { %>                     
-                                                        <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="control-label"><strong>Destination</strong></label>
+                                        <select class="form-control" name="destination">
+                                            <% if (data.length) {                         
+                                                for (var i = 0; i < data.length; i++) { %>                     
+                                                <option value="<%=data[i].id%>"><%=data[i].name%>,&nbsp;<%=data[i].city%>,&nbsp; <%=data[i].state%> <%=data[i].zipcode%></option>
 
                                                 <% }
-                                                } else { %>               
-                                                    <option value = "0" >No Locations</option>
-                                                <% } %>
-                                            </select>
-                                        </div>
-                                    </div> <!-- row ends -->
-                                    <div class="row">
-                                        <div class="col-md-4 form-group">
-                                            <label class="control-label"><strong>Date and Time</strong></label>
-                                            <div id="datetimepicker" class="input-append date">
-                                                <input type="text" placeholder="Date and Time" name="datetime"></input>
-                                                <span class="add-on">
-                                                    <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
-                                                </span>
-                                            </div>   
-                                        </div>
-                                            <!--
-                                                <input  data-format="yyyy-MM-dd HH:mm:ss PP" class="form-control" type="text" placeholder="Date and Time" name="datetime"></input>
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                            -->
-
-                                        <div class="col-md-2 form-group">
-                                            <label class="control-label"><strong>Seats</strong></label>
-                                            <input type="text" class="form-control" placeholder="Eg: 2" name="seats" required="required"/>
-                                        </div>
-                                        <div class="col-md-4 form-group">
-                                            <label class="control-label"><strong>Flexibility in Departure Time</strong></label> 
-                                            <div style="display: inline">
-                                            <input type="text" name="flexibility" required="required" autocomplete="on" class="form-control" placeholder="Eg: +3 hours"></input>
-                                        </div>
+                                            } else { %>               
+                                            <option value = "0" >No Locations</option>
+                                            <% } %>
+                                        </select>
                                     </div>
                                 </div> <!-- row ends -->
                                 <div class="row">
-                                    <div class="col-md-6 form-group" style="display: inline">
-                                        <input type="hidden" id = 'requestid' name="request" value="">
-                                            <button type="submit" class="btn btn-info" onClick="requestridebutton()">Request a Ride</button>
-                                            <button type="submit" class="btn btn-info" onClick="postridebutton()">Post a Ride</button>
-                                        </input>
+                                    <div class="col-md-5 form-group">
+                                        <label class="control-label"><strong>Date and Time</strong></label>
+                                        <div id="datetimepicker" class="input-append date">
+                                            <input type="text" placeholder="Date and Time" name="datetime"></input>
+                                            <span class="add-on">
+                                                <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar" style="display: inline"></i>
+                                            </span>
+                                        </div>   
                                     </div>
-                                </div> <!-- row ends -->
-                            </form> <!-- form ends -->
+
+                        <div class="col-md-2 form-group">
+                            <label class="control-label"><strong>Seats</strong></label>
+                            <input type="text" class="form-control" placeholder="Eg: 2" name="seats" required="required"/>
                         </div>
-                    </section>
-                </div>
-            </div>
+                        <div class="col-md-4 form-group">
+                            <label class="control-label"><strong>Flexibility in Departure Time</strong></label> 
+                            <div style="display: inline">
+                                <input type="text" name="flexibility" required="required" autocomplete="on" class="form-control" placeholder="Eg: +3 hours"></input>
+                            </div>
+                        </div>
+                    </div> <!-- row ends -->
+                    <div class="row">
+                        <div class="col-md-6 form-group" style="display: inline">
+                            <input type="hidden" id = 'requestid' name="request" value="">
+                            <button type="submit" class="btn btn-info" onClick="requestridebutton()">Request a Ride</button>
+                            <button type="submit" class="btn btn-info" onClick="postridebutton()">Post a Ride</button>
+                        </input>
+                    </div>
+                </div> <!-- row ends -->
+            </form> <!-- form ends -->
         </div>
+    </section>
+</div>
+</div>
+</div>
 
-        <div>
-         <ul class="error-messages"></ul>
-         </div>
+<div>
+    <ul class="error-messages"></ul>
+</div>
 
-    </main>
+</main>
 
 
-        <footer>
-            <% include ../partials/footer %>
-        </footer>
+<footer>
+    <% include ../partials/footer %>
+</footer>
 
-        <script type="text/javascript"
-     src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
-    </script> 
-    <script type="text/javascript"
-     src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
-    </script>
-    <script type="text/javascript"
-     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-    </script>
-    <script type="text/javascript"
-     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
-    </script>
-    <script type="text/javascript">
-      $('#datetimepicker').datetimepicker({
-        format: 'yyyy-MM-dd hh:mm:ss',
-        language: 'en'
-      });
-    </script>
+<script type="text/javascript"
+src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+</script> 
+<script type="text/javascript"
+src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+</script>
+<script type="text/javascript"
+src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+</script>
+<script type="text/javascript"
+src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+</script>
+<script type="text/javascript">
+$('#datetimepicker').datetimepicker({
+    format: 'yyyy-MM-dd hh:mm:ss',
+    language: 'en'
+});
+</script>
 <script>
 
 function postridebutton(){
@@ -152,7 +145,6 @@ function requestridebutton(){
 function postride(){   
 
     $.ajax({  
-
         url:"/rides",
         type:"post",
         data:$("#requestForm").serialize(),
@@ -176,14 +168,14 @@ function postride(){
 
 $('#requestForm').click(function() {
     $(document).trigger("add-alerts", [
-        {
-            'message': "This is a warning.",
-            'priority': 'warning'
-        }]
+    {
+        'message': "This is a warning.",
+        'priority': 'warning'
+    }]
     );
 });
 
 </script>
 
-    </body>
+</body>
 </html>

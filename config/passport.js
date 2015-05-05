@@ -5,7 +5,7 @@ var dbfunctions = require('./../routes/dbfunctions');
 var userId;
 var userName;
 var userEmail;
-var userPhotograph;
+global.userPhotograph = "photo";
 
 //var User = require('../lib/user');
 
@@ -21,10 +21,7 @@ module.exports = function(passport) {
     });
 
     passport.deserializeUser (function (email, done) {
-        /*
-        User.findByEmail(email, function (err, user) {
-            done(err, user);
-        });*/
+    
     });
     
     
@@ -42,6 +39,8 @@ module.exports = function(passport) {
             userId = profile.id;
             userName = profile.displayName;
             userEmail = profile.emails[0].value;
+            userPicture = profile._json['picture'];
+            //console.log("Google Picture Url: " + picture);
 
             //send user to database
             function handleResult(err) {
@@ -50,35 +49,13 @@ module.exports = function(passport) {
                     return;
                 }
             }
-            dbfunctions.locateUser(handleResult, userId, userName, userEmail);
+            dbfunctions.locateUser(handleResult, userId, userName, userEmail, userPicture);
 
             // To keep the example simple, the user's Google profile is returned to
             // represent the logged-in user.  In a typical application, you would want
             // to associate the Google account with a user record in your database,
             // and return that user instead.
             return done(null, profile);
-
-            // try to find the user based on their Google email
-            /*User.login(profile.emails[0].value, profile.id, function(err, user) {
-                if (err)
-                    return done(err);
-                if (user) {
-                    // if a user is found, login
-                    return done(undefined, user);
-                } else {
-            //newUser.google.id    = profile.id;
-                    //newUser.google.token = accessToken;
-                    //newUser.google.name  = profile.displayName;
-                    //newUser.google.email = profile.emails[0].value;
-                    var email = profile.emails[0].value;
-            var password = profile.id;
-                    User.register(email, password, function(err, result) {
-                        if (err)
-                            console.log(err);
-                        return done(undefined, result);
-                    });
-                }
-            });*/ 
         });
     }));
   
@@ -89,12 +66,27 @@ module.exports = function(passport) {
         clientID: configAuth.facebookAuth.clientID,
         clientSecret: configAuth.facebookAuth.clientSecret,
         callbackURL: configAuth.facebookAuth.callbackURL,
+        profileFields: ['id', 'displayName', 'link', 'photos', 'gender', 'emails'],
+        enableProof: true
     },
     function(accessToken, refreshToken, profile, done) {
-        userId = profile.id;
-        userName = profile.displayName;
+        //console.log("User Id: " + userId + "\nUser Name: " + userName + "\nUser Email: " + userEmail);
         // asynchronous verification, for effect...
         process.nextTick(function () {
+
+            userId = profile.id;
+            userName = profile.displayName;
+            userEmail = profile.emails[0].value;
+            userPicture = profile.photos ? profile.photos[0].value : "";
+
+            //send user to database
+            function handleResult(err) {
+                if (err) {
+                    console.error(err.stack || err.message);
+                    return;
+                }
+            }
+            dbfunctions.locateUser(handleResult, userId, userName, userEmail, userPicture);
             return done(null, profile);
         });
     }

@@ -15,15 +15,14 @@
          <div id="content" class="clearfix">
 
             <h1>Profile</h1>
-            <div id="userphoto"><img src="/icons/avatar.png" alt="default avatar"></div>
+            <div id="userphoto"><img src= <%= picture %> alt="default avatar" style="width:100px;height:100px"></div>
 
             <div style="margin-left: 200px;">
                <p> I am a senior at Mount Holyoke College majoring in Computer Science</p>
 
-               <p class="setting"><span>Name </span> Pragya Bajoria</p>
-               <p class="setting"><span>Gender </span> Female </p>
-               <p class="setting"><span>School </span> Mount Holyoke College</p>
-               <p class="setting"><span>Age </span> 22 </p>
+               <p class="setting"><span>Name </span> <%= name %> </p>
+               <p class="setting"><span>School </span> user.school</p>
+               <p class="setting"><span>Email </span> <%= email %> </p>
             </div>
          </div><!-- @end #content -->
       </div><!-- @end #w -->
