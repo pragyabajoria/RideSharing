@@ -630,7 +630,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/profile', function (req, res) {
-  		res.render('pages/profile');
+  		res.render('pages/profile', {name : 'Pragya', school: 'MHC'});
 	});
 
 	// dashboard locations

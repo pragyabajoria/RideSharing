@@ -90,12 +90,23 @@ module.exports = function(passport) {
         enableProof: true
     },
     function(accessToken, refreshToken, profile, done) {
-        userId = profile.id;
-        userName = profile.displayName;
-        userEmail = profile.emails[0].value;
         //console.log("User Id: " + userId + "\nUser Name: " + userName + "\nUser Email: " + userEmail);
         // asynchronous verification, for effect...
         process.nextTick(function () {
+
+            userId = profile.id;
+            userName = profile.displayName;
+            userEmail = profile.emails[0].value;
+
+
+            //send user to database
+            function handleResult(err) {
+                if (err) {
+                    console.error(err.stack || err.message);
+                    return;
+                }
+            }
+            dbfunctions.locateUser(handleResult, userId, userName, userEmail);
             return done(null, profile);
         });
     }
