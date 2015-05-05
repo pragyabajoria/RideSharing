@@ -554,7 +554,7 @@ module.exports = function(app, passport) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-		    res.redirect('/rides');
+		    res.redirect('/myrides');
   		}
   		dbfunctions.addNewRide(handleResult, data, request);
 	});
