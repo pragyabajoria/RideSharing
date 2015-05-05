@@ -24,6 +24,7 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail){
 
     if (err) {return callback(err);}    
     if (rows.length < 1) {
+      
       var name = userName.toString().split(" ");
 
       var data = {
