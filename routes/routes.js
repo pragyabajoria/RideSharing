@@ -827,14 +827,47 @@ module.exports = function(app, passport) {
 				        console.error(err.stack || err.message);
 				        return;
 				    }
-					   var requests=result3;			   
-				 	   res.render('pages/myRides', {title: 'My Rides', offered:offered, requested:requested, requests:requests});
+					   var requests=result3;
+
+					   function handleResult(err, result4) {
+
+						    if (err) {
+						        console.error(err.stack || err.message);
+						        return;
+						    }
+							   var notofferedyet=result4;
+
+							   			   
+						 	   res.render('pages/myRides', {title: 'My Rides', offered:offered, requested:requested, requests:requests, notofferedyet:notofferedyet});
+							}
+				    dbfunctions.selectAllRequestedButNotOfferedRides(handleResult);
+
+				 	   //res.render('pages/myRides', {title: 'My Rides', offered:offered, requested:requested, requests:requests});
 					}
 				    dbfunctions.selectRequestsForMyOfferedRides(handleResult);
 				}
 		    dbfunctions.selectMyRequestededRides(handleResult);    		
 		}		
 		dbfunctions.selectMyOfferedRides(handleResult); 		
+	});
+
+	app.post('/offer/:id', function(req,res) {
+
+		//if user not logged in
+		//redirect to homepage
+		if(global.memberID==-1){
+			res.redirect("/");
+		}
+
+		var id = req.params.id;
+		function handleResult(err) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+	  		res.redirect("/myrides");
+  		}
+  		dbfunctions.offerRide(handleResult, id);
 	});
 	
 	/*//Registration page

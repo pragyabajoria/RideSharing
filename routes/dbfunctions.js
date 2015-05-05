@@ -82,7 +82,7 @@ dbfunctions.selectAllRides = function(callback) {
   }); 
 };
 
-dbfunctions.selectMyOfferedRides = function(callback, destination) {    
+dbfunctions.selectMyOfferedRides = function(callback) {    
     connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
@@ -93,7 +93,7 @@ dbfunctions.selectMyOfferedRides = function(callback, destination) {
   }); 
 };
 
-dbfunctions.selectMyRequestededRides = function(callback, destination) {    
+dbfunctions.selectMyRequestededRides = function(callback) {    
     connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2, riderequests as rr WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
@@ -104,8 +104,28 @@ dbfunctions.selectMyRequestededRides = function(callback, destination) {
   }); 
 };
 
+dbfunctions.selectAllRequestedButNotOfferedRides = function(callback) {    
+    connection.query('SELECT r.id, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
+      ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
+      'locations as l2, riderequests as rr WHERE m.id=rr.memberid AND l1.id=r.origin AND l2.id=r.destination AND' + 
+      ' r.datetime>= CURDATE() AND r.driverid IS NULL AND rr.rideid = r.id', function(err, rows) {
+    if (err) return callback(err);
+    return callback(null, rows);    
+
+  }); 
+};
+
+dbfunctions.offerRide = function(callback, id) {    
+  connection.query("UPDATE rides SET driverid=? WHERE id = ? ", [global.memberID,id], function (err, rows) {
+      if (err) return callback(err);
+      return callback(null);    
+  });
+};
+
+
+
 //returns requests for current user
-dbfunctions.selectRequestsForMyOfferedRides = function(callback, destination) {    
+dbfunctions.selectRequestsForMyOfferedRides = function(callback) {    
     connection.query('SELECT r.id, r.driverid, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility, r.requested, r.offered FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2, riderequests as rr WHERE m.id=rr.memberid AND l1.id=r.origin AND l2.id=r.destination AND' + 
@@ -116,7 +136,7 @@ dbfunctions.selectRequestsForMyOfferedRides = function(callback, destination) {
   }); 
 };
 
-dbfunctions.selectUserRideRequests = function(callback, destination) {    
+dbfunctions.selectUserRideRequests = function(callback) {    
     connection.query('SELECT * FROM riderequests WHERE memberid = ?', global.memberID, function(err, rows) {
     if (err) return callback(err);
     return callback(null, rows);    
@@ -124,7 +144,7 @@ dbfunctions.selectUserRideRequests = function(callback, destination) {
   }); 
 };
 
-dbfunctions.selectAllRideRequests = function(callback, destination) {    
+dbfunctions.selectAllRideRequests = function(callback) {    
     connection.query('SELECT * FROM riderequests', function(err, rows) {
     if (err) return callback(err);
     return callback(null, rows);    

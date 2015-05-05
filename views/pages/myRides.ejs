@@ -163,9 +163,65 @@
                                       
     </table>
     </div>
+    <br/>
     <div>
     <h3>Ride Requests That Have Not Been Offered Yet</h3>
-    <a href="javascript:void(0)" onClick="offerRide()">Offer Ride</a>
+    
+
+       <table border="0" cellpadding="5" cellspacing="5">
+        <tr>
+      <th>Passanger</th>
+      <th>&nbsp;</th> 
+      <th>Origin</th>
+      <th>&nbsp;</th>
+            <th>Destination</th>
+            <th>&nbsp;</th>
+            <th>Seats</th>
+            <th>&nbsp;</th>
+      <th>Date and Time</th>
+      <th>&nbsp;</th>
+      <th>Flexibility (hours)</th>
+      <th>&nbsp;</th>
+      <th>Requested</th>
+        </tr>
+                       
+        <% if(notofferedyet.length){                         
+         for(var i = 0;i < notofferedyet.length;i++) {        
+                if((i%2)==0){ %>
+          <tr bgcolor="#A9E2F3">
+        <% } else { %> 
+          <tr bgcolor="#FFCCFF">
+        <% } %>  
+      <td><%=notofferedyet[i].firstname%> <%=notofferedyet[i].lastname%> (<%=notofferedyet[i].email%>)</td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=notofferedyet[i].origin%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><%=notofferedyet[i].destination%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><%=notofferedyet[i].seats%></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=notofferedyet[i].datetime.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+      <td><%=notofferedyet[i].flexibility%></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+    
+
+            <td>
+        <a href="javascript:void(0)" onClick="offerRide(<%=notofferedyet[i].id%>)">Offer Ride</a>
+          
+            </td>
+        </tr>
+    <% }
+    
+     }else{ %>
+         <tr>
+            <td colspan="5">No Rides</td>
+         </tr>
+    <% } %>
+                                      
+    </table>
+
+
     </div>
 
     <br/><br/>
@@ -201,7 +257,23 @@
           type: 'POST',
           success: function(res) {                
               window.location.reload();
-              alert("Your request was cancelled.");
+              //alert("Your request was cancelled.");
+              return false;
+          },
+          error:function(xhr, status, error){            
+              console.log(xhr.responseText);
+              alert("mysql error");
+              return false;
+          }
+      });
+    }
+
+    function offerRide(id){    
+      $.ajax({
+          url:"/offer/"+id,
+          type: 'POST',
+          success: function(res) {                
+              window.location.reload();
               return false;
           },
           error:function(xhr, status, error){            
