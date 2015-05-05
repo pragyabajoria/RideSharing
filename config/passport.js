@@ -21,10 +21,7 @@ module.exports = function(passport) {
     });
 
     passport.deserializeUser (function (email, done) {
-        /*
-        User.findByEmail(email, function (err, user) {
-            done(err, user);
-        });*/
+    
     });
     
     
@@ -89,10 +86,14 @@ module.exports = function(passport) {
         clientID: configAuth.facebookAuth.clientID,
         clientSecret: configAuth.facebookAuth.clientSecret,
         callbackURL: configAuth.facebookAuth.callbackURL,
+        profileFields: ['id', 'displayName', 'link', 'photos', 'emails'],
+        enableProof: true
     },
     function(accessToken, refreshToken, profile, done) {
         userId = profile.id;
         userName = profile.displayName;
+        userEmail = profile.emails[0].value;
+        //console.log("User Id: " + userId + "\nUser Name: " + userName + "\nUser Email: " + userEmail);
         // asynchronous verification, for effect...
         process.nextTick(function () {
             return done(null, profile);

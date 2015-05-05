@@ -1,34 +1,22 @@
 module.exports = function(app, passport) {
+	
 	//var admin=true;
-	//var index = require('./index');
-	//var user = require('./user');
 	var auth = require('./auth');
-	//var dashboard = require('./dashboard');
 	var dbfunctions = require('./dbfunctions');
 		
-	//app.use('/', index);
-	//app.use('/user', user);
-	//app.use('/event', event);
 	app.use('/auth', auth);
-	//app.use('/dashboard', dashboard);
-	//app.use('/', db);
 	
 	//Home page
 	app.get('/', function(req, res){
   		res.render('pages/index');
 	});
 
-	// app.get('/login', function(req, res){
- //  		res.render('login', { user: req.user });
-	// });
-
-
+	// Dashboard
 	app.get('/dashboard', function(req, res) {
-		console.log("In routes function");
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
-			res.redirect("/");
+		if (global.memberID == -1) {
+			res.redirect('/');
 		}
 
 		function handleResult(err, result) {
@@ -41,14 +29,17 @@ module.exports = function(app, passport) {
 		dbfunctions.getLocations(handleResult);
  	});
 
+	// general locations available
 	app.get('/generalLocations', function(req, res){
   		res.render('pages/generalLocations');
 	});
 
+	// about page
 	app.get('/about', function(req, res){
   		res.render('pages/about');
 	});
 
+	// contact form
 	app.get('/contact', function(req, res){
   		res.render('pages/contactForm');
 	});
@@ -57,15 +48,15 @@ module.exports = function(app, passport) {
 
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
+		if (global.memberID == -1){
 			res.redirect("/");
 		}
 
 		function handleResult(err, result) {
-		if (err) {
-		    console.error(err.stack || err.message);
-		    return;
-		}
+			if (err) {
+		    	console.error(err.stack || err.message);
+		    	return;
+			}
 			res.render('pages/destination', {title:req.query['search'], data:result});
 		}
 		dbfunctions.searchRides(handleResult, req.query['search']);
@@ -77,7 +68,7 @@ module.exports = function(app, passport) {
 
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
+		if(global.memberID == -1) {
 			res.redirect("/");
 		}
 
@@ -87,7 +78,7 @@ module.exports = function(app, passport) {
 		        console.error(err.stack || err.message);
 		        return;
 		    }
-	  		res.render('pages/rideEdit', {ride:ride, locations:locations});
+	  		res.render('pages/rideEdit', { ride : ride, locations : locations });
 	  	}
 	  	dbfunctions.selectRide(handleResult, id);
 	});
@@ -97,8 +88,8 @@ module.exports = function(app, passport) {
 
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
-			res.redirect("/");
+		if (global.memberID == -1) {
+			res.redirect('/');
 		}
 
 		var id = req.params.id;	
@@ -116,8 +107,8 @@ module.exports = function(app, passport) {
 
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
-			res.redirect("/");
+		if (global.memberID == -1){
+			res.redirect('/');
 		}
 
 		function handleResult(err, result) {
@@ -218,14 +209,14 @@ module.exports = function(app, passport) {
 		else{
 			res.send("Access Denied");
 		}
-
 	});
 	
 	app.get('/admin/addlocation', function(req, res){
-		if(global.admin==true){
+
+		if(global.admin == true){
 	 		res.render('pages/locationAdd');
 	 			  	
-		}else{
+		} else{
 			res.send("Access Denied");
 		}
 	});
@@ -325,24 +316,24 @@ module.exports = function(app, passport) {
 		}
 		
 		req.assert('name','Please Enter Location Name').notEmpty();
-	  req.assert('city','Please Enter City').notEmpty();
-	  req.assert('state','Please State').notEmpty();
-	  req.assert('zipcode','Please Zip Code').notEmpty();
+	  	req.assert('city','Please Enter City').notEmpty();
+	  	req.assert('state','Please State').notEmpty();
+	  	req.assert('zipcode','Please Zip Code').notEmpty();
 	  
-	  var errors = req.validationErrors();
+	  	var errors = req.validationErrors();
 	  
-	  if (errors) {
-	    res.status(422).json(errors);
-	    return;
-	  }
+	  	if (errors) {
+	    	res.status(422).json(errors);
+	    	return;
+	  	}
 
-	  var data = {
-	    name : req.body.name,
-	    city : req.body.city,
-	    state : req.body.state,
-	    zipcode : req.body.zipcode,
-	    lastridedate: '0000-00-00 00:00:00'
-	  };
+	  	var data = {
+	    	name : req.body.name,
+	    	city : req.body.city,
+	    	state : req.body.state,
+	    	zipcode : req.body.zipcode,
+	    	lastridedate: '0000-00-00 00:00:00'
+	  	};
   		
   		function handleResult(err) {
 		    if (err) {
@@ -488,23 +479,13 @@ module.exports = function(app, passport) {
 
 	//add a new ride
 
-	// app.get('/dashboard', function(req, res){
-	// 	function handleResult(err, result) {
-	// 	    if (err) {
-	// 	        console.error(err.stack || err.message);
-	// 	        return;
-	// 	    }
-	//   		res.render('pages/dashboard', {data:result});
-	//   	}
-	//   	dbfunctions.getLocations(handleResult);
-	// });
-
 	app.post('/dashboard', function(req,res) {
 
+		console.log("Dashboard post was called");
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
-			res.redirect("/");
+		if(global.memberID == -1){
+			res.redirect('/');
 		}
 		
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
@@ -532,7 +513,7 @@ module.exports = function(app, passport) {
 		}
 
 		//NOTE: also add to riderequests table
-		if(request=="request"){
+		if(request == 'request'){
 			riderequest=true;
 		}
 
@@ -563,8 +544,8 @@ module.exports = function(app, passport) {
 
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
-			res.redirect("/");
+		if (global.memberID == -1) {
+			res.redirect('/');
 		}
 		
 		//req.assert('driverid', 'Please Enter ID').notEmpty();
@@ -582,17 +563,17 @@ module.exports = function(app, passport) {
 		var request = req.body.request;
 		console.log("request value: "+ request)
 
-		var rideoffer=false;
-		var riderequest=false;
-		var dId=null;
+		var rideoffer = false;
+		var riderequest = false;
+		var dId = null;
 
-		if(request=="offer"){
-			rideoffer=true;
+		if(request == "offer") {
+			rideoffer = true;
 			dId = global.memberID;
 		}
 
 		//NOTE: also add to riderequests table
-		if(request=="request"){
+		if(request == "request"){
 			riderequest=true;
 		}
 
@@ -623,7 +604,7 @@ module.exports = function(app, passport) {
 
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
+		if(global.memberID==-1) {
 			res.redirect("/");
 		}
 
@@ -672,7 +653,7 @@ module.exports = function(app, passport) {
 				        console.error(err.stack || err.message);
 				        return;
 				    }
-			  		res.render('pages/destination', {title: 'Boston', data:result, userriderequests:result2, userid:global.memberID});
+			  		res.render('pages/destination', {title: 'Boston', data:result, userriderequests : result2, userid : global.memberID});
 			  	}
 	  		
 	  		dbfunctions.selectUserRideRequests(handleResult);
@@ -745,7 +726,7 @@ module.exports = function(app, passport) {
 
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1){
+		if (global.memberID == -1) {
 			res.redirect("/");
 		}
 
@@ -777,7 +758,6 @@ module.exports = function(app, passport) {
 		if(global.memberID==-1){
 			res.redirect("/");
 		}
-
 		function handleResult(err, result) {
 		    if (err) {
 		        console.error(err.stack || err.message);
@@ -796,7 +776,6 @@ module.exports = function(app, passport) {
 		}
 		var destination = "Bradley Airport";
 		dbfunctions.selectRides(handleResult, destination);
-  		
 	});
 
 	// my rides page for each user
@@ -870,19 +849,6 @@ module.exports = function(app, passport) {
   		dbfunctions.offerRide(handleResult, id);
 	});
 	
-	/*//Registration page
-	app.get('/register', function(req, res){
-		res.render('register.ejs', { title: 'ULynk',
-									message: req.flash('message')
-									});
-	});
-	
-	app.post('/register', passport.authenticate('local-signup', {
-        successRedirect : '/dashboard',
-        failureRedirect : '/register',
-        failureFlash : true // allow flash messages
-    }));*/
-	
 	//Logout
 	app.get('/logout', function(req, res){
 		req.logout();
@@ -891,20 +857,12 @@ module.exports = function(app, passport) {
 
 	///////////////////////////////////////////////////////////////////////////
 
-	// catch 404 and forward to error handler
-	app.use(function(req, res, next) {
-		var err = new Error('Not Found');
-		err.status = 404;
-		next(err);
-	});
-
 	// error handlers
 
 	// development error handler
 	// will print stacktrace
 	if (app.get('env') === 'development') {
 		app.use(function(err, req, res, next) {
-			res.status(err.status || 500);
 			res.render('error', {
 				message: err.message,
 				error: err
@@ -915,7 +873,6 @@ module.exports = function(app, passport) {
 	// production error handler
 	// no stacktraces leaked to user
 	app.use(function(err, req, res, next) {
-		res.status(err.status || 500);
 		res.render('error', {
 			message: err.message,
 			error: {}
@@ -933,5 +890,5 @@ function ensureAuthenticated(req, res, next) {
 		return next();
 	}
 	// else redirect to homepage
-	res.redirect('/login');
+	res.redirect('/dashboard');
 };

@@ -1,28 +1,29 @@
 var dbfunctions = require('./dbfunctions');
 var pass = require('./../config/passport.js');
-// var express = require('express');
-// var router = express.Router();
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'root',
+  password : '',
   port   : 3306,
   database : 'mhcrideshare',
   debug    : false
   
 });
 
-global.memberID=-1;
-global.admin=false;
+global.memberID = -1;
+global.admin = false;
 
 connection.connect(); 
 
-dbfunctions.locateUser = function(callback, userId, userName, userEmail){      
-  connection.query("SELECT * FROM members WHERE gmailid = ? ",userId, function (err, rows) {         
+dbfunctions.locateUser = function(callback, userId, userName, userEmail) {   
+  connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err, rows) {         
 
-    if (err) {return callback(err);}    
+    if (err) {
+      return callback(err);
+    }
+
     if (rows.length < 1) {
       
       var name = userName.toString().split(" ");
@@ -36,8 +37,10 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail){
       };
 
       connection.query("INSERT INTO members set ? ", data, function (err2, rows2) {        
-        if (err2) {return callback(err2);} 
-          connection.query("SELECT * FROM members WHERE gmailid = ? ",userId, function (err3, rows3) {          
+        if (err2) {
+          return callback(err2);
+        } 
+        connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err3, rows3) {          
             if (err3) { return callback(err3);}            
             if (rows3.length > 0) {
               global.memberID = rows3[0].id;
@@ -50,11 +53,13 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail){
           }); 
       }); 
     } else {
+      
       global.memberID = rows[0].id;
-      if(rows[0].email=='mhcrideshare@gmail.com' || rows[0].email=='1.paradoxes.7@gmail.com'){
-        global.admin=true;
+      
+      if(rows[0].email == 'mhcrideshare@gmail.com' || rows[0].email == '1.paradoxes.7@gmail.com') {
+        global.admin = true;
       } else {
-        global.admin=false;
+        global.admin = false;
       }
     }
  }); 
