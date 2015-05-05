@@ -5,7 +5,7 @@ var dbfunctions = require('./../routes/dbfunctions');
 var userId;
 var userName;
 var userEmail;
-var userPhotograph;
+global.userPhotograph = "photo";
 
 //var User = require('../lib/user');
 
@@ -54,28 +54,6 @@ module.exports = function(passport) {
             // to associate the Google account with a user record in your database,
             // and return that user instead.
             return done(null, profile);
-
-            // try to find the user based on their Google email
-            /*User.login(profile.emails[0].value, profile.id, function(err, user) {
-                if (err)
-                    return done(err);
-                if (user) {
-                    // if a user is found, login
-                    return done(undefined, user);
-                } else {
-            //newUser.google.id    = profile.id;
-                    //newUser.google.token = accessToken;
-                    //newUser.google.name  = profile.displayName;
-                    //newUser.google.email = profile.emails[0].value;
-                    var email = profile.emails[0].value;
-            var password = profile.id;
-                    User.register(email, password, function(err, result) {
-                        if (err)
-                            console.log(err);
-                        return done(undefined, result);
-                    });
-                }
-            });*/ 
         });
     }));
   
@@ -97,7 +75,6 @@ module.exports = function(passport) {
             userId = profile.id;
             userName = profile.displayName;
             userEmail = profile.emails[0].value;
-
 
             //send user to database
             function handleResult(err) {

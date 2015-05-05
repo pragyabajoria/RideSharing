@@ -14,10 +14,15 @@ var connection = mysql.createConnection({
 
 global.memberID = -1;
 global.admin = false;
+global.userName = "Name";
+global.email = "Email";
 
 connection.connect(); 
 
 dbfunctions.locateUser = function(callback, userId, userName, userEmail) {   
+
+  global.userName = userName;
+  global.userEmail = userEmail;
   connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err, rows) {         
 
     if (err) {
@@ -41,10 +46,14 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail) {
           return callback(err2);
         } 
         connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err3, rows3) {          
-            if (err3) { return callback(err3);}            
+            if (err3) { 
+              return callback(err3);
+            }     
+
             if (rows3.length > 0) {
               global.memberID = rows3[0].id;
-              if(rows3[0].email=='mhcrideshare@gmail.com' || rows3[0].email=='1.paradoxes.7@gmail.com'){
+
+              if(rows3[0].email == 'mhcrideshare@gmail.com' || rows3[0].email == '1.paradoxes.7@gmail.com'){
                 global.admin=true;
               } else {
                 global.admin=false;
@@ -53,7 +62,6 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail) {
           }); 
       }); 
     } else {
-      
       global.memberID = rows[0].id;
       
       if(rows[0].email == 'mhcrideshare@gmail.com' || rows[0].email == '1.paradoxes.7@gmail.com') {
@@ -213,7 +221,7 @@ dbfunctions.addNewRide = function(callback, data, type) {
   connection.query('INSERT INTO rides set ? ', data, function(err, rows) {
     if (err) return callback(err);
 
-    if(type=='request') {
+    if(type == 'request') {
       var data = {
         rideid : rows.insertId,
         memberid : global.memberID,
