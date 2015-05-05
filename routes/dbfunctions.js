@@ -16,13 +16,15 @@ global.memberID = -1;
 global.admin = false;
 global.userName = "Name";
 global.email = "Email";
+global.userPicture = "Picture";
 
 connection.connect(); 
 
-dbfunctions.locateUser = function(callback, userId, userName, userEmail) {   
+dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPicture) {   
 
   global.userName = userName;
   global.userEmail = userEmail;
+  global.userPicture = userPicture;
   connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err, rows) {         
 
     if (err) {

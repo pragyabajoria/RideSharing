@@ -585,7 +585,7 @@ module.exports = function(app, passport) {
 
 		//if user not logged in
 		//redirect to homepage
-		if(global.memberID==-1) {
+		if (global.memberID == -1) {
 			res.redirect("/");
 		}
 
@@ -607,7 +607,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/profile', function (req, res) {
-  		res.render('pages/profile', {name : global.userName, email : global.userEmail });
+  		res.render('pages/profile', {name : global.userName, email : global.userEmail, picture : global.userPicture });
 	});
 
 	// dashboard locations

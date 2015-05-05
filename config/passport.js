@@ -39,6 +39,8 @@ module.exports = function(passport) {
             userId = profile.id;
             userName = profile.displayName;
             userEmail = profile.emails[0].value;
+            userPicture = profile._json['picture'];
+            //console.log("Google Picture Url: " + picture);
 
             //send user to database
             function handleResult(err) {
@@ -47,7 +49,7 @@ module.exports = function(passport) {
                     return;
                 }
             }
-            dbfunctions.locateUser(handleResult, userId, userName, userEmail);
+            dbfunctions.locateUser(handleResult, userId, userName, userEmail, userPicture);
 
             // To keep the example simple, the user's Google profile is returned to
             // represent the logged-in user.  In a typical application, you would want
@@ -64,7 +66,7 @@ module.exports = function(passport) {
         clientID: configAuth.facebookAuth.clientID,
         clientSecret: configAuth.facebookAuth.clientSecret,
         callbackURL: configAuth.facebookAuth.callbackURL,
-        profileFields: ['id', 'displayName', 'link', 'photos', 'emails'],
+        profileFields: ['id', 'displayName', 'link', 'photos', 'gender', 'emails'],
         enableProof: true
     },
     function(accessToken, refreshToken, profile, done) {
@@ -75,6 +77,7 @@ module.exports = function(passport) {
             userId = profile.id;
             userName = profile.displayName;
             userEmail = profile.emails[0].value;
+            userPicture = profile.photos ? profile.photos[0].value : "";
 
             //send user to database
             function handleResult(err) {
@@ -83,7 +86,7 @@ module.exports = function(passport) {
                     return;
                 }
             }
-            dbfunctions.locateUser(handleResult, userId, userName, userEmail);
+            dbfunctions.locateUser(handleResult, userId, userName, userEmail, userPicture);
             return done(null, profile);
         });
     }
