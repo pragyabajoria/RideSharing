@@ -256,7 +256,7 @@ dbfunctions.searchRides = function(callback, search) {
   connection.query('SELECT r.id, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
-      ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ? ', "%"+search+"%", function (err, rows) {
+      ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ? OR l2.name COLLATE UTF8_GENERAL_CI LIKE ? ', ["%"+search+"%","%"+search+"%"], function (err, rows) {
     if (err) return callback(err);
     return callback(null, rows);    
   });
