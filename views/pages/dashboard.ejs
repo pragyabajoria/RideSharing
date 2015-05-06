@@ -68,7 +68,7 @@
                                     <div class="col-md-5 form-group">
                                         <label class="control-label"><strong>Date and Time</strong></label>
                                         <div id="datetimepicker" class="input-append date">
-                                            <input type="text" placeholder="Date and Time" name="datetime"></input>
+                                            <input type="text" placeholder="Date and Time" name="datetime" required="required"></input>
                                             <span class="add-on">
                                                 <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar" style="display: inline"></i>
                                             </span>
@@ -99,10 +99,6 @@
     </section>
 </div>
 </div>
-</div>
-
-<div>
-    <ul class="error-messages"></ul>
 </div>
 
 </main>
@@ -155,11 +151,7 @@ function postride(){
         error:function(xhr, status, error){   
 
             console.log(xhr.responseText);
-            var err = '';
-            $.each(JSON.parse(xhr.responseText) , function(i, item) {               
-               err += '<li>' + item.msg + '</li>';
-           });
-            $(".error-messages").html(err);    
+            alert(error);    
             return false;
         }
 

@@ -51,15 +51,26 @@ module.exports = function(app, passport) {
 			res.redirect("/");
 		}
 
-		function handleResult(err, result) {
-			if (err) {
-		    	console.error(err.stack || err.message);
-		    	return;
-			}
-			res.render('pages/destination', {title : req.query['search'], data : result});
-		}
-		dbfunctions.searchRides(handleResult, req.query['search']);
 
+		function handleResult(err, result) {
+		    if (err) {
+		        console.error(err.stack || err.message);
+		        return;
+		    }
+
+    		function handleResult(err, result2) {
+			    if (err) {
+			        console.error(err.stack || err.message);
+			        return;
+			    }
+		  		res.render('pages/destination', {title: req.query['search'], data:result, userriderequests:result2, userid:global.memberID});
+		  	}
+	  		
+	  		dbfunctions.selectUserRideRequests(handleResult);
+		}
+
+		dbfunctions.searchRides(handleResult, req.query['search']);
+	
 	});
 
 	//edit ride
