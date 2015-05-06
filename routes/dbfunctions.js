@@ -59,32 +59,19 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
         } 
 
         global.memberID = rows2.insertId;
-        
+
+        console.log(global.memberID);
+
         if(userEmail == 'mhcrideshare@gmail.com' || userEmail == '1.paradoxes.7@gmail.com'){
           global.admin=true;
         } else {
           global.admin=false;
         }
-
-        // connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err3, rows3) {          
-        //     if (err3) { 
-        //       return callback(err3);
-        //     }     
-
-        //     if (rows3.length > 0) {
-        //       global.memberID = rows3[0].id;
-
-        //       if(rows3[0].email == 'mhcrideshare@gmail.com' || rows3[0].email == '1.paradoxes.7@gmail.com'){
-        //         global.admin=true;
-        //       } else {
-        //         global.admin=false;
-        //       }
-        //     }
-        //   }); 
       }); 
     } else {
 
-      global.memberID = rows[0].id;      
+      global.memberID = rows[0].id;  
+
       if(rows[0].email == 'mhcrideshare@gmail.com' || rows[0].email == '1.paradoxes.7@gmail.com') {
         global.admin = true;
       } else {
