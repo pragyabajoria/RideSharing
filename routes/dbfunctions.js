@@ -35,7 +35,7 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
     gId=userId;
   } else if(login=="facebook"){
     mysqlquery = "SELECT * FROM members WHERE facebookid = ? ";
-    fbId==userId;
+    fbId=userId;
   }
 
   connection.query(mysqlquery, userId, function (err, rows) {         
@@ -59,6 +59,7 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
         } 
 
         global.memberID = rows2.insertId;
+        
         if(userEmail == 'mhcrideshare@gmail.com' || userEmail == '1.paradoxes.7@gmail.com'){
           global.admin=true;
         } else {
