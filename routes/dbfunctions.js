@@ -20,26 +20,36 @@ global.userPicture = "Picture";
 
 connection.connect(); 
 
-dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPicture) {   
+dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPicture, login) {   
 
   global.userName = userName;
   global.userEmail = userEmail;
   global.userPicture = userPicture;
-  connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err, rows) {         
 
-    if (err) {
-      return callback(err);
-    }
+  var mysqlquery;
+  var gId="";
+  var fbId="";
 
-    if (rows.length < 1) {
-      
+  if(login=="gmail"){
+    mysqlquery = "SELECT * FROM members WHERE gmailid = ? ";
+    gId=userId;
+  } else if(login=="facebook"){
+    mysqlquery = "SELECT * FROM members WHERE facebookid = ? ";
+    fbId==userId;
+  }
+
+  connection.query(mysqlquery, userId, function (err, rows) {         
+
+    if (err) {return callback(err);}
+
+    if (rows.length < 1) {      
       var name = userName.toString().split(" ");
-
       var data = {
        firstname : name[0],
        lastname : name[1],
        email : userEmail,
-       gmailid : userId,
+       gmailid : gId,
+       facebookid : fbId,
        status: 'inactive',
       };
 
@@ -47,31 +57,40 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
         if (err2) {
           return callback(err2);
         } 
-        connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err3, rows3) {          
-            if (err3) { 
-              return callback(err3);
-            }     
 
-            if (rows3.length > 0) {
-              global.memberID = rows3[0].id;
+        global.memberID = rows2.insertId;
+        if(userEmail == 'mhcrideshare@gmail.com' || userEmail == '1.paradoxes.7@gmail.com'){
+          global.admin=true;
+        } else {
+          global.admin=false;
+        }
 
-              if(rows3[0].email == 'mhcrideshare@gmail.com' || rows3[0].email == '1.paradoxes.7@gmail.com'){
-                global.admin=true;
-              } else {
-                global.admin=false;
-              }
-            }
-          }); 
+        // connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err3, rows3) {          
+        //     if (err3) { 
+        //       return callback(err3);
+        //     }     
+
+        //     if (rows3.length > 0) {
+        //       global.memberID = rows3[0].id;
+
+        //       if(rows3[0].email == 'mhcrideshare@gmail.com' || rows3[0].email == '1.paradoxes.7@gmail.com'){
+        //         global.admin=true;
+        //       } else {
+        //         global.admin=false;
+        //       }
+        //     }
+        //   }); 
       }); 
     } else {
-      global.memberID = rows[0].id;
-      
+
+      global.memberID = rows[0].id;      
       if(rows[0].email == 'mhcrideshare@gmail.com' || rows[0].email == '1.paradoxes.7@gmail.com') {
         global.admin = true;
       } else {
         global.admin = false;
       }
     }
+
  }); 
 };
 
