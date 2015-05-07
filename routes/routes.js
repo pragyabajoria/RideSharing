@@ -63,7 +63,7 @@ module.exports = function(app, passport) {
 			        console.error(err.stack || err.message);
 			        return;
 			    }
-		  		res.render('pages/destination', {title: req.query['search'], data:result, userriderequests:result2, userid:global.memberID});
+		  		res.render('pages/destination', {title: req.query['search'], data:result, userriderequests:result2, userid:global.memberID, status:global.memberStatus});
 		  	}
 	  		
 	  		dbfunctions.selectUserRideRequests(handleResult);
