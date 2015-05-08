@@ -16,7 +16,7 @@
     "multer": "^0.1.8",
     "passport": ">= 0.0.0",
     "passport-google-oauth": ">=0.0.0",
-	"express-myconnection": "*",
+	  "express-myconnection": "*",
     "express-validator": "*",
     "mysql": "*"
   }
