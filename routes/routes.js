@@ -11,6 +11,10 @@ module.exports = function(app, passport) {
   		res.render('pages/index');
 	});
 
+	app.get('/ride', function(req, res){
+  		res.render('pages/ride');
+	});
+
 	// Dashboard
 	app.get('/dashboard', function(req, res) {
 		//if user not logged in
