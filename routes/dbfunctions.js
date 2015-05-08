@@ -17,29 +17,43 @@ global.admin = false;
 global.userName = "Name";
 global.email = "Email";
 global.userPicture = "Picture";
+global.memberStatus = "inactive"
+
+//add admin emails here
+var adminEmailAccounts = ["mhcrideshare@gmail.com", "1.paradoxes.7@gmail.com"];
 
 connection.connect(); 
 
-dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPicture) {   
+dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPicture, login) {   
 
   global.userName = userName;
   global.userEmail = userEmail;
   global.userPicture = userPicture;
-  connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err, rows) {         
 
-    if (err) {
-      return callback(err);
-    }
+  var mysqlquery;
+  var gId="";
+  var fbId="";
 
-    if (rows.length < 1) {
-      
+  if(login=="gmail"){
+    mysqlquery = "SELECT * FROM members WHERE gmailid = ? ";
+    gId=userId;
+  } else if(login=="facebook"){
+    mysqlquery = "SELECT * FROM members WHERE facebookid = ? ";
+    fbId=userId;
+  }
+
+  connection.query(mysqlquery, userId, function (err, rows) {         
+
+    if (err) {return callback(err);}
+
+    if (rows.length < 1) {      
       var name = userName.toString().split(" ");
-
       var data = {
        firstname : name[0],
        lastname : name[1],
        email : userEmail,
-       gmailid : userId,
+       gmailid : gId,
+       facebookid : fbId,
        status: 'inactive',
       };
 
@@ -47,31 +61,33 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
         if (err2) {
           return callback(err2);
         } 
-        connection.query("SELECT * FROM members WHERE gmailid = ? ", userId, function (err3, rows3) {          
-            if (err3) { 
-              return callback(err3);
-            }     
 
-            if (rows3.length > 0) {
-              global.memberID = rows3[0].id;
+        global.memberID = rows2.insertId;
 
-              if(rows3[0].email == 'mhcrideshare@gmail.com' || rows3[0].email == '1.paradoxes.7@gmail.com'){
-                global.admin=true;
-              } else {
-                global.admin=false;
-              }
-            }
-          }); 
+        //console.log(global.memberID);
+
+        //if(userEmail == 'mhcrideshare@gmail.com' || userEmail == '1.paradoxes.7@gmail.com'){
+        if (adminEmailAccounts.indexOf(userEmail) > -1){
+          global.admin=true;
+        } else {
+          global.admin=false;
+        }
       }); 
     } else {
-      global.memberID = rows[0].id;
-      
-      if(rows[0].email == 'mhcrideshare@gmail.com' || rows[0].email == '1.paradoxes.7@gmail.com') {
+
+      global.memberID = rows[0].id; 
+      global.memberStatus = rows[0].status; 
+
+      //console.log(global.memberStatus);
+
+      //if(rows[0].email == 'mhcrideshare@gmail.com' || rows[0].email == '1.paradoxes.7@gmail.com') {
+      if (adminEmailAccounts.indexOf(rows[0].email) > -1){
         global.admin = true;
       } else {
         global.admin = false;
       }
     }
+
  }); 
 };
 
@@ -216,9 +232,6 @@ dbfunctions.getLocations = function(callback) {
   });
 };
 
-//need to fix 
-//get new ride id so that it can be added to riderequests table
-//or remove request a ride button from dashboard
 dbfunctions.addNewRide = function(callback, data, type) {    
   connection.query('INSERT INTO rides set ? ', data, function(err, rows) {
     if (err) return callback(err);
@@ -256,11 +269,21 @@ dbfunctions.searchRides = function(callback, search) {
   connection.query('SELECT r.id, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
       ' r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, ' +
       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
-      ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ? OR l2.name COLLATE UTF8_GENERAL_CI LIKE ? ', ["%"+search+"%","%"+search+"%"], function (err, rows) {
+      ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ? ', ["%"+search+"%"], function (err, rows) {
     if (err) return callback(err);
     return callback(null, rows);    
   });
 };
+
+// dbfunctions.searchRides = function(callback, search) {    
+//   connection.query('SELECT r.id, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
+//       ' r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, ' +
+//       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
+//       ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ? OR l2.name COLLATE UTF8_GENERAL_CI LIKE ? ', ["%"+search+"%","%"+search+"%"], function (err, rows) {
+//     if (err) return callback(err);
+//     return callback(null, rows);    
+//   });
+// };
 
 dbfunctions.getUserStatus = function(callback, id) {
   connection.query('SELECT * FROM members WHERE id = ?', [id], function(err, rows) {

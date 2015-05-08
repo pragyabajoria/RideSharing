@@ -123,12 +123,12 @@ function requestRide(id){
       type: 'POST',
       success: function(res) {                
           window.location.reload();
-          alert("Your request was saved.");
+          //alert("Your request was saved.");
           return false;
       },
       error:function(xhr, status, error){            
           console.log(xhr.responseText);
-          window.location.reload();  
+          //window.location.reload();  
           //it is working but still returns error
           // alert("mysql error");
           return false;

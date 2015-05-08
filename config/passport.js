@@ -49,7 +49,7 @@ module.exports = function(passport) {
                     return;
                 }
             }
-            dbfunctions.locateUser(handleResult, userId, userName, userEmail, userPicture);
+            dbfunctions.locateUser(handleResult, userId, userName, userEmail, userPicture, "gmail");
 
             // To keep the example simple, the user's Google profile is returned to
             // represent the logged-in user.  In a typical application, you would want
@@ -86,7 +86,7 @@ module.exports = function(passport) {
                     return;
                 }
             }
-            dbfunctions.locateUser(handleResult, userId, userName, userEmail, userPicture);
+            dbfunctions.locateUser(handleResult, userId, userName, userEmail, userPicture, "facebook");
             return done(null, profile);
         });
     }
