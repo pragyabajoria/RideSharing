@@ -557,7 +557,7 @@ module.exports = function(app, passport) {
 		}
 
 		var request = req.body.request;
-		console.log("request value: "+ request)
+		//console.log("request value: "+ request)
 
 		var rideoffer = false;
 		var riderequest = false;
