@@ -47,7 +47,9 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
     if (err) {return callback(err);}
 
     if (rows.length < 1) {      
+      
       var name = userName.toString().split(" ");
+
       var data = {
        firstname : name[0],
        lastname : name[1],
@@ -59,13 +61,11 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
 
       connection.query("INSERT INTO members set ? ", data, function (err2, rows2) {  
 
-        if (err2) {
-          return callback(err2);
-        } 
+        if (err2) {return callback(err2);} 
 
         global.memberID = rows2.insertId;
 
-        if (adminEmailAccounts.indexOf(userEmail) > -1){
+        if (adminEmailAccounts.indexOf(userEmail) > -1) {
           global.admin=true;
         } else {
           global.admin=false;
@@ -80,7 +80,7 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
       global.memberID = rows[0].id; 
       global.memberStatus = rows[0].status; 
 
-      if (adminEmailAccounts.indexOf(rows[0].email) > -1){
+      if (adminEmailAccounts.indexOf(rows[0].email) > -1) {
         global.admin = true;
       } else {
         global.admin = false;
@@ -186,8 +186,6 @@ dbfunctions.selectAllRideRequests = function(callback) {
 };
 
 dbfunctions.cancelRequest = function(callback, id){
-  //console.log("CANCEL REQUEST!");
-  //return callback(null);  
   connection.query("DELETE FROM riderequests  WHERE rideid = ? AND memberid = ?", [id, global.memberID], function (err, rows) {
     if (err) return callback(err);
     return callback(null);    
