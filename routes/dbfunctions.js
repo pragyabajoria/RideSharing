@@ -5,7 +5,7 @@ var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '',
+  password : 'root',
   port   : 3306,
   database : 'mhcrideshare',
   debug    : false
@@ -57,36 +57,38 @@ dbfunctions.locateUser = function(callback, userId, userName, userEmail, userPic
        status: 'inactive',
       };
 
-      connection.query("INSERT INTO members set ? ", data, function (err2, rows2) {        
+      connection.query("INSERT INTO members set ? ", data, function (err2, rows2) {  
+
         if (err2) {
           return callback(err2);
         } 
 
         global.memberID = rows2.insertId;
 
-        //console.log(global.memberID);
-
-        //if(userEmail == 'mhcrideshare@gmail.com' || userEmail == '1.paradoxes.7@gmail.com'){
         if (adminEmailAccounts.indexOf(userEmail) > -1){
           global.admin=true;
         } else {
           global.admin=false;
         }
+
+        return callback(null); 
+
       }); 
+
     } else {
 
       global.memberID = rows[0].id; 
       global.memberStatus = rows[0].status; 
 
-      //console.log(global.memberStatus);
-
-      //if(rows[0].email == 'mhcrideshare@gmail.com' || rows[0].email == '1.paradoxes.7@gmail.com') {
       if (adminEmailAccounts.indexOf(rows[0].email) > -1){
         global.admin = true;
       } else {
         global.admin = false;
       }
+
     }
+
+    return callback(null); 
 
  }); 
 };
@@ -274,16 +276,6 @@ dbfunctions.searchRides = function(callback, search) {
     return callback(null, rows);    
   });
 };
-
-// dbfunctions.searchRides = function(callback, search) {    
-//   connection.query('SELECT r.id, m.firstname, m.lastname, m.email,  m.status, l1.name AS origin, l2.name AS destination,' + 
-//       ' r.seats, r.datetime, r.flexibility FROM rides AS r, members AS m, locations as l1, ' +
-//       'locations as l2 WHERE m.id=r.driverid AND l1.id=r.origin AND l2.id=r.destination AND' + 
-//       ' r.datetime>= CURDATE() AND l2.city COLLATE UTF8_GENERAL_CI LIKE ? OR l2.name COLLATE UTF8_GENERAL_CI LIKE ? ', ["%"+search+"%","%"+search+"%"], function (err, rows) {
-//     if (err) return callback(err);
-//     return callback(null, rows);    
-//   });
-// };
 
 dbfunctions.getUserStatus = function(callback, id) {
   connection.query('SELECT * FROM members WHERE id = ?', [id], function(err, rows) {
